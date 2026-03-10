@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import requests
 import time
 import random
 import logging
+from typing import Optional, List, Dict
 from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
@@ -16,16 +19,18 @@ USER_AGENTS = [
 class BaseScraper:
     """Base class for all supplier scrapers."""
 
-    def __init__(self, supplier_name: str, base_url: str):
-        self.supplier_name = supplier_name
-        self.base_url = base_url
+    name = "Base"
+    base_url = ""
+    website_url = ""
+
+    def __init__(self):
         self.session = requests.Session()
         self.session.headers.update({
             "User-Agent": random.choice(USER_AGENTS),
             "Accept-Language": "es-CL,es;q=0.9",
         })
 
-    def fetch(self, url: str) -> BeautifulSoup | None:
+    def fetch(self, url: str) -> Optional[BeautifulSoup]:
         """Fetch a page and return parsed HTML."""
         try:
             time.sleep(random.uniform(1, 3))
@@ -33,10 +38,10 @@ class BaseScraper:
             response.raise_for_status()
             return BeautifulSoup(response.text, "html.parser")
         except Exception as e:
-            logger.error(f"[{self.supplier_name}] Error fetching {url}: {e}")
+            logger.error(f"[{self.name}] Error fetching {url}: {e}")
             return None
 
-    def scrape(self) -> list[dict]:
+    def scrape(self) -> List[Dict]:
         """Override in subclass. Returns list of product dicts."""
         raise NotImplementedError
 

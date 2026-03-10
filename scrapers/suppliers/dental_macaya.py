@@ -4,8 +4,10 @@ Platform: WooCommerce (WordPress)
 Products: Equipment, instruments, consumables
 Prices: CLP, publicly visible
 """
+from __future__ import annotations
 
 import re
+from typing import Optional, List, Dict
 from base_scraper import BaseScraper
 
 
@@ -14,26 +16,20 @@ class DentalMacayaScraper(BaseScraper):
     base_url = "https://dentalmacaya.cl"
     website_url = "https://dentalmacaya.cl"
 
-    def scrape(self) -> list[dict]:
+    def scrape(self) -> List[Dict]:
         """Scrape all products from Dental Macaya store."""
         all_products = []
         page = 1
 
         while True:
-            url = f"{self.base_url}/tienda/page/{page}/" if page > 1 else f"{self.base_url}/tienda/"
+            url = f"{self.base_url}/shop/page/{page}/" if page > 1 else f"{self.base_url}/shop/"
             soup = self.fetch(url)
             if not soup:
                 break
 
-            products = soup.select("li.product, div.product")
+            products = soup.select("li.product")
             if not products:
-                # Try alternate shop URL
-                if page == 1:
-                    soup = self.fetch(f"{self.base_url}/shop/")
-                    if soup:
-                        products = soup.select("li.product, div.product")
-                if not products:
-                    break
+                break
 
             for product_el in products:
                 try:
@@ -52,10 +48,12 @@ class DentalMacayaScraper(BaseScraper):
         print(f"  Total: {len(all_products)} products from Dental Macaya")
         return all_products
 
-    def _parse_product(self, el) -> dict | None:
+    def _parse_product(self, el) -> Optional[Dict]:
         """Parse a WooCommerce product card."""
         name_el = (
-            el.select_one("h2.woocommerce-loop-product__title")
+            el.select_one("h3.woocommerce-loop-product__title")
+            or el.select_one("h2.woocommerce-loop-product__title")
+            or el.select_one("h3")
             or el.select_one("h2")
         )
         if not name_el:
@@ -98,9 +96,7 @@ class DentalMacayaScraper(BaseScraper):
             return 0
 
     def test(self) -> bool:
-        soup = self.fetch(f"{self.base_url}/tienda/")
-        if not soup:
-            soup = self.fetch(f"{self.base_url}/shop/")
+        soup = self.fetch(f"{self.base_url}/shop/")
         if not soup:
             print("ERROR: Could not fetch Dental Macaya")
             return False

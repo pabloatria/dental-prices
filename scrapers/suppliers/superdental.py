@@ -4,8 +4,10 @@ Platform: WordPress + WooCommerce + Elementor
 Products: Full range dental supplies
 Prices: CLP, publicly visible
 """
+from __future__ import annotations
 
 import re
+from typing import Optional, List, Dict
 from base_scraper import BaseScraper
 
 
@@ -35,7 +37,7 @@ class SuperDentalScraper(BaseScraper):
         "radiologia",
     ]
 
-    def scrape(self) -> list[dict]:
+    def scrape(self) -> List[Dict]:
         """Scrape all products from SuperDental."""
         all_products = []
 
@@ -80,7 +82,7 @@ class SuperDentalScraper(BaseScraper):
 
         return all_products
 
-    def _parse_product(self, el, category: str) -> dict | None:
+    def _parse_product(self, el, category: str) -> Optional[Dict]:
         """Parse a single product element."""
         # Product name - try multiple selectors
         name_el = (

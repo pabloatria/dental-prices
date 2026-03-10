@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import os
 import sys
 import logging
 from datetime import datetime
+from typing import Optional
 from dotenv import load_dotenv
 from supabase import create_client
 
@@ -28,7 +31,7 @@ SCRAPERS = [
 ]
 
 
-def ensure_supplier(supabase, scraper) -> str | None:
+def ensure_supplier(supabase, scraper) -> Optional[str]:
     """Get or create supplier in database. Returns supplier_id."""
     result = supabase.table("suppliers").select("id").eq("name", scraper.name).execute()
     if result.data:
@@ -49,7 +52,7 @@ def ensure_supplier(supabase, scraper) -> str | None:
     return None
 
 
-def ensure_product(supabase, name: str, category_slug: str = None) -> str | None:
+def ensure_product(supabase, name: str, category_slug: str = None) -> Optional[str]:
     """Get or create product in database. Returns product_id."""
     # Try exact match first
     result = supabase.table("products").select("id").eq("name", name).execute()

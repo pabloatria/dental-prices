@@ -5,8 +5,10 @@ Products: Endodontics, orthodontics, composites, instruments, etc.
 Prices: CLP, publicly visible
 Location: Temuco, Chile
 """
+from __future__ import annotations
 
 import re
+from typing import Optional, List, Dict
 from base_scraper import BaseScraper
 
 
@@ -19,7 +21,6 @@ class DentsolutionsScraper(BaseScraper):
     categories = [
         "anestesia",
         "blanqueamiento",
-        "desechables",
         "endodoncia",
         "instrumental",
         "ortodoncia",
@@ -27,7 +28,7 @@ class DentsolutionsScraper(BaseScraper):
         "operatoria",
     ]
 
-    def scrape(self) -> list[dict]:
+    def scrape(self) -> List[Dict]:
         """Scrape all products from Dentsolutions."""
         all_products = []
 
@@ -42,11 +43,8 @@ class DentsolutionsScraper(BaseScraper):
                 if not soup:
                     break
 
-                # Jumpseller product grid items
-                products = soup.select(
-                    ".product-block, .product-item, "
-                    "[class*='product-card'], .product"
-                )
+                # Jumpseller uses product-block divs
+                products = soup.select("div.product-block")
 
                 if not products:
                     break
@@ -65,31 +63,22 @@ class DentsolutionsScraper(BaseScraper):
                 if found_on_page == 0:
                     break
 
-                # Check for next page link
-                next_link = soup.select_one(
-                    "a.next, a[rel='next'], .pagination .next, "
-                    "[class*='pagination'] a:last-child"
-                )
+                # Check for next page
+                next_link = soup.select_one("a[rel='next'], .pagination .next a")
                 if not next_link or not next_link.get("href"):
                     break
 
                 page += 1
 
-            print(f"  [{category}] Found {len([p for p in all_products if p.get('_category') == category])} products")
+            cat_count = len([p for p in all_products if p.get("_category") == category])
+            print(f"  [{category}] Found {cat_count} products")
 
         return all_products
 
-    def _parse_product(self, el, category: str) -> dict | None:
-        """Parse a single product element from Jumpseller."""
-        # Product name
-        name_el = (
-            el.select_one("h3 a, h2 a, .product-name a, .product-title a")
-            or el.select_one("[class*='name'] a, [class*='title'] a")
-            or el.select_one("a[class*='product']")
-        )
-        if not name_el:
-            # Try just a text heading
-            name_el = el.select_one("h3, h2, .product-name, .product-title")
+    def _parse_product(self, el, category: str) -> Optional[Dict]:
+        """Parse a single Jumpseller product-block."""
+        # Product name from product-block__name
+        name_el = el.select_one("a.product-block__name")
         if not name_el:
             return None
 
@@ -98,49 +87,43 @@ class DentsolutionsScraper(BaseScraper):
             return None
 
         # Product URL
-        link = name_el.get("href") or ""
+        link = name_el.get("href", "")
         if link and not link.startswith("http"):
             link = f"{self.base_url}{link}"
 
-        # Find a better link if the name element isn't a link
-        if not link:
-            link_el = el.select_one("a[href]")
-            if link_el:
-                link = link_el["href"]
-                if not link.startswith("http"):
-                    link = f"{self.base_url}{link}"
+        # Brand
+        brand_el = el.select_one("span.product-block__brand")
+        brand = brand_el.get_text(strip=True) if brand_el else None
 
-        # Price
+        # Price from product-block__price div
         price = 0
-        # Look for sale/current price first
-        sale_price_el = el.select_one(
-            ".product-price-sale, .sale-price, "
-            "[class*='price-sale'], [class*='current-price']"
-        )
-        if sale_price_el:
-            price = self._parse_clp(sale_price_el.get_text())
-        else:
-            price_el = el.select_one(
-                ".product-price, .price, "
-                "[class*='price']:not([class*='compare']):not([class*='original'])"
-            )
-            if price_el:
-                price = self._parse_clp(price_el.get_text())
+        price_el = el.select_one("div.product-block__price")
+        if price_el:
+            price_text = price_el.get_text(strip=True)
+            price = self._parse_clp(price_text)
+
+        # Also check the form data-price attribute as fallback
+        if price <= 0:
+            form_el = el.select_one("form[data-price]")
+            if form_el:
+                price = self._parse_clp(form_el.get("data-price", ""))
 
         if price <= 0:
             return None
 
-        # Stock
+        # Stock from input data-stock
         in_stock = True
-        sold_out = el.select_one(
-            ".sold-out, .out-of-stock, [class*='soldout'], "
-            "[class*='agotado']"
-        )
-        if sold_out:
-            in_stock = False
+        stock_input = el.select_one("input.product-block__input[data-stock]")
+        if stock_input:
+            stock_val = stock_input.get("data-stock", "1")
+            try:
+                in_stock = int(stock_val) > 0
+            except ValueError:
+                pass
 
         return {
             "name": name,
+            "brand": brand,
             "price": price,
             "product_url": link,
             "in_stock": in_stock,
@@ -148,10 +131,16 @@ class DentsolutionsScraper(BaseScraper):
         }
 
     def _parse_clp(self, text: str) -> int:
-        """Parse CLP price string to integer."""
+        """Parse CLP price like '$4.850' or '$36.900' to integer."""
         if not text:
             return 0
-        cleaned = re.sub(r'[^\d]', '', text)
+        # Extract just the price pattern: $ followed by digits and dots
+        match = re.search(r'\$[\d.]+', text)
+        if not match:
+            return 0
+        price_str = match.group()
+        # Remove $ and dots (thousands separator in CLP)
+        cleaned = price_str.replace('$', '').replace('.', '')
         try:
             return int(cleaned)
         except ValueError:
@@ -164,9 +153,6 @@ class DentsolutionsScraper(BaseScraper):
             print("ERROR: Could not fetch Dentsolutions")
             return False
 
-        products = soup.select(
-            ".product-block, .product-item, "
-            "[class*='product-card'], .product"
-        )
+        products = soup.select("div.product-block")
         print(f"OK: Found {len(products)} product elements on endodoncia page")
         return len(products) > 0
