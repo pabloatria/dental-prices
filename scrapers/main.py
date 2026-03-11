@@ -95,15 +95,34 @@ def ensure_supplier(supabase, scraper) -> Optional[str]:
     return None
 
 
-def ensure_product(supabase, name: str, category_slug: str = None) -> Optional[str]:
-    """Get or create product in database. Returns product_id."""
+def ensure_product(supabase, name: str, category_slug: str = None,
+                    image_url: str = None, brand: str = None) -> Optional[str]:
+    """Get or create product in database. Returns product_id.
+    Updates image_url and brand if provided and currently missing."""
     # Try exact match first
-    result = supabase.table("products").select("id").eq("name", name).execute()
+    result = supabase.table("products").select("id, image_url, brand").eq("name", name).execute()
     if result.data:
-        return result.data[0]["id"]
+        product_id = result.data[0]["id"]
+        # Update image_url and brand if they're currently empty
+        updates = {}
+        if image_url and not result.data[0].get("image_url"):
+            updates["image_url"] = image_url
+        if brand and not result.data[0].get("brand"):
+            updates["brand"] = brand
+        if updates:
+            try:
+                supabase.table("products").update(updates).eq("id", product_id).execute()
+            except Exception as e:
+                logger.warning(f"Failed to update product metadata: {e}")
+        return product_id
 
     # Create new product (skip fuzzy match - too slow and unreliable)
     product_data = {"name": name}
+
+    if image_url:
+        product_data["image_url"] = image_url
+    if brand:
+        product_data["brand"] = brand
 
     # Try to link to a category
     if category_slug:
@@ -216,8 +235,14 @@ def main():
                 supplier_category = product.get("_category", "")
                 our_category = CATEGORY_MAP.get(supplier_category)
 
-                # Get or create product
-                product_id = ensure_product(supabase, product["name"], our_category)
+                # Get or create product (with image and brand if available)
+                product_id = ensure_product(
+                    supabase,
+                    product["name"],
+                    our_category,
+                    image_url=product.get("image_url"),
+                    brand=product.get("brand"),
+                )
                 if not product_id:
                     logger.warning(f"[{scraper.name}] Could not create product: {product['name']}")
                     continue

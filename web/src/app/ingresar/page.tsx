@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
@@ -36,14 +37,14 @@ export default function AuthPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="bg-white rounded-xl shadow-sm p-8 w-full max-w-md">
-        <a href="/" className="text-2xl font-bold text-blue-600 block text-center mb-8">
+    <div className="flex items-center justify-center px-4 py-16">
+      <div className="bg-card rounded-xl border border-border p-8 w-full max-w-md">
+        <Link href="/" className="text-2xl font-bold text-primary block text-center mb-8">
           DentalPrecios
-        </a>
+        </Link>
 
-        <h2 className="text-xl font-semibold text-center mb-6">
-          {isLogin ? 'Iniciar sesion' : 'Crear cuenta'}
+        <h2 className="text-xl font-semibold text-foreground text-center mb-6">
+          {isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -53,16 +54,16 @@ export default function AuthPage() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="correo@ejemplo.com"
             required
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none"
+            className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-foreground placeholder:text-muted-foreground"
           />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Contrasena"
+            placeholder="Contraseña"
             required
             minLength={6}
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-blue-500 focus:outline-none"
+            className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-foreground placeholder:text-muted-foreground"
           />
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -70,22 +71,22 @@ export default function AuthPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-full bg-primary text-primary-foreground py-3 rounded-lg hover:bg-primary/90 transition disabled:opacity-50 font-medium"
           >
-            {loading ? 'Cargando...' : isLogin ? 'Iniciar sesion' : 'Crear cuenta'}
+            {loading ? 'Cargando...' : isLogin ? 'Iniciar sesión' : 'Crear cuenta'}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
-          {isLogin ? 'No tienes cuenta?' : 'Ya tienes cuenta?'}{' '}
+        <p className="text-center text-sm text-muted-foreground mt-6">
+          {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}{' '}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-blue-600 hover:underline"
+            className="text-primary hover:underline"
           >
-            {isLogin ? 'Registrate' : 'Inicia sesion'}
+            {isLogin ? 'Regístrate' : 'Inicia sesión'}
           </button>
         </p>
       </div>
-    </main>
+    </div>
   )
 }

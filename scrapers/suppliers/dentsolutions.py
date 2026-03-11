@@ -121,7 +121,15 @@ class DentsolutionsScraper(BaseScraper):
             except ValueError:
                 pass
 
-        return {
+        # Product image
+        image_url = ""
+        img_el = el.select_one("img.product-block__image, img")
+        if img_el:
+            image_url = img_el.get("data-src") or img_el.get("src") or ""
+            if image_url and not image_url.startswith("http"):
+                image_url = f"{self.base_url}{image_url}"
+
+        result = {
             "name": name,
             "brand": brand,
             "price": price,
@@ -129,6 +137,10 @@ class DentsolutionsScraper(BaseScraper):
             "in_stock": in_stock,
             "_category": category,
         }
+        if image_url:
+            result["image_url"] = image_url
+
+        return result
 
     def _parse_clp(self, text: str) -> int:
         """Parse CLP price like '$4.850' or '$36.900' to integer."""

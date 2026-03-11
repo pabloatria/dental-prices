@@ -28,5 +28,14 @@ export interface Price {
 export interface ProductWithPrices extends Product {
   prices: Price[]
   lowest_price: number
+  highest_price?: number
   store_count: number
+}
+
+export interface Category {
+  id: string
+  name: string
+  slug: string
+  parent_id: string | null
+  subcategories?: Category[]
 }

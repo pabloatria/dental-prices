@@ -112,6 +112,14 @@ class DipromedScraper(BaseScraper):
             if "agotado" in stock_text or "out of stock" in stock_text:
                 in_stock = False
 
+        # Product image
+        image_url = ""
+        img_el = el.select_one("img.product-thumbnail-first, img")
+        if img_el:
+            image_url = img_el.get("data-src") or img_el.get("src") or ""
+            if image_url and not image_url.startswith("http"):
+                image_url = f"{self.base_url}{image_url}"
+
         result = {
             "name": name,
             "price": price,
@@ -120,6 +128,8 @@ class DipromedScraper(BaseScraper):
         }
         if category:
             result["_category"] = category
+        if image_url:
+            result["image_url"] = image_url
 
         return result
 

@@ -96,6 +96,10 @@ class SuperDentalCFScraper(BaseScraper):
         categories = product.get("categories", [])
         category = categories[0]["name"] if categories else ""
 
+        # Get product image
+        images = product.get("images", [])
+        image_url = images[0].get("src", "") if images else ""
+
         result = {
             "name": name,
             "price": price,
@@ -104,6 +108,8 @@ class SuperDentalCFScraper(BaseScraper):
         }
         if category:
             result["_category"] = category
+        if image_url:
+            result["image_url"] = image_url
 
         return result
 

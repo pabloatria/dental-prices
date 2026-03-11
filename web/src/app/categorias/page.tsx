@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import SearchBar from '@/components/SearchBar'
+import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
 
 export default async function CategoriesPage() {
   const supabase = await createClient()
@@ -11,29 +11,57 @@ export default async function CategoriesPage() {
     .is('parent_id', null)
     .order('name')
 
-  return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
-          <a href="/" className="text-2xl font-bold text-blue-600 shrink-0">DentalPrecios</a>
-          <div className="flex-1"><SearchBar /></div>
-        </div>
-      </header>
+  // Get product counts per category
+  const counts = new Map<string, number>()
+  if (categories) {
+    for (const cat of categories) {
+      const { count } = await supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true })
+        .eq('category_id', cat.id)
+      counts.set(cat.id, count || 0)
+    }
+  }
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Categor&#237;as</h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {categories?.map((cat) => (
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      {/* Breadcrumb */}
+      <nav className="text-sm text-muted-foreground mb-6">
+        <Link href="/" className="hover:text-foreground">Inicio</Link>
+        <span className="mx-2">/</span>
+        <span className="text-foreground">Categorías</span>
+      </nav>
+
+      <h1 className="text-2xl font-bold text-foreground mb-2">Todas las categorías</h1>
+      <p className="text-muted-foreground mb-8">
+        Explora nuestras {categories?.length || 0} categorías de productos dentales
+      </p>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {categories?.map((cat) => {
+          const Icon = getCategoryIcon(cat.slug)
+          const productCount = counts.get(cat.id) || 0
+          return (
             <Link
               key={cat.id}
               href={`/categorias/${cat.slug}`}
-              className="p-6 bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition text-center"
+              className="group flex flex-col items-center gap-3 p-6 bg-card rounded-xl border border-border hover:shadow-md hover:border-primary/20 transition-all text-center"
             >
-              <span className="text-lg font-medium text-gray-800">{cat.name}</span>
+              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary/5 to-primary/15 flex items-center justify-center group-hover:from-primary/10 group-hover:to-primary/25 transition-colors">
+                <Icon className="w-8 h-8 text-primary/60 group-hover:text-primary/80 transition-colors" />
+              </div>
+              <div>
+                <h2 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                  {cat.name}
+                </h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {productCount} producto{productCount !== 1 ? 's' : ''}
+                </p>
+              </div>
             </Link>
-          ))}
-        </div>
+          )
+        })}
       </div>
-    </main>
+    </div>
   )
 }

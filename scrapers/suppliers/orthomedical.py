@@ -92,6 +92,10 @@ class OrthomedicalScraper(BaseScraper):
         if categories:
             category = categories[0].get("slug", "")
 
+        # Get product image
+        images = product.get("images", [])
+        image_url = images[0].get("src", "") if images else ""
+
         result = {
             "name": name,
             "price": price,
@@ -100,6 +104,8 @@ class OrthomedicalScraper(BaseScraper):
         }
         if category:
             result["_category"] = category
+        if image_url:
+            result["image_url"] = image_url
 
         return result
 

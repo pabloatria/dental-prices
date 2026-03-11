@@ -96,6 +96,10 @@ class ShopifyGenericScraper(BaseScraper):
         vendor = product.get("vendor", "")
         product_type = product.get("product_type", "")
 
+        # Get product image
+        images = product.get("images", [])
+        image_url = images[0].get("src", "") if images else ""
+
         result = {
             "name": title,
             "price": price,
@@ -107,6 +111,8 @@ class ShopifyGenericScraper(BaseScraper):
             result["brand"] = vendor
         if product_type:
             result["_category"] = product_type.lower()
+        if image_url:
+            result["image_url"] = image_url
 
         return result
 

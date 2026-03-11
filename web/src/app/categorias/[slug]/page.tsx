@@ -1,14 +1,34 @@
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
-import SearchBar from '@/components/SearchBar'
+import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import ProductCard from '@/components/ProductCard'
+import FilterPanel from '@/components/filters/FilterPanel'
+import SortSelect from '@/components/filters/SortSelect'
 
 export default async function CategoryPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{
+    page?: string
+    brand?: string
+    supplier?: string
+    in_stock?: string
+    sort?: string
+  }>
 }) {
   const { slug } = await params
+  const sp = await searchParams
+  const page = parseInt(sp.page || '1')
+  const brandFilter = sp.brand ? sp.brand.split(',') : []
+  const supplierFilter = sp.supplier ? sp.supplier.split(',') : []
+  const inStockOnly = sp.in_stock === '1'
+  const sort = sp.sort || 'name'
+  const limit = 24
+  const offset = (page - 1) * limit
+
   const supabase = await createClient()
 
   const { data: category } = await supabase
@@ -19,63 +39,156 @@ export default async function CategoryPage({
 
   if (!category) notFound()
 
-  const { data: products } = await supabase
+  let productQuery = supabase
     .from('products')
-    .select('*')
+    .select('*', { count: 'exact' })
     .eq('category_id', category.id)
-    .order('name')
 
-  const productIds = products?.map(p => p.id) || []
-  const { data: prices } = productIds.length > 0
-    ? await supabase
-        .from('prices')
-        .select('*, supplier:suppliers(*)')
-        .in('product_id', productIds)
-        .order('scraped_at', { ascending: false })
-    : { data: [] }
-
-  const latestPrices = new Map<string, Map<string, any>>()
-  for (const price of prices || []) {
-    if (!latestPrices.has(price.product_id)) {
-      latestPrices.set(price.product_id, new Map())
-    }
-    const pp = latestPrices.get(price.product_id)!
-    if (!pp.has(price.supplier_id)) {
-      pp.set(price.supplier_id, price)
-    }
+  if (brandFilter.length > 0) {
+    productQuery = productQuery.in('brand', brandFilter)
   }
 
-  const productsWithPrices = products?.map(product => {
-    const pp = Array.from(latestPrices.get(product.id)?.values() || [])
-    const inStock = pp.filter((p: any) => p.in_stock)
-    return {
-      ...product,
-      prices: pp,
-      lowest_price: inStock.length > 0 ? Math.min(...inStock.map((p: any) => p.price)) : 0,
-      store_count: pp.length,
+  const { data: products, count } = await productQuery
+    .range(offset, offset + limit - 1)
+    .order('name')
+
+  const productIds = products?.map((p) => p.id) || []
+  const { data: prices } =
+    productIds.length > 0
+      ? await supabase
+          .from('prices')
+          .select('*, supplier:suppliers(*)')
+          .in('product_id', productIds)
+          .order('scraped_at', { ascending: false })
+      : { data: [] }
+
+  const latestPrices = aggregateLatestPrices(prices || [])
+  let productsWithPrices = buildProductsWithPrices(products || [], latestPrices)
+
+  if (supplierFilter.length > 0) {
+    productsWithPrices = productsWithPrices.filter((p) =>
+      p.prices.some((price) => supplierFilter.includes(price.supplier_id))
+    )
+  }
+
+  if (inStockOnly) {
+    productsWithPrices = productsWithPrices.filter((p) =>
+      p.prices.some((price) => price.in_stock)
+    )
+  }
+
+  if (sort === 'price_asc') {
+    productsWithPrices.sort((a, b) => (a.lowest_price || Infinity) - (b.lowest_price || Infinity))
+  } else if (sort === 'price_desc') {
+    productsWithPrices.sort((a, b) => (b.lowest_price || 0) - (a.lowest_price || 0))
+  } else if (sort === 'stores') {
+    productsWithPrices.sort((a, b) => b.store_count - a.store_count)
+  }
+
+  const availableBrands = [...new Set((products || []).map((p) => p.brand).filter(Boolean) as string[])].sort()
+  const supplierMap = new Map<string, string>()
+  for (const price of prices || []) {
+    if (price.supplier) {
+      supplierMap.set(price.supplier.id, price.supplier.name)
     }
-  }) || []
+  }
+  const availableSuppliers = [...supplierMap.entries()]
+    .map(([id, name]) => ({ id, name }))
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+  const total = count || 0
+  const pages = Math.ceil(total / limit)
+
+  const buildUrl = (p: number) => {
+    const u = new URLSearchParams()
+    if (p > 1) u.set('page', String(p))
+    if (brandFilter.length > 0) u.set('brand', brandFilter.join(','))
+    if (supplierFilter.length > 0) u.set('supplier', supplierFilter.join(','))
+    if (inStockOnly) u.set('in_stock', '1')
+    if (sort !== 'name') u.set('sort', sort)
+    const qs = u.toString()
+    return `/categorias/${slug}${qs ? `?${qs}` : ''}`
+  }
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
-          <a href="/" className="text-2xl font-bold text-blue-600 shrink-0">DentalPrecios</a>
-          <div className="flex-1"><SearchBar /></div>
-        </div>
-      </header>
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      {/* Breadcrumb */}
+      <nav className="text-sm text-muted-foreground mb-4">
+        <Link href="/" className="hover:text-foreground">Inicio</Link>
+        <span className="mx-2">/</span>
+        <Link href="/categorias" className="hover:text-foreground">Categor&iacute;as</Link>
+        <span className="mx-2">/</span>
+        <span className="text-foreground">{category.name}</span>
+      </nav>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">{category.name}</h1>
-        <div className="space-y-4">
-          {productsWithPrices.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+      <div className="flex gap-8">
+        {/* Sidebar */}
+        <aside className="hidden lg:block w-60 shrink-0">
+          <div className="sticky top-24 bg-card rounded-xl border border-border p-5">
+            <h2 className="text-sm font-semibold text-foreground mb-4">Filtros</h2>
+            <FilterPanel
+              brands={availableBrands}
+              suppliers={availableSuppliers}
+              activeFilters={{
+                brands: brandFilter,
+                suppliers: supplierFilter,
+                inStock: inStockOnly,
+                sort,
+              }}
+              basePath={`/categorias/${slug}`}
+            />
+          </div>
+        </aside>
+
+        {/* Main */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">{category.name}</h1>
+              <p className="text-sm text-muted-foreground mt-1">
+                {total} producto{total !== 1 ? 's' : ''}
+              </p>
+            </div>
+            <SortSelect />
+          </div>
+
+          {productsWithPrices.length > 0 ? (
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+              {productsWithPrices.map((product) => (
+                <ProductCard key={product.id} product={product} view="grid" />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-xl text-muted-foreground">No hay productos en esta categor&iacute;a</p>
+            </div>
+          )}
+
+          {pages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-8">
+              {page > 1 && (
+                <Link
+                  href={buildUrl(page - 1)}
+                  className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-accent text-sm transition-colors"
+                >
+                  Anterior
+                </Link>
+              )}
+              <span className="px-4 py-2 text-sm text-muted-foreground">
+                P&aacute;gina {page} de {pages}
+              </span>
+              {page < pages && (
+                <Link
+                  href={buildUrl(page + 1)}
+                  className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-accent text-sm transition-colors"
+                >
+                  Siguiente
+                </Link>
+              )}
+            </div>
+          )}
         </div>
-        {productsWithPrices.length === 0 && (
-          <p className="text-center py-16 text-gray-400">No hay productos en esta categor&#237;a a&#250;n</p>
-        )}
       </div>
-    </main>
+    </div>
   )
 }

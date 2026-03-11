@@ -126,6 +126,14 @@ class BiotechChileScraper(BaseScraper):
         brand_el = form.select_one(".product-card-modern__brand")
         brand = brand_el.get_text(strip=True) if brand_el else None
 
+        # Product image
+        image_url = ""
+        img_el = form.select_one("img[itemprop='image'], img.product_detail_img, img")
+        if img_el:
+            image_url = img_el.get("data-src") or img_el.get("src") or ""
+            if image_url and image_url.startswith("/"):
+                image_url = f"{self.base_url}{image_url}"
+
         result = {
             "name": name,
             "price": price,
@@ -134,6 +142,8 @@ class BiotechChileScraper(BaseScraper):
         }
         if brand:
             result["brand"] = brand
+        if image_url:
+            result["image_url"] = image_url
 
         return result
 

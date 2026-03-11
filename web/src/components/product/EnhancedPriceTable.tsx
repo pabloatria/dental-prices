@@ -1,0 +1,103 @@
+import type { Price } from '@/lib/types'
+import { formatCLP } from '@/lib/queries/products'
+import { Badge } from '@/components/ui/badge'
+
+export default function EnhancedPriceTable({ prices }: { prices: Price[] }) {
+  const sorted = [...prices].sort((a, b) => a.price - b.price)
+  const lowestPrice = sorted.length > 0 ? sorted[0].price : 0
+
+  if (sorted.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">No hay precios disponibles para este producto</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="border-b border-border">
+            <th className="text-left py-3 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Proveedor
+            </th>
+            <th className="text-right py-3 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Precio
+            </th>
+            <th className="text-center py-3 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              Disponibilidad
+            </th>
+            <th className="text-right py-3 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map((price, i) => {
+            const isBest = i === 0 && price.in_stock
+            const savings = price.price - lowestPrice
+
+            return (
+              <tr
+                key={price.id}
+                className={`border-b border-border/50 transition-colors hover:bg-accent/50 ${
+                  isBest ? 'bg-success/5' : ''
+                }`}
+              >
+                <td className="py-4 px-4">
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium text-foreground">{price.supplier.name}</span>
+                    {isBest && (
+                      <Badge className="bg-success/10 text-success border-success/20 text-xs">
+                        Mejor precio
+                      </Badge>
+                    )}
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-right">
+                  <span className={`text-lg font-bold ${isBest ? 'text-price' : 'text-foreground'}`}>
+                    {formatCLP(price.price)}
+                  </span>
+                  {savings > 0 && (
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      +{formatCLP(savings)}
+                    </p>
+                  )}
+                </td>
+                <td className="py-4 px-4 text-center">
+                  {price.in_stock ? (
+                    <span className="inline-flex items-center gap-1 text-sm text-success">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                      </svg>
+                      Disponible
+                    </span>
+                  ) : (
+                    <span className="text-sm text-muted-foreground">Agotado</span>
+                  )}
+                </td>
+                <td className="py-4 px-4 text-right">
+                  <a
+                    href={price.product_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      isBest
+                        ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                        : 'bg-card border border-border text-foreground hover:bg-accent'
+                    }`}
+                  >
+                    Ir a comprar
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                  </a>
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
+}

@@ -182,6 +182,15 @@ class WooGenericScraper(BaseScraper):
         # Stock
         in_stock = not bool(el.select_one(self.outofstock_selector))
 
+        # Product image
+        image_url = ""
+        img_el = el.select_one("img.attachment-woocommerce_thumbnail, img.wp-post-image, img")
+        if img_el:
+            image_url = img_el.get("data-src") or img_el.get("src") or ""
+            # Skip placeholder/lazy-load data URIs
+            if image_url.startswith("data:"):
+                image_url = img_el.get("data-src") or img_el.get("data-lazy-src") or ""
+
         result = {
             "name": name,
             "price": price,
@@ -190,6 +199,8 @@ class WooGenericScraper(BaseScraper):
         }
         if category:
             result["_category"] = category
+        if image_url:
+            result["image_url"] = image_url
 
         return result
 

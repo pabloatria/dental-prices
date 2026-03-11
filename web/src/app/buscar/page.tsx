@@ -1,61 +1,219 @@
-import SearchBar from '@/components/SearchBar'
+import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
+import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import ProductCard from '@/components/ProductCard'
-import { ProductWithPrices } from '@/lib/types'
-
-interface SearchResult {
-  products: ProductWithPrices[]
-  total: number
-  page: number
-  pages: number
-}
-
-async function searchProducts(query: string, page: number): Promise<SearchResult> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const res = await fetch(`${baseUrl}/api/search?q=${encodeURIComponent(query)}&page=${page}`, {
-    cache: 'no-store',
-  })
-  return res.json()
-}
+import FilterPanel from '@/components/filters/FilterPanel'
+import SortSelect from '@/components/filters/SortSelect'
 
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string; page?: string }>
+  searchParams: Promise<{
+    q?: string
+    page?: string
+    category?: string
+    brand?: string
+    supplier?: string
+    in_stock?: string
+    sort?: string
+  }>
 }) {
   const params = await searchParams
   const query = params.q || ''
+  const category = params.category
   const page = parseInt(params.page || '1')
-  const result = await searchProducts(query, page)
+  const brandFilter = params.brand ? params.brand.split(',') : []
+  const supplierFilter = params.supplier ? params.supplier.split(',') : []
+  const inStockOnly = params.in_stock === '1'
+  const sort = params.sort || 'name'
+  const limit = 24
+  const offset = (page - 1) * limit
+
+  const supabase = await createClient()
+
+  let productQuery = supabase
+    .from('products')
+    .select('*', { count: 'exact' })
+
+  if (query) {
+    productQuery = productQuery.or(`name.ilike.%${query}%,brand.ilike.%${query}%`)
+  }
+
+  if (category) {
+    const { data: cat } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('slug', category)
+      .single()
+    if (cat) {
+      productQuery = productQuery.eq('category_id', cat.id)
+    }
+  }
+
+  if (brandFilter.length > 0) {
+    productQuery = productQuery.in('brand', brandFilter)
+  }
+
+  const { data: products, count, error } = await productQuery
+    .range(offset, offset + limit - 1)
+    .order('name')
+
+  if (error || !products) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-12 text-center">
+        <p className="text-xl text-muted-foreground">Error al buscar productos</p>
+        <p className="text-sm text-muted-foreground mt-2">Intenta de nuevo m&aacute;s tarde</p>
+      </div>
+    )
+  }
+
+  const productIds = products.map((p) => p.id)
+
+  const { data: prices } =
+    productIds.length > 0
+      ? await supabase
+          .from('prices')
+          .select('*, supplier:suppliers(*)')
+          .in('product_id', productIds)
+          .order('scraped_at', { ascending: false })
+      : { data: [] }
+
+  const latestPrices = aggregateLatestPrices(prices || [])
+  let productsWithPrices = buildProductsWithPrices(products, latestPrices)
+
+  // Client-side supplier filter
+  if (supplierFilter.length > 0) {
+    productsWithPrices = productsWithPrices.filter((p) =>
+      p.prices.some((price) => supplierFilter.includes(price.supplier_id))
+    )
+  }
+
+  // Client-side in-stock filter
+  if (inStockOnly) {
+    productsWithPrices = productsWithPrices.filter((p) =>
+      p.prices.some((price) => price.in_stock)
+    )
+  }
+
+  // Sort
+  if (sort === 'price_asc') {
+    productsWithPrices.sort((a, b) => (a.lowest_price || Infinity) - (b.lowest_price || Infinity))
+  } else if (sort === 'price_desc') {
+    productsWithPrices.sort((a, b) => (b.lowest_price || 0) - (a.lowest_price || 0))
+  } else if (sort === 'stores') {
+    productsWithPrices.sort((a, b) => b.store_count - a.store_count)
+  }
+
+  // Extract available brands and suppliers for filters
+  const availableBrands = [...new Set(products.map((p) => p.brand).filter(Boolean) as string[])].sort()
+  const supplierMap = new Map<string, string>()
+  for (const price of prices || []) {
+    if (price.supplier) {
+      supplierMap.set(price.supplier.id, price.supplier.name)
+    }
+  }
+  const availableSuppliers = [...supplierMap.entries()]
+    .map(([id, name]) => ({ id, name }))
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+  const total = count || 0
+  const pages = Math.ceil(total / limit)
+
+  const buildUrl = (p: number) => {
+    const u = new URLSearchParams()
+    if (query) u.set('q', query)
+    if (p > 1) u.set('page', String(p))
+    if (brandFilter.length > 0) u.set('brand', brandFilter.join(','))
+    if (supplierFilter.length > 0) u.set('supplier', supplierFilter.join(','))
+    if (inStockOnly) u.set('in_stock', '1')
+    if (sort !== 'name') u.set('sort', sort)
+    return `/buscar?${u.toString()}`
+  }
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
-          <a href="/" className="text-2xl font-bold text-blue-600 shrink-0">DentalPrecios</a>
-          <div className="flex-1">
-            <SearchBar />
+    <div className="max-w-7xl mx-auto px-4 py-6">
+      {/* Breadcrumb */}
+      <nav className="text-sm text-muted-foreground mb-4">
+        <Link href="/" className="hover:text-foreground">Inicio</Link>
+        <span className="mx-2">/</span>
+        <span className="text-foreground">B&uacute;squeda</span>
+      </nav>
+
+      <div className="flex gap-8">
+        {/* Sidebar filters - desktop */}
+        <aside className="hidden lg:block w-60 shrink-0">
+          <div className="sticky top-24 bg-card rounded-xl border border-border p-5">
+            <h2 className="text-sm font-semibold text-foreground mb-4">Filtros</h2>
+            <FilterPanel
+              brands={availableBrands}
+              suppliers={availableSuppliers}
+              activeFilters={{
+                brands: brandFilter,
+                suppliers: supplierFilter,
+                inStock: inStockOnly,
+                sort,
+              }}
+              basePath="/buscar"
+              baseQuery={query}
+            />
           </div>
-        </div>
-      </header>
+        </aside>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <p className="text-sm text-gray-500 mb-6">
-          {result.total} resultado{result.total !== 1 ? 's' : ''} para &quot;{query}&quot;
-        </p>
-
-        <div className="space-y-4">
-          {result.products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
-        {result.products.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-xl text-gray-400">No se encontraron productos</p>
-            <p className="text-sm text-gray-400 mt-2">Intenta con otro t&#233;rmino de b&#250;squeda</p>
+        {/* Main content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-xl font-bold text-foreground">
+                {query ? <>Resultados para &quot;{query}&quot;</> : 'Todos los productos'}
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">
+                {total} producto{total !== 1 ? 's' : ''} encontrado{total !== 1 ? 's' : ''}
+              </p>
+            </div>
+            <SortSelect />
           </div>
-        )}
+
+          {productsWithPrices.length > 0 ? (
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+              {productsWithPrices.map((product) => (
+                <ProductCard key={product.id} product={product} view="grid" />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-xl text-muted-foreground">No se encontraron productos</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Intenta con otro t&eacute;rmino de b&uacute;squeda
+              </p>
+            </div>
+          )}
+
+          {/* Pagination */}
+          {pages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-8">
+              {page > 1 && (
+                <Link
+                  href={buildUrl(page - 1)}
+                  className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-accent text-sm transition-colors"
+                >
+                  Anterior
+                </Link>
+              )}
+              <span className="px-4 py-2 text-sm text-muted-foreground">
+                P&aacute;gina {page} de {pages}
+              </span>
+              {page < pages && (
+                <Link
+                  href={buildUrl(page + 1)}
+                  className="px-4 py-2 bg-card border border-border rounded-lg hover:bg-accent text-sm transition-colors"
+                >
+                  Siguiente
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </main>
+    </div>
   )
 }
