@@ -42,13 +42,11 @@ from suppliers.orthomedical import OrthomedicalScraper
 from suppliers.dipromed import DipromedScraper
 from suppliers.biotechchile import BiotechChileScraper
 
-# Blocked sites (placeholder - need Playwright)
-from suppliers.blocked_sites import (
-    SuperDentalBlockedScraper,
-    MayordentBlockedScraper,
-    DentobalBlockedScraper,
-    SiromaxBlockedScraper,
-)
+# Previously Cloudflare-blocked sites (now using cloudscraper)
+from suppliers.superdental_cf import SuperDentalCFScraper
+from suppliers.mayordent import MayordentScraper
+from suppliers.dentobal import DentobalScraper
+from suppliers.siromax import SiromaxScraper
 
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
@@ -68,11 +66,11 @@ SCRAPERS = [
     DipromedScraper(),             # PrestaShop
     BiotechChileScraper(),         # Odoo 18
 
-    # Blocked sites (will log warning and skip)
-    SuperDentalBlockedScraper(),
-    MayordentBlockedScraper(),
-    DentobalBlockedScraper(),
-    SiromaxBlockedScraper(),
+    # Previously blocked (now using cloudscraper)
+    SuperDentalCFScraper(),         # WC Store API + cloudscraper
+    MayordentScraper(),             # WC Store API + cloudscraper
+    DentobalScraper(),              # Shopify JSON API + cloudscraper
+    SiromaxScraper(),               # WC Store API + cloudscraper
 ]
 
 

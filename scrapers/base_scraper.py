@@ -22,13 +22,18 @@ class BaseScraper:
     name = "Base"
     base_url = ""
     website_url = ""
+    use_cloudscraper = False  # Set True for Cloudflare-protected sites
 
     def __init__(self):
-        self.session = requests.Session()
-        self.session.headers.update({
-            "User-Agent": random.choice(USER_AGENTS),
-            "Accept-Language": "es-CL,es;q=0.9",
-        })
+        if self.use_cloudscraper:
+            import cloudscraper
+            self.session = cloudscraper.create_scraper()
+        else:
+            self.session = requests.Session()
+            self.session.headers.update({
+                "User-Agent": random.choice(USER_AGENTS),
+                "Accept-Language": "es-CL,es;q=0.9",
+            })
 
     def fetch(self, url: str) -> Optional[BeautifulSoup]:
         """Fetch a page and return parsed HTML."""
