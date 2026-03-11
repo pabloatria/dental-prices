@@ -48,6 +48,9 @@ from suppliers.mayordent import MayordentScraper
 from suppliers.dentobal import DentobalScraper
 from suppliers.siromax import SiromaxScraper
 
+# Additional WC Store API scrapers
+from suppliers.gipfel import GipfelScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -71,6 +74,9 @@ SCRAPERS = [
     MayordentScraper(),             # WC Store API + cloudscraper
     DentobalScraper(),              # Shopify JSON API + cloudscraper
     SiromaxScraper(),               # WC Store API + cloudscraper
+
+    # Additional suppliers
+    GipfelScraper(),                # WC Store API
 ]
 
 
@@ -193,6 +199,11 @@ CATEGORY_MAP = {
     "turbinas": "equipamiento",
     "implantologia": "protesis",
     "resinas": "resinas",
+
+    # Gipfel (WC Store API)
+    "cirugia": "periodoncia",
+    "dental": None,  # too generic, skip
+    "todos": None,   # too generic, skip
 }
 
 
