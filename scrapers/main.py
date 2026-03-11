@@ -19,15 +19,60 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Import real scrapers
-from suppliers.superdental import SuperDentalScraper
+# ──────────────────────────────────────────────────────────────
+# Import all scrapers
+# ──────────────────────────────────────────────────────────────
+
+# Existing scrapers
 from suppliers.dentsolutions import DentsolutionsScraper
 from suppliers.dental_macaya import DentalMacayaScraper
 
+# WooCommerce scrapers (generic)
+from suppliers.techdent import TechdentScraper
+from suppliers.clandent import ClandentScraper
+from suppliers.dentalamerica import DentalamericaScraper
+from suppliers.afchilespa import AfchilespaScraper
+
+# Shopify scrapers (JSON API)
+from suppliers.eksadental import EksaDentalScraper
+from suppliers.spdental import SpDentalScraper
+
+# Specialty platform scrapers
+from suppliers.orthomedical import OrthomedicalScraper
+from suppliers.dipromed import DipromedScraper
+from suppliers.biotechchile import BiotechChileScraper
+
+# Blocked sites (placeholder - need Playwright)
+from suppliers.blocked_sites import (
+    SuperDentalBlockedScraper,
+    MayordentBlockedScraper,
+    DentobalBlockedScraper,
+    SiromaxBlockedScraper,
+)
+
+# ──────────────────────────────────────────────────────────────
+# Scraper registry
+# ──────────────────────────────────────────────────────────────
+
 SCRAPERS = [
-    SuperDentalScraper(),
-    DentsolutionsScraper(),
-    DentalMacayaScraper(),
+    # Working scrapers (can fetch via HTTP)
+    DentsolutionsScraper(),        # Jumpseller
+    DentalMacayaScraper(),         # WooCommerce
+    TechdentScraper(),             # WooCommerce + Astra
+    ClandentScraper(),             # WooCommerce
+    DentalamericaScraper(),        # WooCommerce
+    AfchilespaScraper(),           # WooCommerce
+    EksaDentalScraper(),           # Shopify JSON API
+    SpDentalScraper(),             # Shopify JSON API
+    OrthomedicalScraper(),         # WC Store API
+    DipromedScraper(),             # PrestaShop
+    BiotechChileScraper(),         # Odoo 18
+
+    # Blocked sites (will log warning and skip)
+    SuperDentalBlockedScraper(),
+    MayordentBlockedScraper(),
+    DentobalBlockedScraper(),
+    SiromaxBlockedScraper(),
 ]
 
 
@@ -59,12 +104,7 @@ def ensure_product(supabase, name: str, category_slug: str = None) -> Optional[s
     if result.data:
         return result.data[0]["id"]
 
-    # Try fuzzy match
-    result = supabase.table("products").select("id").ilike("name", f"%{name}%").execute()
-    if result.data:
-        return result.data[0]["id"]
-
-    # Create new product
+    # Create new product (skip fuzzy match - too slow and unreliable)
     product_data = {"name": name}
 
     # Try to link to a category
@@ -80,7 +120,10 @@ def ensure_product(supabase, name: str, category_slug: str = None) -> Optional[s
     return None
 
 
-# Map supplier category slugs to our category slugs
+# ──────────────────────────────────────────────────────────────
+# Category mapping: supplier category → our category slug
+# ──────────────────────────────────────────────────────────────
+
 CATEGORY_MAP = {
     # SuperDental
     "adhesion-y-restauracion": "resinas",
@@ -100,11 +143,39 @@ CATEGORY_MAP = {
     "periodoncia-y-cirugia": "periodoncia",
     "protesis-y-carillas": "protesis",
     "radiologia": "radiologia",
-    # Dentsolutions
+
+    # Dentsolutions (Jumpseller)
     "anestesia": "anestesia",
     "blanqueamiento": "blanqueamiento",
     "operatoria": "resinas",
     "prevencion": "prevencion",
+
+    # Techdent
+    "accesorios-para-clinica-dental": "equipamiento",
+    "insumos-dentales/desechables-para-dentistas": "desechables",
+    "insumos-dentales/insumos-instrumental-dental": "instrumental",
+    "insumos-dentales/fresas-dentales": "instrumental",
+    "equipamiento-dental/equipamiento-cirugia-dental": "equipamiento",
+    "equipamiento-dental/compresores-y-bombas-de-succion": "equipamiento",
+    "equipamiento-dental/esterilizacion-y-desinfeccion": "bioseguridad",
+    "equipamiento-dental/imagen-digital": "radiologia",
+    "equipamiento-dental/mobiliario-clinico-dental": "equipamiento",
+    "equipamiento-dental/sillones-dentales": "equipamiento",
+    "equipamiento-dental/repuestos-y-mantenimiento-de-equipos-dentales": "equipamiento",
+    "laboratorio/equipos-para-laboratorio": "protesis",
+
+    # Dipromed (PrestaShop)
+    "10-instrumentos-medicos": "instrumental",
+    "59-guantes": "desechables",
+    "109-conos": "desechables",
+    "125-rehabilitacion": "protesis",
+    "151-esterilizacion": "bioseguridad",
+
+    # Shopify product types (from eksadental, spdental)
+    "repuestos": "equipamiento",
+    "turbinas": "equipamiento",
+    "implantologia": "protesis",
+    "resinas": "resinas",
 }
 
 
@@ -121,6 +192,7 @@ def main():
     total_prices = 0
     total_products_created = 0
     total_errors = 0
+    total_skipped = 0
 
     for scraper in SCRAPERS:
         logger.info(f"=== Starting scraper: {scraper.name} ===")
@@ -133,8 +205,8 @@ def main():
 
         # Test scraper connectivity
         if not scraper.test():
-            logger.error(f"[{scraper.name}] Connection test FAILED - skipping")
-            total_errors += 1
+            logger.warning(f"[{scraper.name}] Connection test FAILED - skipping")
+            total_skipped += 1
             continue
 
         try:
@@ -171,6 +243,7 @@ def main():
 
     logger.info(f"=== DONE ===")
     logger.info(f"  Prices inserted: {total_prices}")
+    logger.info(f"  Skipped (blocked): {total_skipped}")
     logger.info(f"  Errors: {total_errors}")
 
 
