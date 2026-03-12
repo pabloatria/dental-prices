@@ -62,6 +62,10 @@ from suppliers.flamamed import FlamamedScraper
 # Catalog-only suppliers (no prices, contact for pricing)
 from suppliers.torregal import TorregalScraper
 
+# Additional dental suppliers
+from suppliers.tresdental import TresDentalScraper
+from suppliers.orbisdental import OrbisDentalScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -95,6 +99,10 @@ SCRAPERS = [
 
     # Catalog-only (no prices)
     TorregalScraper(),               # WP REST API (aesthetic equipment, catalog-only)
+
+    # Additional dental suppliers
+    TresDentalScraper(),             # WC Store API (3D printers, resins, scanners)
+    OrbisDentalScraper(),            # Shopify JSON API (orthodontics, mini-implants)
 ]
 
 
@@ -275,6 +283,33 @@ CATEGORY_MAP = {
 
     # Torregal (WP REST API - aesthetic equipment, catalog-only)
     "estetica-equipos": "estetica",
+
+    # 3Dental (WC Store API - 3D printers, resins, scanners)
+    "impresoras-3d-odontologicas": "equipamiento",
+    "impresoras-3d": "equipamiento",
+    "resinas-dentales": "resinas",
+    "termoformadoras": "equipamiento",
+    "termoformadoras-laminas": "equipamiento",
+    "scanners": "equipamiento",
+    "scanners-intraoral": "equipamiento",
+    "scanners-de-mesa": "equipamiento",
+    "pre-y-pos-proceso": "equipamiento",
+    "insumos-de-laboratorio": "protesis",
+    "filamento-para-impresion-3d": "equipamiento",
+    "higiene-protesica": "prevencion",
+    "ofertas": None,         # generic, skip
+    "ofertas-cyber": None,   # generic, skip
+    "sin-categorizar": None, # uncategorized, skip
+    "scheu": "equipamiento",
+    "asiga": "equipamiento",
+
+    # Orbis Dental (Shopify - orthodontics, mini-implants)
+    "productos ortodoncia": "ortodoncia",
+    "kits": "ortodoncia",
+    "disyuntores": "ortodoncia",
+    "mini implantes marpe": "ortodoncia",
+    "mini implantes extra alveolares": "ortodoncia",
+    "mini implantes interradiculares": "ortodoncia",
 }
 
 
