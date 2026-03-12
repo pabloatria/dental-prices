@@ -53,6 +53,11 @@ from suppliers.gipfel import GipfelScraper
 
 # Aesthetic suppliers (Shopify)
 from suppliers.bamssupplies import BamsSuppliesScraper
+from suppliers.dispolab import DispolabScraper
+from suppliers.naturabel import NaturabelScraper
+
+# Aesthetic suppliers (WooCommerce)
+from suppliers.flamamed import FlamamedScraper
 
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
@@ -81,6 +86,9 @@ SCRAPERS = [
     # Additional suppliers
     GipfelScraper(),                # WC Store API
     BamsSuppliesScraper(),          # Shopify JSON API (aesthetic supplies)
+    DispolabScraper(),              # Shopify JSON API (aesthetic supplies)
+    NaturabelScraper(),             # Shopify JSON API (aesthetic supplies)
+    FlamamedScraper(),              # WC Store API (aesthetic supplies)
 ]
 
 
@@ -222,6 +230,42 @@ CATEGORY_MAP = {
     "cánulas": "estetica",
     "micro agujas": "estetica",
     "otros": None,  # too generic, skip
+
+    # Dispolab (Shopify - aesthetic supplies)
+    "inyectable": "estetica",
+    "hilo estimulante": "estetica",
+    "dispositivo medico": "estetica",
+    "serum": None,          # skincare, not dental
+    "crema": None,          # skincare
+    "crema antiedad": None, # skincare
+    "shampoo": None,        # haircare
+    "shampoo acondicionador": None,
+    "solucion micelar": None,
+    "antitranspirante": None,
+    "lamina silicona": None,  # scar treatment
+    "gel silicona": None,
+    "barra silicona": None,
+
+    # Naturabel (Shopify - aesthetic supplies)
+    "meline": "estetica",
+
+    # Flamamed (WC Store API - aesthetic supplies)
+    "acido-hialuronico": "estetica",
+    "profhilo": "estetica",
+    "exosomas": "estetica",
+    "hilos-mesotrax": "estetica",
+    "bcn-cocktails": "estetica",
+    "bcn-peels": "estetica",
+    "bcn-classics": "estetica",
+    "bcn-advance": "estetica",
+    "bcn-prebiotics": "estetica",
+    "cebelia": "estetica",
+    "agujas-mesoterapia": "estetica",
+    "agujas": "estetica",
+    "agujas-hipodermicas": "estetica",
+    "canulas": "estetica",
+    "canulas-agujas-y-canulas": "estetica",
+    "insumos": None,  # too generic
 }
 
 
