@@ -9,9 +9,9 @@ import type { Category } from '@/lib/types'
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 export const metadata: Metadata = {
-  title: 'DentalPrecios — Compara precios de productos dentales en Chile',
+  title: 'DentalPrecios — Todo para tu consulta dental en un solo lugar',
   description:
-    'Encuentra los mejores precios de productos dentales comparando todas las tiendas de Chile en un solo lugar.',
+    'Compara precios de insumos dentales, instrumental, est\u00E9tica facial y m\u00E1s entre los principales proveedores de Chile.',
 }
 
 async function getCategories(): Promise<Category[]> {

@@ -88,6 +88,19 @@ export function EquipamientoIcon({ className = iconClass }: { className?: string
   )
 }
 
+export function EsteticaIcon({ className = iconClass }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 8v28" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+      <path d="M28 8h8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+      <rect x="28" y="36" width="8" height="14" rx="4" stroke="currentColor" strokeWidth="2.5"/>
+      <path d="M32 50v6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+      <path d="M26 20l-6-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+      <path d="M38 20l6-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   resinas: ToothIcon,
   instrumental: InstrumentIcon,
@@ -97,6 +110,7 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>
   anestesia: AnestesiaIcon,
   bioseguridad: BioseguridadIcon,
   equipamiento: EquipamientoIcon,
+  estetica: EsteticaIcon,
 }
 
 export function getCategoryIcon(slug: string): React.ComponentType<{ className?: string }> {

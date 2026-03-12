@@ -51,6 +51,9 @@ from suppliers.siromax import SiromaxScraper
 # Additional WC Store API scrapers
 from suppliers.gipfel import GipfelScraper
 
+# Aesthetic suppliers (Shopify)
+from suppliers.bamssupplies import BamsSuppliesScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -77,6 +80,7 @@ SCRAPERS = [
 
     # Additional suppliers
     GipfelScraper(),                # WC Store API
+    BamsSuppliesScraper(),          # Shopify JSON API (aesthetic supplies)
 ]
 
 
@@ -204,6 +208,20 @@ CATEGORY_MAP = {
     "cirugia": "periodoncia",
     "dental": None,  # too generic, skip
     "todos": None,   # too generic, skip
+
+    # BAMS Supplies (Shopify - aesthetic supplies)
+    "ácido hialurónico": "estetica",
+    "bioestimulador": "estetica",
+    "regeneradores celulares": "estetica",
+    "hilos de bioestimulación": "estetica",
+    "hilos de tracción": "estetica",
+    "hilos de relleno": "estetica",
+    "toxina botulínica": "estetica",
+    "mesoterapia y peeling": "estetica",
+    "lipolíticos": "estetica",
+    "cánulas": "estetica",
+    "micro agujas": "estetica",
+    "otros": None,  # too generic, skip
 }
 
 

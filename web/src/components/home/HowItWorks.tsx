@@ -8,7 +8,7 @@ export default function HowItWorks() {
         </svg>
       ),
       title: 'Busca',
-      description: 'Encuentra el producto dental que necesitas entre miles de opciones',
+      description: 'Encuentra cualquier producto para tu consulta: insumos, instrumental, est\u00E9tica facial y m\u00E1s',
     },
     {
       icon: (
@@ -18,7 +18,7 @@ export default function HowItWorks() {
         </svg>
       ),
       title: 'Compara',
-      description: 'Compara precios de m\u00FAltiples proveedores en una sola p\u00E1gina',
+      description: 'Compara precios de m\u00FAltiples proveedores chilenos en una sola p\u00E1gina',
     },
     {
       icon: (
@@ -27,7 +27,7 @@ export default function HowItWorks() {
         </svg>
       ),
       title: 'Ahorra',
-      description: 'Compra en la tienda con el mejor precio y ahorra en cada pedido',
+      description: 'Compra directo en la tienda con el mejor precio y ahorra en cada pedido',
     },
   ]
 
