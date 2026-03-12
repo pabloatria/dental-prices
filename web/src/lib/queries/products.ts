@@ -30,17 +30,22 @@ export function buildProductsWithPrices(
 ): ProductWithPrices[] {
   return products.map((product) => {
     const pp = Array.from(latestPrices.get(product.id)?.values() || [])
-    const inStock = pp.filter((p) => p.in_stock)
+    const realPrices = pp.filter((p) => p.price > 0)
+    const inStockReal = realPrices.filter((p) => p.in_stock)
+    const catalogOnly = pp.length > 0 && realPrices.length === 0
     return {
       ...product,
       prices: pp,
       lowest_price:
-        inStock.length > 0
-          ? Math.min(...inStock.map((p) => p.price))
-          : 0,
+        inStockReal.length > 0
+          ? Math.min(...inStockReal.map((p) => p.price))
+          : realPrices.length > 0
+            ? Math.min(...realPrices.map((p) => p.price))
+            : 0,
       highest_price:
-        pp.length > 0 ? Math.max(...pp.map((p) => p.price)) : 0,
+        realPrices.length > 0 ? Math.max(...realPrices.map((p) => p.price)) : 0,
       store_count: pp.length,
+      catalog_only: catalogOnly,
     }
   })
 }

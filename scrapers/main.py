@@ -59,6 +59,9 @@ from suppliers.naturabel import NaturabelScraper
 # Aesthetic suppliers (WooCommerce)
 from suppliers.flamamed import FlamamedScraper
 
+# Catalog-only suppliers (no prices, contact for pricing)
+from suppliers.torregal import TorregalScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -89,6 +92,9 @@ SCRAPERS = [
     DispolabScraper(),              # Shopify JSON API (aesthetic supplies)
     NaturabelScraper(),             # Shopify JSON API (aesthetic supplies)
     FlamamedScraper(),              # WC Store API (aesthetic supplies)
+
+    # Catalog-only (no prices)
+    TorregalScraper(),               # WP REST API (aesthetic equipment, catalog-only)
 ]
 
 
@@ -266,6 +272,9 @@ CATEGORY_MAP = {
     "canulas": "estetica",
     "canulas-agujas-y-canulas": "estetica",
     "insumos": None,  # too generic
+
+    # Torregal (WP REST API - aesthetic equipment, catalog-only)
+    "estetica-equipos": "estetica",
 }
 
 

@@ -38,6 +38,13 @@ export default function ProductCard({ product, view = 'grid' }: ProductCardProps
                   {product.store_count} {product.store_count === 1 ? 'tienda' : 'tiendas'}
                 </Badge>
               </>
+            ) : product.catalog_only ? (
+              <>
+                <span className="text-sm font-medium text-primary">Consultar precio</span>
+                <Badge variant="outline" className="text-xs">
+                  {product.store_count} {product.store_count === 1 ? 'proveedor' : 'proveedores'}
+                </Badge>
+              </>
             ) : (
               <span className="text-sm text-muted-foreground">Sin precio disponible</span>
             )}
@@ -76,6 +83,13 @@ export default function ProductCard({ product, view = 'grid' }: ProductCardProps
             </span>
             <span className="text-xs text-muted-foreground">
               {product.store_count} {product.store_count === 1 ? 'tienda' : 'tiendas'}
+            </span>
+          </>
+        ) : product.catalog_only ? (
+          <>
+            <span className="text-sm font-medium text-primary">Consultar precio</span>
+            <span className="text-xs text-muted-foreground">
+              {product.store_count} {product.store_count === 1 ? 'proveedor' : 'proveedores'}
             </span>
           </>
         ) : (

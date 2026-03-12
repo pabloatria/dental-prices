@@ -78,9 +78,19 @@ export default async function CategoryPage({
   }
 
   if (sort === 'price_asc') {
-    productsWithPrices.sort((a, b) => (a.lowest_price || Infinity) - (b.lowest_price || Infinity))
+    productsWithPrices.sort((a, b) => {
+      if (a.catalog_only && !b.catalog_only) return 1
+      if (!a.catalog_only && b.catalog_only) return -1
+      if (a.catalog_only && b.catalog_only) return a.name.localeCompare(b.name)
+      return (a.lowest_price || Infinity) - (b.lowest_price || Infinity)
+    })
   } else if (sort === 'price_desc') {
-    productsWithPrices.sort((a, b) => (b.lowest_price || 0) - (a.lowest_price || 0))
+    productsWithPrices.sort((a, b) => {
+      if (a.catalog_only && !b.catalog_only) return 1
+      if (!a.catalog_only && b.catalog_only) return -1
+      if (a.catalog_only && b.catalog_only) return a.name.localeCompare(b.name)
+      return (b.lowest_price || 0) - (a.lowest_price || 0)
+    })
   } else if (sort === 'stores') {
     productsWithPrices.sort((a, b) => b.store_count - a.store_count)
   }

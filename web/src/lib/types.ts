@@ -30,6 +30,7 @@ export interface ProductWithPrices extends Product {
   lowest_price: number
   highest_price?: number
   store_count: number
+  catalog_only: boolean
 }
 
 export interface Category {

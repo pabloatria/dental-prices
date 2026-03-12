@@ -54,16 +54,18 @@ export default async function ProductPage({
     }
   }
   const currentPrices = Array.from(latestBySupplier.values())
-  const inStockPrices = currentPrices.filter((p) => p.in_stock)
+  const realPrices = currentPrices.filter((p) => p.price > 0)
+  const inStockPrices = realPrices.filter((p) => p.in_stock)
   const lowestPrice = inStockPrices.length > 0 ? Math.min(...inStockPrices.map((p: any) => p.price)) : 0
-  const highestPrice = currentPrices.length > 0 ? Math.max(...currentPrices.map((p: any) => p.price)) : 0
+  const highestPrice = realPrices.length > 0 ? Math.max(...realPrices.map((p: any) => p.price)) : 0
+  const isCatalogOnly = currentPrices.length > 0 && realPrices.length === 0
 
   // Price history (last 30 days, lowest price per day)
   const thirtyDaysAgo = new Date()
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
 
   const priceHistory = (allPrices || [])
-    .filter((p) => new Date(p.scraped_at) >= thirtyDaysAgo)
+    .filter((p) => p.price > 0 && new Date(p.scraped_at) >= thirtyDaysAgo)
     .reduce((acc: { date: string; price: number; supplier: string }[], p) => {
       const date = new Date(p.scraped_at).toISOString().split('T')[0]
       const existing = acc.find((a) => a.date === date)
@@ -163,6 +165,13 @@ export default async function ProductPage({
                       en {currentPrices.length} {currentPrices.length === 1 ? 'tienda' : 'tiendas'}
                     </p>
                   </div>
+                ) : isCatalogOnly ? (
+                  <div>
+                    <p className="text-sm font-medium text-primary">Consultar precio</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Disponible en {currentPrices.length} {currentPrices.length === 1 ? 'proveedor' : 'proveedores'}
+                    </p>
+                  </div>
                 ) : (
                   <p className="text-muted-foreground">Sin precio disponible</p>
                 )}
@@ -192,19 +201,23 @@ export default async function ProductPage({
       <div className="bg-card rounded-xl border border-border p-6 mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-foreground">
-            Comparar precios ({currentPrices.length} {currentPrices.length === 1 ? 'tienda' : 'tiendas'})
+            {isCatalogOnly
+              ? `Proveedores (${currentPrices.length})`
+              : `Comparar precios (${currentPrices.length} ${currentPrices.length === 1 ? 'tienda' : 'tiendas'})`}
           </h2>
         </div>
         <EnhancedPriceTable prices={currentPrices} />
       </div>
 
-      {/* Price history chart */}
-      <div className="bg-card rounded-xl border border-border p-6 mb-8">
-        <h2 className="text-lg font-semibold text-foreground mb-4">
-          Historial de precios (últimos 30 días)
-        </h2>
-        <PriceChart priceHistory={priceHistory} />
-      </div>
+      {/* Price history chart — only for products with real prices */}
+      {priceHistory.length > 0 && (
+        <div className="bg-card rounded-xl border border-border p-6 mb-8">
+          <h2 className="text-lg font-semibold text-foreground mb-4">
+            Historial de precios (últimos 30 días)
+          </h2>
+          <PriceChart priceHistory={priceHistory} />
+        </div>
+      )}
 
       {/* Similar products */}
       <div className="mb-8">
