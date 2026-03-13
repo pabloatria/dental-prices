@@ -57,6 +57,11 @@ export default function Footer({ categories }: { categories: Category[] }) {
                   Mi cuenta
                 </Link>
               </li>
+              <li>
+                <Link href="/suscripcion" className="text-sm text-background/60 hover:text-background transition-colors">
+                  Suscripción
+                </Link>
+              </li>
             </ul>
           </div>
 
