@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/send-restock-notifications",
+      "schedule": "0 12-23 * * *"
+    }
+  ]
+}
