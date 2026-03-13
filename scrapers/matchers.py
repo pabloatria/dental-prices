@@ -23,15 +23,22 @@ def normalize_name(name: str) -> str:
     name = re.sub(r'[™®©]', '', name)
     # Remove leftover HTML entities
     name = re.sub(r'&#\d+;', ' ', name)
+    # Remove HTML <br> tags
+    name = re.sub(r'<br\s*/?>', ' ', name)
     # Strip accents (flúor -> fluor)
     name = _strip_accents(name)
+    # Join decimal numbers before removing punctuation: "2.1" → "21"
+    name = re.sub(r'(\d+)\.(\d+)', r'\1\2', name)
     # Remove all punctuation except alphanumeric and spaces
     name = re.sub(r'[^a-z0-9\s]', ' ', name)
     # Normalize whitespace
     name = re.sub(r'\s+', ' ', name)
+    # Remove number+unit patterns: "10gr" → "10", "25mm" → "25", "100ml" → "100"
+    # Unit must be directly adjacent (no space) to preserve standalone L, R, G, etc.
+    name = re.sub(r'\b(\d+)(gr|grs|g|ml|mm|cc|oz|kg|mg|cm|lt|l)\b', r'\1', name)
     # Remove quantity-only suffixes (keep concentration/size numbers)
     name = re.sub(
-        r'\b(und|unid|unidad|unidades|unidosis|pza|pieza|piezas|uds|dosis|'
+        r'\b(und|unid|unidad|unidades|unidosis|pza|pieza|piezas|uds|ud|dosis|'
         r'unit|dose|doses|units)\b',
         '', name
     )
@@ -54,6 +61,23 @@ def normalize_name(name: str) -> str:
     # Remove common filler words (Spanish + English)
     name = re.sub(
         r'\b(de|del|con|para|en|por|y|the|and|for|with|of|a|la|el|las|los|un|una)\b',
+        '', name
+    )
+    # Remove dental descriptor noise (words that describe but don't identify)
+    name = re.sub(
+        r'\b(treatment|fluoride|sodio|sodium|barniz|sabor|flavor|'
+        r'recubrimiento|protector|protective|coating|kit|intro|acc|accesorios)\b',
+        '', name
+    )
+    # Remove flavor names (variants, not different products for pricing)
+    name = re.sub(
+        r'\b(menta|mint|melon|sandia|watermelon|fresa|strawberry|tutti|'
+        r'frutti|chicle|bubblegum|bubble|gum)\b',
+        '', name
+    )
+    # Remove manufacturer company names (noise alongside product sub-brands)
+    name = re.sub(
+        r'\b(3m|espe|solventum|dentsply|sirona)\b',
         '', name
     )
     # Collapse whitespace again
@@ -162,8 +186,9 @@ def are_same_product(name_a: str, name_b: str, threshold: float = 0.70) -> bool:
     1. High Jaccard similarity (default 0.70)
     2. Compatible specification numbers (sizes, concentrations, etc.)
 
-    Products that differ in specification numbers (e.g., 35% vs 16%,
-    25mm vs 31mm, #20 vs #25) are never considered the same.
+    Number compatibility: if both have numbers, one set must be a subset
+    of the other (or equal). This allows "Product 100" to match
+    "Product 2.1% 100" while still blocking "Product 35%" vs "Product 16%".
     """
     tokens_a = tokenize(name_a)
     tokens_b = tokenize(name_b)
@@ -175,9 +200,10 @@ def are_same_product(name_a: str, name_b: str, threshold: float = 0.70) -> bool:
     nums_a = extract_numbers(name_a)
     nums_b = extract_numbers(name_b)
 
-    # Number compatibility: if both have numbers, they must match exactly
-    if nums_a and nums_b and nums_a != nums_b:
-        return False
+    # Number compatibility: if both have numbers, one must be a subset of the other
+    if nums_a and nums_b:
+        if not (nums_a <= nums_b or nums_b <= nums_a):
+            return False
 
     sim = jaccard_similarity(tokens_a, tokens_b)
     return sim >= threshold
