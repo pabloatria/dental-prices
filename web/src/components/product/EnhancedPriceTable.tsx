@@ -1,8 +1,9 @@
+import StockAlertButton from '@/components/product/StockAlertButton'
 import type { Price } from '@/lib/types'
 import { formatCLP } from '@/lib/queries/products'
 import { Badge } from '@/components/ui/badge'
 
-export default function EnhancedPriceTable({ prices }: { prices: Price[] }) {
+export default function EnhancedPriceTable({ prices, productId }: { prices: Price[], productId: string }) {
   // Sort: real prices ascending first, then catalog-only (price=0) at the end
   const sorted = [...prices].sort((a, b) => {
     if (a.price === 0 && b.price === 0) return 0
@@ -89,7 +90,14 @@ export default function EnhancedPriceTable({ prices }: { prices: Price[] }) {
                       Disponible
                     </span>
                   ) : (
-                    <span className="text-sm text-muted-foreground">Agotado</span>
+                    <div className="flex flex-col items-center gap-1">
+                      <span className="text-sm text-muted-foreground">Agotado</span>
+                      <StockAlertButton
+                        productId={productId}
+                        supplierId={price.supplier_id}
+                        supplierName={price.supplier.name}
+                      />
+                    </div>
                   )}
                 </td>
                 <td className="py-4 px-4 text-right">

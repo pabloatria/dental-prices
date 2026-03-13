@@ -206,7 +206,7 @@ export default async function ProductPage({
               : `Comparar precios (${currentPrices.length} ${currentPrices.length === 1 ? 'tienda' : 'tiendas'})`}
           </h2>
         </div>
-        <EnhancedPriceTable prices={currentPrices} />
+        <EnhancedPriceTable prices={currentPrices} productId={product.id} />
       </div>
 
       {/* Price history chart — only for products with real prices */}
