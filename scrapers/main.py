@@ -443,6 +443,38 @@ CATEGORY_MAP = {
 }
 
 
+def check_and_record_restock(supabase, product_id, supplier_id, new_in_stock):
+    """If product went from out-of-stock to in-stock, record a restock event."""
+    if not new_in_stock:
+        return  # Only care about items coming back in stock
+
+    # Get the most recent previous price for this product+supplier
+    result = supabase.table("prices") \
+        .select("in_stock") \
+        .eq("product_id", product_id) \
+        .eq("supplier_id", supplier_id) \
+        .order("scraped_at", desc=True) \
+        .limit(1) \
+        .execute()
+
+    if not result.data:
+        return  # First time seeing this product at this supplier — not a restock
+
+    prev_in_stock = result.data[0]["in_stock"]
+    if prev_in_stock:
+        return  # Was already in stock — no change
+
+    # Restock detected! Record the event
+    logger.info(f"RESTOCK DETECTED: product={product_id} supplier={supplier_id}")
+    try:
+        supabase.table("restock_events").insert({
+            "product_id": product_id,
+            "supplier_id": supplier_id,
+        }).execute()
+    except Exception as e:
+        logger.warning(f"Failed to record restock event: {e}")
+
+
 def main():
     global _product_cache
 
@@ -499,6 +531,12 @@ def main():
                 if not product_id:
                     logger.warning(f"[{scraper.name}] Could not create product: {product['name']}")
                     continue
+
+                # Check for restock event before inserting new price
+                check_and_record_restock(
+                    supabase, product_id, supplier_id,
+                    product.get("in_stock", True),
+                )
 
                 # Insert price record
                 try:
