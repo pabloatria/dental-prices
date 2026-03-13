@@ -3,13 +3,15 @@ from __future__ import annotations
 import os
 import sys
 import logging
-from datetime import datetime
+from collections import defaultdict
 from typing import Optional
 from dotenv import load_dotenv
 from supabase import create_client
 
 # Add the scrapers directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from matchers import tokenize, are_same_product
 
 load_dotenv()
 
@@ -127,28 +129,147 @@ def ensure_supplier(supabase, scraper) -> Optional[str]:
     return None
 
 
+class ProductCache:
+    """In-memory product cache with inverted token index for fast fuzzy lookup.
+
+    Preloads all products at startup so ensure_product() can do in-memory
+    fuzzy matching instead of hitting the database for every candidate.
+    """
+
+    def __init__(self):
+        self.products: list[dict] = []       # [{id, name, image_url, brand}]
+        self.name_to_idx: dict[str, int] = {}  # exact name → index
+        self.token_index: dict[str, set[int]] = defaultdict(set)
+
+    def load(self, supabase):
+        """Load all products from the database into memory."""
+        all_products = []
+        page_size = 1000
+        offset = 0
+
+        while True:
+            result = supabase.table("products") \
+                .select("id, name, image_url, brand") \
+                .range(offset, offset + page_size - 1) \
+                .execute()
+
+            if not result.data:
+                break
+            all_products.extend(result.data)
+            if len(result.data) < page_size:
+                break
+            offset += page_size
+
+        self.products = all_products
+        self._rebuild_indexes()
+        logger.info(f"ProductCache loaded {len(self.products)} products")
+
+    def _rebuild_indexes(self):
+        """Rebuild exact-name and token indexes from self.products."""
+        self.name_to_idx.clear()
+        self.token_index.clear()
+        for i, p in enumerate(self.products):
+            self.name_to_idx[p["name"]] = i
+            for token in tokenize(p["name"]):
+                self.token_index[token].add(i)
+
+    def exact_match(self, name: str) -> Optional[dict]:
+        """Find product by exact name. Returns product dict or None."""
+        idx = self.name_to_idx.get(name)
+        if idx is not None:
+            return self.products[idx]
+        return None
+
+    def fuzzy_match(self, name: str) -> Optional[dict]:
+        """Find a product that fuzzy-matches this name.
+
+        Uses the inverted token index to find candidates quickly,
+        then checks with are_same_product() for confirmation.
+        Only candidates sharing at least 2 tokens are checked.
+        """
+        tokens = tokenize(name)
+        if not tokens:
+            return None
+
+        # Count how many tokens each candidate shares
+        candidate_counts: dict[int, int] = defaultdict(int)
+        for token in tokens:
+            for idx in self.token_index.get(token, set()):
+                candidate_counts[idx] += 1
+
+        # Check candidates with at least 2 shared tokens, best first
+        for idx, shared in sorted(candidate_counts.items(),
+                                   key=lambda x: x[1], reverse=True):
+            if shared < 2:
+                break
+            if are_same_product(name, self.products[idx]["name"]):
+                return self.products[idx]
+
+        return None
+
+    def add(self, product: dict):
+        """Add a newly created product to the cache."""
+        idx = len(self.products)
+        self.products.append(product)
+        self.name_to_idx[product["name"]] = idx
+        for token in tokenize(product["name"]):
+            self.token_index[token].add(idx)
+
+
+# Global product cache (initialized in main)
+_product_cache: Optional[ProductCache] = None
+
+
 def ensure_product(supabase, name: str, category_slug: str = None,
                     image_url: str = None, brand: str = None) -> Optional[str]:
     """Get or create product in database. Returns product_id.
-    Updates image_url and brand if provided and currently missing."""
-    # Try exact match first
-    result = supabase.table("products").select("id, image_url, brand").eq("name", name).execute()
-    if result.data:
-        product_id = result.data[0]["id"]
-        # Update image_url and brand if they're currently empty
+
+    Uses a three-tier lookup:
+    1. Exact name match (in-memory cache)
+    2. Fuzzy name match via are_same_product() (in-memory cache)
+    3. Create new product (database INSERT + cache update)
+
+    Updates image_url and brand if provided and currently missing.
+    """
+    global _product_cache
+
+    # --- Tier 1: Exact match (in-memory) ---
+    cached = _product_cache.exact_match(name) if _product_cache else None
+    if cached:
+        product_id = cached["id"]
         updates = {}
-        if image_url and not result.data[0].get("image_url"):
+        if image_url and not cached.get("image_url"):
             updates["image_url"] = image_url
-        if brand and not result.data[0].get("brand"):
+        if brand and not cached.get("brand"):
             updates["brand"] = brand
         if updates:
             try:
                 supabase.table("products").update(updates).eq("id", product_id).execute()
+                cached.update(updates)  # keep cache in sync
             except Exception as e:
                 logger.warning(f"Failed to update product metadata: {e}")
         return product_id
 
-    # Create new product (skip fuzzy match - too slow and unreliable)
+    # --- Tier 2: Fuzzy match (in-memory) ---
+    if _product_cache:
+        fuzzy = _product_cache.fuzzy_match(name)
+        if fuzzy:
+            logger.debug(f"Fuzzy match: '{name}' → '{fuzzy['name']}'")
+            product_id = fuzzy["id"]
+            updates = {}
+            if image_url and not fuzzy.get("image_url"):
+                updates["image_url"] = image_url
+            if brand and not fuzzy.get("brand"):
+                updates["brand"] = brand
+            if updates:
+                try:
+                    supabase.table("products").update(updates).eq("id", product_id).execute()
+                    fuzzy.update(updates)
+                except Exception as e:
+                    logger.warning(f"Failed to update product metadata: {e}")
+            return product_id
+
+    # --- Tier 3: Create new product ---
     product_data = {"name": name}
 
     if image_url:
@@ -164,7 +285,16 @@ def ensure_product(supabase, name: str, category_slug: str = None,
 
     result = supabase.table("products").insert(product_data).execute()
     if result.data:
-        return result.data[0]["id"]
+        new_product = result.data[0]
+        # Add to cache so subsequent items in this run can match it
+        if _product_cache:
+            _product_cache.add({
+                "id": new_product["id"],
+                "name": name,
+                "image_url": image_url,
+                "brand": brand,
+            })
+        return new_product["id"]
 
     return None
 
@@ -314,6 +444,8 @@ CATEGORY_MAP = {
 
 
 def main():
+    global _product_cache
+
     url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
     key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
@@ -322,6 +454,10 @@ def main():
         sys.exit(1)
 
     supabase = create_client(url, key)
+
+    # Preload product cache for fuzzy matching
+    _product_cache = ProductCache()
+    _product_cache.load(supabase)
 
     total_prices = 0
     total_products_created = 0
