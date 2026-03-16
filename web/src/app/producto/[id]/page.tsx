@@ -39,12 +39,14 @@ export default async function ProductPage({
     category = data
   }
 
-  // Get all prices with supplier info
-  const { data: allPrices } = await supabase
+  // Get all prices with supplier info (only active suppliers)
+  const { data: allPricesRaw } = await supabase
     .from('prices')
     .select('*, supplier:suppliers(*)')
     .eq('product_id', id)
     .order('scraped_at', { ascending: false })
+
+  const allPrices = (allPricesRaw || []).filter((p: any) => p.supplier?.active !== false)
 
   // Latest price per supplier
   const latestBySupplier = new Map()

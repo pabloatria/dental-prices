@@ -25,7 +25,7 @@ export default function Footer({ categories }: { categories: Category[] }) {
           <div>
             <h3 className="font-semibold text-background mb-4">Categor&iacute;as</h3>
             <ul className="space-y-2">
-              {categories.slice(0, 8).map((cat) => (
+              {categories.slice(0, 12).map((cat) => (
                 <li key={cat.id}>
                   <Link
                     href={`/categorias/${cat.slug}`}

@@ -102,15 +102,27 @@ export function EsteticaIcon({ className = iconClass }: { className?: string }) 
 }
 
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  resinas: ToothIcon,
+  // Direct matches
   instrumental: InstrumentIcon,
   endodoncia: EndodonciaIcon,
   ortodoncia: OrtodonciaIcon,
   cirugia: CirugiaIcon,
   anestesia: AnestesiaIcon,
-  bioseguridad: BioseguridadIcon,
   equipamiento: EquipamientoIcon,
   estetica: EsteticaIcon,
+  // Mapped from old icons
+  "control-infecciones-clinico": BioseguridadIcon,
+  "control-infecciones-personal": BioseguridadIcon,
+  "cementos-adhesivos": ToothIcon,
+  "fresas-diamantes": InstrumentIcon,
+  "piezas-de-mano": InstrumentIcon,
+  implantes: CirugiaIcon,
+  laboratorio: EquipamientoIcon,
+  "cad-cam": EquipamientoIcon,
+  preventivos: ToothIcon,
+  radiologia: EquipamientoIcon,
+  desechables: BioseguridadIcon,
+  "materiales-impresion": ToothIcon,
 }
 
 export function getCategoryIcon(slug: string): React.ComponentType<{ className?: string }> {

@@ -68,6 +68,17 @@ from suppliers.torregal import TorregalScraper
 from suppliers.tresdental import TresDentalScraper
 from suppliers.orbisdental import OrbisDentalScraper
 
+# New dental suppliers (batch 2)
+from suppliers.dentosmed import DentosmedScraper
+from suppliers.expressdent import ExpressDentScraper
+from suppliers.nexodental import NexoDentalScraper
+from suppliers.gexachile import GexaChileScraper
+from suppliers.denteeth import DenteethScraper
+
+# New dental suppliers (batch 3)
+from suppliers.biomateriales import BiomaterialesScraper
+from suppliers.dentalmaxspa import DentalMaxSpaScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -105,6 +116,17 @@ SCRAPERS = [
     # Additional dental suppliers
     TresDentalScraper(),             # WC Store API (3D printers, resins, scanners)
     OrbisDentalScraper(),            # Shopify JSON API (orthodontics, mini-implants)
+
+    # New dental suppliers (batch 2)
+    DentosmedScraper(),              # WooCommerce (dental supplies, instruments)
+    ExpressDentScraper(),            # WooCommerce (dental consumables, equipment)
+    NexoDentalScraper(),             # WooCommerce (dental supplies, lab materials)
+    GexaChileScraper(),              # Shopify JSON API (equipment, orthodontics, digital)
+    DenteethScraper(),               # WooCommerce (instruments, lab, orthodontics)
+
+    # New dental suppliers (batch 3)
+    BiomaterialesScraper(),            # Jumpseller (bone grafts, membranes, surgical)
+    DentalMaxSpaScraper(),             # WC Store API (bone grafts, membranes, instruments)
 ]
 
 
@@ -304,64 +326,81 @@ def ensure_product(supabase, name: str, category_slug: str = None,
 # ──────────────────────────────────────────────────────────────
 
 CATEGORY_MAP = {
+    # ──────────────────────────────────────────────────────────────
+    # 42 standardized categories (slugs):
+    #   acrilicos-materiales-cubeta, aleaciones-accesorios, anestesia,
+    #   materiales-articulacion, fresas-diamantes, cad-cam,
+    #   cementos-adhesivos, materiales-reconstruccion, estetica,
+    #   coronas-cofias, educacion-salud-dental, desechables, emergencia,
+    #   endodoncia, equipamiento, evacuacion, acabado-pulido,
+    #   piezas-de-mano, implantes, materiales-impresion,
+    #   control-infecciones-clinico, control-infecciones-personal,
+    #   instrumental, laboratorio, lupas-lamparas, bandas-matrices,
+    #   matrices-cunas, jeringas-agujas, miscelaneos, materiales-mezcla,
+    #   suministros-oficina, ortodoncia, confort-proteccion,
+    #   productos-farmaceuticos, pernos-postes, preventivos,
+    #   materiales-retraccion, goma-dique, cirugia, regalos, ceras,
+    #   radiologia
+    # ──────────────────────────────────────────────────────────────
+
     # SuperDental
-    "adhesion-y-restauracion": "resinas",
+    "adhesion-y-restauracion": "cementos-adhesivos",
     "anestesicos-y-agujas": "anestesia",
-    "barnices-y-fluor": "prevencion",
-    "blanqueamiento-y-barreras": "blanqueamiento",
+    "barnices-y-fluor": "preventivos",
+    "blanqueamiento-y-barreras": "estetica",
     "desechables": "desechables",
-    "desinfeccion-y-bioseguridad": "bioseguridad",
+    "desinfeccion-y-bioseguridad": "control-infecciones-clinico",
     "endodoncia": "endodoncia",
     "equipamiento": "equipamiento",
-    "fresas": "instrumental",
-    "higiene-oral": "prevencion",
-    "impresion-y-rehabilitacion": "protesis",
+    "fresas": "fresas-diamantes",
+    "higiene-oral": "preventivos",
+    "impresion-y-rehabilitacion": "materiales-impresion",
     "instrumental": "instrumental",
-    "laboratorio": "protesis",
+    "laboratorio": "laboratorio",
     "ortodoncia": "ortodoncia",
-    "periodoncia-y-cirugia": "periodoncia",
-    "protesis-y-carillas": "protesis",
+    "periodoncia-y-cirugia": "cirugia",
+    "protesis-y-carillas": "coronas-cofias",
     "radiologia": "radiologia",
 
     # Dentsolutions (Jumpseller)
     "anestesia": "anestesia",
-    "blanqueamiento": "blanqueamiento",
-    "operatoria": "resinas",
-    "prevencion": "prevencion",
+    "blanqueamiento": "estetica",
+    "operatoria": "cementos-adhesivos",
+    "prevencion": "preventivos",
 
     # Techdent
     "accesorios-para-clinica-dental": "equipamiento",
     "insumos-dentales/desechables-para-dentistas": "desechables",
     "insumos-dentales/insumos-instrumental-dental": "instrumental",
-    "insumos-dentales/fresas-dentales": "instrumental",
+    "insumos-dentales/fresas-dentales": "fresas-diamantes",
     "equipamiento-dental/equipamiento-cirugia-dental": "equipamiento",
     "equipamiento-dental/compresores-y-bombas-de-succion": "equipamiento",
-    "equipamiento-dental/esterilizacion-y-desinfeccion": "bioseguridad",
+    "equipamiento-dental/esterilizacion-y-desinfeccion": "control-infecciones-clinico",
     "equipamiento-dental/imagen-digital": "radiologia",
     "equipamiento-dental/mobiliario-clinico-dental": "equipamiento",
     "equipamiento-dental/sillones-dentales": "equipamiento",
     "equipamiento-dental/repuestos-y-mantenimiento-de-equipos-dentales": "equipamiento",
-    "laboratorio/equipos-para-laboratorio": "protesis",
+    "laboratorio/equipos-para-laboratorio": "laboratorio",
 
     # Dipromed (PrestaShop)
     "10-instrumentos-medicos": "instrumental",
-    "59-guantes": "desechables",
+    "59-guantes": "control-infecciones-personal",
     "109-conos": "desechables",
-    "125-rehabilitacion": "protesis",
-    "151-esterilizacion": "bioseguridad",
+    "125-rehabilitacion": "laboratorio",
+    "151-esterilizacion": "control-infecciones-clinico",
 
-    # Shopify product types (from eksadental, spdental)
+    # Shopify product types (eksadental, spdental)
     "repuestos": "equipamiento",
-    "turbinas": "equipamiento",
-    "implantologia": "protesis",
-    "resinas": "resinas",
+    "turbinas": "piezas-de-mano",
+    "implantologia": "implantes",
+    "resinas": "cementos-adhesivos",
 
     # Gipfel (WC Store API)
-    "cirugia": "periodoncia",
-    "dental": None,  # too generic, skip
-    "todos": None,   # too generic, skip
+    "cirugia": "cirugia",
+    "dental": None,
+    "todos": None,
 
-    # BAMS Supplies (Shopify - aesthetic supplies)
+    # BAMS Supplies (Shopify - aesthetic)
     "ácido hialurónico": "estetica",
     "bioestimulador": "estetica",
     "regeneradores celulares": "estetica",
@@ -373,27 +412,27 @@ CATEGORY_MAP = {
     "lipolíticos": "estetica",
     "cánulas": "estetica",
     "micro agujas": "estetica",
-    "otros": None,  # too generic, skip
+    "otros": None,
 
-    # Dispolab (Shopify - aesthetic supplies)
+    # Dispolab (Shopify - aesthetic)
     "inyectable": "estetica",
     "hilo estimulante": "estetica",
     "dispositivo medico": "estetica",
-    "serum": None,          # skincare, not dental
-    "crema": None,          # skincare
-    "crema antiedad": None, # skincare
-    "shampoo": None,        # haircare
+    "serum": None,
+    "crema": None,
+    "crema antiedad": None,
+    "shampoo": None,
     "shampoo acondicionador": None,
     "solucion micelar": None,
     "antitranspirante": None,
-    "lamina silicona": None,  # scar treatment
+    "lamina silicona": None,
     "gel silicona": None,
     "barra silicona": None,
 
-    # Naturabel (Shopify - aesthetic supplies)
+    # Naturabel (Shopify - aesthetic)
     "meline": "estetica",
 
-    # Flamamed (WC Store API - aesthetic supplies)
+    # Flamamed (WC Store API - aesthetic)
     "acido-hialuronico": "estetica",
     "profhilo": "estetica",
     "exosomas": "estetica",
@@ -409,37 +448,89 @@ CATEGORY_MAP = {
     "agujas-hipodermicas": "estetica",
     "canulas": "estetica",
     "canulas-agujas-y-canulas": "estetica",
-    "insumos": None,  # too generic
+    "insumos": None,
 
-    # Torregal (WP REST API - aesthetic equipment, catalog-only)
+    # Torregal (WP REST API - aesthetic equipment)
     "estetica-equipos": "estetica",
 
-    # 3Dental (WC Store API - 3D printers, resins, scanners)
-    "impresoras-3d-odontologicas": "equipamiento",
-    "impresoras-3d": "equipamiento",
-    "resinas-dentales": "resinas",
-    "termoformadoras": "equipamiento",
-    "termoformadoras-laminas": "equipamiento",
-    "scanners": "equipamiento",
-    "scanners-intraoral": "equipamiento",
-    "scanners-de-mesa": "equipamiento",
-    "pre-y-pos-proceso": "equipamiento",
-    "insumos-de-laboratorio": "protesis",
-    "filamento-para-impresion-3d": "equipamiento",
-    "higiene-protesica": "prevencion",
-    "ofertas": None,         # generic, skip
-    "ofertas-cyber": None,   # generic, skip
-    "sin-categorizar": None, # uncategorized, skip
-    "scheu": "equipamiento",
-    "asiga": "equipamiento",
+    # 3Dental (WC Store API - CAD/CAM, 3D printing)
+    "impresoras-3d-odontologicas": "cad-cam",
+    "impresoras-3d": "cad-cam",
+    "resinas-dentales": "cad-cam",
+    "termoformadoras": "laboratorio",
+    "termoformadoras-laminas": "laboratorio",
+    "scanners": "cad-cam",
+    "scanners-intraoral": "cad-cam",
+    "scanners-de-mesa": "cad-cam",
+    "pre-y-pos-proceso": "cad-cam",
+    "insumos-de-laboratorio": "laboratorio",
+    "filamento-para-impresion-3d": "cad-cam",
+    "higiene-protesica": "preventivos",
+    "ofertas": None,
+    "ofertas-cyber": None,
+    "sin-categorizar": None,
+    "scheu": "laboratorio",
+    "asiga": "cad-cam",
 
-    # Orbis Dental (Shopify - orthodontics, mini-implants)
+    # Orbis Dental (Shopify - orthodontics)
     "productos ortodoncia": "ortodoncia",
     "kits": "ortodoncia",
     "disyuntores": "ortodoncia",
     "mini implantes marpe": "ortodoncia",
     "mini implantes extra alveolares": "ortodoncia",
     "mini implantes interradiculares": "ortodoncia",
+
+    # Dentosmed (WooCommerce)
+    "1-dental/22-cirugia-2": "cirugia",
+    "1-dental/23-desechables-2": "desechables",
+    "1-dental/24-esterilizacion-2": "control-infecciones-clinico",
+    "1-dental/33-periodoncia-2": "cirugia",
+    "1-dental/25-radiologia-2": "radiologia",
+    "1-dental/26-ortodoncia-2": "ortodoncia",
+    "1-dental/21-restauracion-2": "cementos-adhesivos",
+    "1-dental/27-endodoncia-2": "endodoncia",
+    "1-dental/15-implantes-2": "implantes",
+    "1-dental/34-laboratorio": "laboratorio",
+    "1-dental/32-impresion-2": "materiales-impresion",
+    "1-dental/37-instrumental-2": "instrumental",
+    "1-dental/28-rotatorios-2": "piezas-de-mano",
+    "1-dental/6-accesorios-2": "equipamiento",
+    "1-dental/31-higiene-bucal-2": "preventivos",
+    "1-dental/29-aire-y-succion-2": "evacuacion",
+    "1-dental/41-ortopedia": "ortodoncia",
+
+    # ExpressDent (WooCommerce)
+    "esterilizacion": "control-infecciones-clinico",
+    "odontopediatria": "preventivos",
+    "rehabilitacion-oral": "laboratorio",
+    "periodoncia": "cirugia",
+
+    # NexoDental (WooCommerce)
+    "equipos": "equipamiento",
+    "fresas-y-pulido": "fresas-diamantes",
+    "impresion": "materiales-impresion",
+    "instrumental-y-accesorios": "instrumental",
+    "limpieza-e-higiene-bucal": "preventivos",
+    "radiografia": "radiologia",
+
+    # Gexa Chile (Shopify)
+    "laboratorio dental": "laboratorio",
+    "odontología digital": "cad-cam",
+    "equipamiento dental": "equipamiento",
+
+    # Denteeth (WooCommerce)
+    "laboratorio-2": "laboratorio",
+    "restauracion": "cementos-adhesivos",
+    "descartables": "desechables",
+    "rotatorio": "piezas-de-mano",
+
+    # DentalMaxSpa (WC Store API)
+    "rellenos": "implantes",
+    "membranas": "implantes",
+    "tejidos-blandos": "implantes",
+    "raspadores": "cirugia",
+    "regeneracion": "implantes",
+    "bienair": "piezas-de-mano",
 }
 
 
