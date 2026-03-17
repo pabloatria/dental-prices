@@ -7,7 +7,7 @@ const SORT_OPTIONS = [
   { value: 'name', label: 'Nombre A-Z' },
   { value: 'price_asc', label: 'Precio: menor a mayor' },
   { value: 'price_desc', label: 'Precio: mayor a menor' },
-  { value: 'stores', label: 'M\u00E1s tiendas' },
+  { value: 'stores', label: 'Más tiendas' },
 ]
 
 export default function SortSelect() {

@@ -8,7 +8,7 @@ export default function HowItWorks() {
         </svg>
       ),
       title: 'Busca',
-      description: 'Encuentra cualquier producto para tu consulta: insumos, instrumental, est\u00E9tica facial y m\u00E1s',
+      description: 'Encuentra cualquier producto para tu consulta: insumos, instrumental, estética facial y más',
     },
     {
       icon: (
@@ -18,7 +18,7 @@ export default function HowItWorks() {
         </svg>
       ),
       title: 'Compara',
-      description: 'Compara precios de m\u00FAltiples proveedores chilenos en una sola p\u00E1gina',
+      description: 'Compara precios de múltiples proveedores chilenos en una sola página',
     },
     {
       icon: (
@@ -35,7 +35,7 @@ export default function HowItWorks() {
     <section className="py-16 px-4 bg-secondary/50">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-foreground mb-12">
-          C\u00F3mo funciona
+          Cómo funciona
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {steps.map((step, i) => (
