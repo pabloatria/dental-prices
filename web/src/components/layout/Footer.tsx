@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Category } from '@/lib/types'
 
 export default function Footer({ categories }: { categories: Category[] }) {
@@ -9,11 +10,13 @@ export default function Footer({ categories }: { categories: Category[] }) {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3c-3 0-5.5 2-6.5 5-1 3 0 7 1 10 1.5 4 3 8 4.5 9 .5.5 1.5.5 2 0 1-1.5 1.5-4 2-7 .5 3 1 5.5 2 7 .5.5 1.5.5 2 0 1.5-1 3-5 4.5-9 1-3 2-7 1-10C23.5 5 21 3 12 3z"/>
-                </svg>
-              </div>
+              <Image
+                src="/logo-icon.png"
+                alt="DentalPrecios"
+                width={32}
+                height={32}
+                className="w-8 h-8 rounded-lg"
+              />
               <span className="text-lg font-bold text-background">DentalPrecios</span>
             </div>
             <p className="text-sm text-background/60 leading-relaxed">

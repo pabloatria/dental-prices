@@ -15,6 +15,13 @@ const BASE_URL = 'https://www.dentalprecios.cl'
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
+  icons: {
+    icon: [
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+  },
   title: {
     default: 'DentalPrecios — Comparador de precios de productos dentales en Chile',
     template: '%s | DentalPrecios',
@@ -125,7 +132,7 @@ export default async function RootLayout({
                   url: BASE_URL,
                   logo: {
                     '@type': 'ImageObject',
-                    url: `${BASE_URL}/og-image.png`,
+                    url: `${BASE_URL}/logo.png`,
                   },
                   description:
                     'Comparador de precios de insumos dentales en Chile. Compara precios entre múltiples proveedores.',
