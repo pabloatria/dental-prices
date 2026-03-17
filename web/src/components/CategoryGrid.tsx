@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 const categories = [
-  { name: 'Resinas', slug: 'resinas', icon: '🦷' },
+  { name: 'Resinas compuestas', slug: 'resinas-compuestas', icon: '🦷' },
   { name: 'Instrumental', slug: 'instrumental', icon: '🔧' },
   { name: 'Endodoncia', slug: 'endodoncia', icon: '📌' },
   { name: 'Ortodoncia', slug: 'ortodoncia', icon: '😁' },

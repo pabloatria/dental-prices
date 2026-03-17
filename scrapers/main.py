@@ -78,6 +78,11 @@ from suppliers.denteeth import DenteethScraper
 # New dental suppliers (batch 3)
 from suppliers.biomateriales import BiomaterialesScraper
 from suppliers.dentalmaxspa import DentalMaxSpaScraper
+from suppliers.parejalecaros import ParejaLecarosScraper
+
+# New dental suppliers (batch 4)
+from suppliers.tiendadentinet import TiendaDentinetScraper
+from suppliers.depodental import DepodentalScraper
 
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
@@ -127,6 +132,11 @@ SCRAPERS = [
     # New dental suppliers (batch 3)
     BiomaterialesScraper(),            # Jumpseller (bone grafts, membranes, surgical)
     DentalMaxSpaScraper(),             # WC Store API (bone grafts, membranes, instruments)
+    ParejaLecarosScraper(),            # Shopify JSON API (composites, endodontics, lab)
+
+    # New dental suppliers (batch 4)
+    TiendaDentinetScraper(),             # Jumpseller (composites, endodontics, surgery, etc.)
+    DepodentalScraper(),                 # WC Store API (composites, instruments, orthodontics)
 ]
 
 
@@ -327,24 +337,19 @@ def ensure_product(supabase, name: str, category_slug: str = None,
 
 CATEGORY_MAP = {
     # ──────────────────────────────────────────────────────────────
-    # 42 standardized categories (slugs):
-    #   acrilicos-materiales-cubeta, aleaciones-accesorios, anestesia,
-    #   materiales-articulacion, fresas-diamantes, cad-cam,
-    #   cementos-adhesivos, materiales-reconstruccion, estetica,
-    #   coronas-cofias, educacion-salud-dental, desechables, emergencia,
-    #   endodoncia, equipamiento, evacuacion, acabado-pulido,
-    #   piezas-de-mano, implantes, materiales-impresion,
-    #   control-infecciones-clinico, control-infecciones-personal,
-    #   instrumental, laboratorio, lupas-lamparas, bandas-matrices,
-    #   matrices-cunas, jeringas-agujas, miscelaneos, materiales-mezcla,
-    #   suministros-oficina, ortodoncia, confort-proteccion,
-    #   productos-farmaceuticos, pernos-postes, preventivos,
-    #   materiales-retraccion, goma-dique, cirugia, regalos, ceras,
-    #   radiologia
+    # 30 standardized categories (slugs):
+    #   acabado-pulido, anestesia, cad-cam, cementos-adhesivos, ceras,
+    #   cirugia, control-infecciones-clinico, control-infecciones-personal,
+    #   coronas-cofias, desechables, endodoncia, equipamiento, estetica,
+    #   evacuacion, fresas-diamantes, goma-dique, implantes, instrumental,
+    #   jeringas-agujas, laboratorio, lupas-lamparas, materiales-impresion,
+    #   materiales-retraccion, matrices-cunas, miscelaneos, ortodoncia,
+    #   pernos-postes, piezas-de-mano, preventivos, radiologia,
+    #   resinas-compuestas
     # ──────────────────────────────────────────────────────────────
 
     # SuperDental
-    "adhesion-y-restauracion": "cementos-adhesivos",
+    "adhesion-y-restauracion": "resinas-compuestas",
     "anestesicos-y-agujas": "anestesia",
     "barnices-y-fluor": "preventivos",
     "blanqueamiento-y-barreras": "estetica",
@@ -393,7 +398,7 @@ CATEGORY_MAP = {
     "repuestos": "equipamiento",
     "turbinas": "piezas-de-mano",
     "implantologia": "implantes",
-    "resinas": "cementos-adhesivos",
+    "resinas": "resinas-compuestas",
 
     # Gipfel (WC Store API)
     "cirugia": "cirugia",

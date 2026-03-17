@@ -114,6 +114,7 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>
   "control-infecciones-clinico": BioseguridadIcon,
   "control-infecciones-personal": BioseguridadIcon,
   "cementos-adhesivos": ToothIcon,
+  "resinas-compuestas": ToothIcon,
   "fresas-diamantes": InstrumentIcon,
   "piezas-de-mano": InstrumentIcon,
   implantes: CirugiaIcon,
