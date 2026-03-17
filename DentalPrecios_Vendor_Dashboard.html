@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DentalPrecios — Partner Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --dark: #1A1A1A;
+    --teal-dark: #043E4E;
+    --teal: #028090;
+    --teal-light: #00A896;
+    --mint: #02C39A;
+    --warm: #F5F0EB;
+    --gray: #999;
+    --light: #E8E8E8;
+    --white: #FFFFFF;
+  }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, system-ui, sans-serif;
+    background: #FAFAF8;
+    color: var(--dark);
+  }
+
+  /* === NAV === */
+  nav {
+    background: var(--teal-dark);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  nav .brand {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--white);
+    font-size: 18px;
+    letter-spacing: 3px;
+    font-weight: 300;
+  }
+  nav .brand span { color: var(--mint); font-weight: 300; }
+  nav .meta { color: rgba(255,255,255,0.5); font-size: 12px; }
+
+  /* === HEADER === */
+  .header {
+    padding: 32px 40px 24px;
+    border-bottom: 1px solid var(--light);
+    background: var(--white);
+  }
+  .header h1 {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .header p { color: var(--gray); font-size: 13px; }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  select {
+    padding: 8px 16px;
+    border: 1px solid var(--light);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--dark);
+    background: var(--white);
+    cursor: pointer;
+  }
+  select:focus { border-color: var(--teal); outline: none; }
+
+  /* === METRICS === */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 24px 40px;
+  }
+  .metric-card {
+    background: var(--white);
+    border: 1px solid var(--light);
+    border-radius: 8px;
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+  .metric-card:hover { border-color: var(--teal); }
+  .metric-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    margin-bottom: 8px;
+  }
+  .metric-value {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 36px;
+    color: var(--teal-dark);
+    line-height: 1;
+  }
+  .metric-change {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .metric-change.up { color: var(--mint); }
+  .metric-change.down { color: #E74C3C; }
+
+  /* === CHARTS === */
+  .charts {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    padding: 0 40px 24px;
+  }
+  .chart-card {
+    background: var(--white);
+    border: 1px solid var(--light);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .chart-card h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--teal);
+    margin-bottom: 16px;
+  }
+
+  /* === TABLE === */
+  .table-section {
+    padding: 0 40px 40px;
+  }
+  .table-card {
+    background: var(--white);
+    border: 1px solid var(--light);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .table-card h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--teal);
+    padding: 20px 24px 12px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  thead th {
+    background: var(--teal-dark);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 16px;
+    text-align: left;
+  }
+  thead th:not(:first-child) { text-align: center; }
+  tbody td {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid #F0F0F0;
+  }
+  tbody td:not(:first-child) { text-align: center; }
+  tbody tr:nth-child(even) { background: #FAFAF8; }
+  tbody tr:hover { background: #F0F8F8; }
+
+  .bar-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .mini-bar {
+    width: 60px;
+    height: 6px;
+    background: var(--light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .mini-bar-fill {
+    height: 100%;
+    background: var(--teal);
+    border-radius: 3px;
+  }
+
+  /* === CTA === */
+  .cta-section {
+    padding: 0 40px 40px;
+  }
+  .cta-box {
+    background: var(--teal-dark);
+    border-radius: 8px;
+    padding: 32px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cta-box h2 {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--white);
+    font-size: 22px;
+    font-weight: 400;
+  }
+  .cta-box p { color: rgba(255,255,255,0.6); font-size: 13px; margin-top: 4px; }
+  .cta-btn {
+    background: var(--mint);
+    color: var(--teal-dark);
+    border: none;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .cta-btn:hover { background: var(--teal-light); color: var(--white); }
+
+  /* === FOOTER === */
+  footer {
+    padding: 16px 40px;
+    border-top: 1px solid var(--light);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--gray);
+  }
+
+  @media (max-width: 768px) {
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .charts { grid-template-columns: 1fr; }
+    nav, .header, .metrics, .charts, .table-section, .cta-section { padding-left: 16px; padding-right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">DENTAL <span>PRECIOS</span></div>
+  <div class="meta">Partner Dashboard v1.0</div>
+</nav>
+
+<div class="header">
+  <h1 id="vendorTitle">Techdent</h1>
+  <p id="periodLabel">Período: Marzo 2026</p>
+  <div class="controls">
+    <select id="vendorSelect" onchange="updateDashboard()">
+      <option value="techdent">Techdent</option>
+      <option value="mayordent">MayorDent</option>
+      <option value="dentobal">Dentobal</option>
+      <option value="dentalstore">DentalStore</option>
+      <option value="depodental">Depodental</option>
+      <option value="exprodental">ExproDental</option>
+    </select>
+    <select id="periodSelect" onchange="updateDashboard()">
+      <option value="mar2026">Marzo 2026</option>
+      <option value="feb2026">Febrero 2026</option>
+      <option value="ene2026">Enero 2026</option>
+      <option value="dic2025">Diciembre 2025</option>
+    </select>
+  </div>
+</div>
+
+<div class="metrics" id="metricsGrid"></div>
+
+<div class="charts">
+  <div class="chart-card">
+    <h3>Tendencia de visualizaciones y clicks</h3>
+    <canvas id="trendChart" height="100"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Fuentes de tráfico</h3>
+    <canvas id="sourceChart" height="200"></canvas>
+  </div>
+</div>
+
+<div class="table-section">
+  <div class="table-card">
+    <h3>Productos con mejor rendimiento</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Visualizaciones</th>
+          <th>Comparaciones</th>
+          <th>Clicks</th>
+          <th>CTR</th>
+        </tr>
+      </thead>
+      <tbody id="productTable"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="cta-section">
+  <div class="cta-box">
+    <div>
+      <h2>Destaque sus productos</h2>
+      <p>Plan Destacado: posicionamiento prioritario + dashboard completo + reportes ampliados</p>
+    </div>
+    <button class="cta-btn">Consultar plan</button>
+  </div>
+</div>
+
+<footer>
+  <span>DentalPrecios.cl — Datos actualizados al cierre del período seleccionado</span>
+  <span>Confidencial — Solo para uso del partner</span>
+</footer>
+
+<script>
+// === DATA ===
+const vendorData = {
+  techdent: {
+    name: "Techdent",
+    metrics: { views: 12847, comparisons: 3291, clicks: 847, ctr: "6.6%" },
+    changes: { views: "+22%", comparisons: "+18%", clicks: "+31%", ctr: "+0.4%" },
+    trend: {
+      labels: ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar"],
+      views: [4200, 5800, 7100, 8900, 10500, 12847],
+      clicks: [280, 410, 520, 580, 645, 847]
+    },
+    sources: { "Búsqueda directa": 42, "Comparación precio": 35, "Categoría": 15, "Blog": 8 },
+    products: [
+      { name: "Filtek Z350 XT Jeringa 4g", views: 2847, comps: 892, clicks: 198, ctr: "7.0%" },
+      { name: "Tetric N-Ceram Jeringa 4g", views: 2103, comps: 743, clicks: 156, ctr: "7.4%" },
+      { name: "Adhesivo Single Bond Universal", views: 1456, comps: 412, clicks: 89, ctr: "6.1%" },
+      { name: "RelyX U200 Cemento", views: 1201, comps: 334, clicks: 78, ctr: "6.5%" },
+      { name: "Filtek Bulk Fill Posterior", views: 987, comps: 267, clicks: 62, ctr: "6.3%" },
+      { name: "Scotchbond Universal Plus", views: 876, comps: 198, clicks: 51, ctr: "5.8%" },
+    ]
+  },
+  mayordent: {
+    name: "MayorDent",
+    metrics: { views: 9823, comparisons: 2456, clicks: 612, ctr: "6.2%" },
+    changes: { views: "+15%", comparisons: "+12%", clicks: "+19%", ctr: "+0.2%" },
+    trend: {
+      labels: ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar"],
+      views: [3800, 4900, 6200, 7500, 8500, 9823],
+      clicks: [210, 310, 380, 450, 520, 612]
+    },
+    sources: { "Búsqueda directa": 38, "Comparación precio": 40, "Categoría": 14, "Blog": 8 },
+    products: [
+      { name: "Charisma Classic Jeringa", views: 1890, comps: 612, clicks: 134, ctr: "7.1%" },
+      { name: "Tetric N-Ceram Bulk Fill", views: 1456, comps: 487, clicks: 98, ctr: "6.7%" },
+      { name: "Acido Grabador 37%", views: 1203, comps: 312, clicks: 67, ctr: "5.6%" },
+      { name: "Guantes Nitrilo x100", views: 1087, comps: 234, clicks: 89, ctr: "8.2%" },
+      { name: "Alginato Jeltrate Plus", views: 945, comps: 198, clicks: 54, ctr: "5.7%" },
+      { name: "Ionómero Ketac Molar", views: 812, comps: 167, clicks: 42, ctr: "5.2%" },
+    ]
+  },
+  dentobal: {
+    name: "Dentobal",
+    metrics: { views: 7654, comparisons: 1987, clicks: 523, ctr: "6.8%" },
+    changes: { views: "+28%", comparisons: "+24%", clicks: "+35%", ctr: "+0.6%" },
+    trend: {
+      labels: ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar"],
+      views: [2800, 3600, 4500, 5600, 6400, 7654],
+      clicks: [145, 210, 280, 350, 420, 523]
+    },
+    sources: { "Búsqueda directa": 34, "Comparación precio": 44, "Categoría": 13, "Blog": 9 },
+    products: [
+      { name: "Composite FGM Vittra APS", views: 1567, comps: 534, clicks: 123, ctr: "7.8%" },
+      { name: "Adhesivo Ambar Universal", views: 1234, comps: 398, clicks: 89, ctr: "7.2%" },
+      { name: "Filtek Z350 XT Kit", views: 1098, comps: 312, clicks: 78, ctr: "7.1%" },
+      { name: "Te-Econom Plus Kit", views: 876, comps: 234, clicks: 56, ctr: "6.4%" },
+      { name: "Fresas Diamantadas x10", views: 756, comps: 178, clicks: 48, ctr: "6.3%" },
+      { name: "Cemento Meron", views: 623, comps: 145, clicks: 34, ctr: "5.5%" },
+    ]
+  },
+  dentalstore: {
+    name: "DentalStore",
+    metrics: { views: 5432, comparisons: 1234, clicks: 378, ctr: "7.0%" },
+    changes: { views: "+19%", comparisons: "+14%", clicks: "+25%", ctr: "+0.5%" },
+    trend: {
+      labels: ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar"],
+      views: [2100, 2800, 3400, 4000, 4700, 5432],
+      clicks: [98, 150, 200, 260, 310, 378]
+    },
+    sources: { "Búsqueda directa": 30, "Comparación precio": 48, "Categoría": 14, "Blog": 8 },
+    products: [
+      { name: "Kerr Harmonize Jeringa", views: 1123, comps: 378, clicks: 89, ctr: "7.9%" },
+      { name: "SDI Aura Bulk Fill", views: 987, comps: 289, clicks: 67, ctr: "6.8%" },
+      { name: "Ultradent Valo X", views: 756, comps: 198, clicks: 56, ctr: "7.4%" },
+      { name: "Coltene Componeer", views: 645, comps: 156, clicks: 45, ctr: "7.0%" },
+      { name: "Dentsply Ceram.X", views: 534, comps: 123, clicks: 34, ctr: "6.4%" },
+      { name: "NSK Fresas Carbide", views: 456, comps: 98, clicks: 28, ctr: "6.1%" },
+    ]
+  },
+  depodental: {
+    name: "Depodental",
+    metrics: { views: 4321, comparisons: 987, clicks: 267, ctr: "6.2%" },
+    changes: { views: "+11%", comparisons: "+8%", clicks: "+16%", ctr: "+0.3%" },
+    trend: {
+      labels: ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar"],
+      views: [1900, 2400, 2900, 3400, 3900, 4321],
+      clicks: [78, 110, 145, 190, 230, 267]
+    },
+    sources: { "Búsqueda directa": 36, "Comparación precio": 42, "Categoría": 12, "Blog": 10 },
+    products: [
+      { name: "3M Filtek One Bulk Fill", views: 876, comps: 234, clicks: 56, ctr: "6.4%" },
+      { name: "Ivoclar Tetric PowerFill", views: 756, comps: 198, clicks: 48, ctr: "6.3%" },
+      { name: "FGM Ambar Universal", views: 623, comps: 167, clicks: 42, ctr: "6.7%" },
+      { name: "Kulzer Venus Pearl", views: 534, comps: 134, clicks: 34, ctr: "6.4%" },
+      { name: "Maquira Composite", views: 456, comps: 112, clicks: 28, ctr: "6.1%" },
+      { name: "Angelus Endodoncia", views: 389, comps: 87, clicks: 21, ctr: "5.4%" },
+    ]
+  },
+  exprodental: {
+    name: "ExproDental",
+    metrics: { views: 6789, comparisons: 1567, clicks: 434, ctr: "6.4%" },
+    changes: { views: "+17%", comparisons: "+13%", clicks: "+22%", ctr: "+0.3%" },
+    trend: {
+      labels: ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar"],
+      views: [2600, 3400, 4200, 5100, 5900, 6789],
+      clicks: [130, 195, 260, 320, 370, 434]
+    },
+    sources: { "Búsqueda directa": 32, "Comparación precio": 46, "Categoría": 13, "Blog": 9 },
+    products: [
+      { name: "Filtek Z350 XT Body", views: 1345, comps: 423, clicks: 98, ctr: "7.3%" },
+      { name: "Tetric N-Ceram Jeringa", views: 1123, comps: 356, clicks: 78, ctr: "6.9%" },
+      { name: "Single Bond Universal", views: 987, comps: 267, clicks: 67, ctr: "6.8%" },
+      { name: "RelyX Luting Plus", views: 834, comps: 198, clicks: 52, ctr: "6.2%" },
+      { name: "Charisma Diamond", views: 712, comps: 167, clicks: 43, ctr: "6.0%" },
+      { name: "Acido Fosforico 37%", views: 598, comps: 134, clicks: 34, ctr: "5.7%" },
+    ]
+  }
+};
+
+let trendChart, sourceChart;
+
+function formatNum(n) {
+  return typeof n === 'number' ? n.toLocaleString('es-CL') : n;
+}
+
+function renderMetrics(data) {
+  const grid = document.getElementById('metricsGrid');
+  const items = [
+    { label: "Visualizaciones", value: data.metrics.views, change: data.changes.views },
+    { label: "Comparaciones", value: data.metrics.comparisons, change: data.changes.comparisons },
+    { label: "Clicks a tienda", value: data.metrics.clicks, change: data.changes.clicks },
+    { label: "Tasa de conversión", value: data.metrics.ctr, change: data.changes.ctr },
+  ];
+  grid.innerHTML = items.map(m => `
+    <div class="metric-card">
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-value">${formatNum(m.value)}</div>
+      <div class="metric-change ${m.change.startsWith('+') ? 'up' : 'down'}">
+        ${m.change.startsWith('+') ? '&#9650;' : '&#9660;'} ${m.change} vs mes anterior
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTrend(data) {
+  const ctx = document.getElementById('trendChart').getContext('2d');
+  if (trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data.trend.labels,
+      datasets: [
+        {
+          label: 'Visualizaciones',
+          data: data.trend.views,
+          borderColor: '#028090',
+          backgroundColor: 'rgba(2,128,144,0.08)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+          pointBackgroundColor: '#028090',
+          borderWidth: 2,
+        },
+        {
+          label: 'Clicks',
+          data: data.trend.clicks,
+          borderColor: '#02C39A',
+          backgroundColor: 'rgba(2,195,154,0.08)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+          pointBackgroundColor: '#02C39A',
+          borderWidth: 2,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11 }, usePointStyle: true, padding: 20 } }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { color: '#F0F0F0' }, ticks: { font: { size: 11 }, color: '#999' } },
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#999' } }
+      }
+    }
+  });
+}
+
+function renderSources(data) {
+  const ctx = document.getElementById('sourceChart').getContext('2d');
+  if (sourceChart) sourceChart.destroy();
+  const labels = Object.keys(data.sources);
+  const values = Object.values(data.sources);
+  sourceChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        backgroundColor: ['#043E4E', '#028090', '#00A896', '#02C39A'],
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '65%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, usePointStyle: true, padding: 12 }
+        }
+      }
+    }
+  });
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('productTable');
+  tbody.innerHTML = data.products.map((p, i) => {
+    const maxViews = data.products[0].views;
+    const pct = Math.round((p.views / maxViews) * 100);
+    return `<tr>
+      <td style="font-weight:500">${p.name}</td>
+      <td>
+        <div class="bar-cell">
+          <span>${formatNum(p.views)}</span>
+          <div class="mini-bar"><div class="mini-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+      </td>
+      <td>${formatNum(p.comps)}</td>
+      <td>${formatNum(p.clicks)}</td>
+      <td style="font-weight:600;color:#028090">${p.ctr}</td>
+    </tr>`;
+  }).join('');
+}
+
+function updateDashboard() {
+  const vendor = document.getElementById('vendorSelect').value;
+  const data = vendorData[vendor];
+  document.getElementById('vendorTitle').textContent = data.name;
+  renderMetrics(data);
+  renderTrend(data);
+  renderSources(data);
+  renderTable(data);
+}
+
+// Init
+updateDashboard();
+</script>
+</body>
+</html>

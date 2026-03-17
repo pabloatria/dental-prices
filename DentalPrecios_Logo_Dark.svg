@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 160" width="800" height="160">
+  <!-- Dark variant — ivory on near-black -->
+
+  <rect width="800" height="160" fill="#1A1A1A"/>
+
+  <!-- DP monogram -->
+  <g transform="translate(80, 28)">
+    <line x1="36" y1="0" x2="36" y2="68" stroke="#F5F0EB" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 36 0 C 70 0, 82 14, 82 34 C 82 54, 70 68, 36 68"
+          fill="none" stroke="#F5F0EB" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M 36 0 C 58 0, 63 3, 63 16 C 63 29, 58 32, 36 32"
+          fill="none" stroke="#F5F0EB" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Vertical separator -->
+  <line x1="210" y1="38" x2="210" y2="122" stroke="#F5F0EB" stroke-width="0.5"/>
+
+  <!-- DENTAL -->
+  <text
+    x="240" y="72"
+    font-family="'Didot', 'Playfair Display', 'Bodoni MT', 'Times New Roman', Georgia, serif"
+    font-size="44"
+    font-weight="300"
+    fill="#F5F0EB"
+    letter-spacing="14"
+  >DENTAL</text>
+
+  <!-- PRECIOS -->
+  <text
+    x="240" y="114"
+    font-family="'Didot', 'Playfair Display', 'Bodoni MT', 'Times New Roman', Georgia, serif"
+    font-size="26"
+    font-weight="300"
+    fill="#F5F0EB"
+    letter-spacing="11"
+  >PRECIOS</text>
+</svg>
