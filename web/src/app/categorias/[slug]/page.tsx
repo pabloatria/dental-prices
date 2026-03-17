@@ -1,10 +1,55 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import ProductCard from '@/components/ProductCard'
 import FilterPanel from '@/components/filters/FilterPanel'
 import SortSelect from '@/components/filters/SortSelect'
+
+const BASE_URL = 'https://www.dentalprecios.cl'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const supabase = await createClient()
+  const { data: category } = await supabase
+    .from('categories')
+    .select('name, slug')
+    .eq('slug', slug)
+    .single()
+
+  if (!category) return {}
+
+  // Get product count for richer description
+  const { count } = await supabase
+    .from('products')
+    .select('*', { count: 'exact', head: true })
+    .eq('category_id', (await supabase.from('categories').select('id').eq('slug', slug).single()).data?.id || '')
+
+  const productCount = count || 0
+  const title = `${category.name} — Comparar precios de productos dentales en Chile`
+  const description = `Compara precios de ${category.name.toLowerCase()} entre los principales proveedores dentales de Chile. ${productCount > 0 ? `${productCount} productos disponibles. ` : ''}Encuentra el mejor precio en ${category.name.toLowerCase()} — composites, instrumental, adhesivos y más.`
+  const url = `${BASE_URL}/categorias/${category.slug}`
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: 'DentalPrecios',
+      locale: 'es_CL',
+      type: 'website',
+    },
+    robots: { index: true, follow: true },
+  }
+}
 
 export default async function CategoryPage({
   params,
@@ -120,8 +165,22 @@ export default async function CategoryPage({
     return `/categorias/${slug}${qs ? `?${qs}` : ''}`
   }
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Categorías', item: `${BASE_URL}/categorias` },
+      { '@type': 'ListItem', position: 3, name: category.name, item: `${BASE_URL}/categorias/${slug}` },
+    ],
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Breadcrumb */}
       <nav className="text-sm text-muted-foreground mb-4">
         <Link href="/" className="hover:text-foreground">Inicio</Link>
@@ -154,9 +213,11 @@ export default async function CategoryPage({
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">{category.name}</h1>
+              <h1 className="text-2xl font-bold text-foreground">
+                {category.name} — Comparar precios en Chile
+              </h1>
               <p className="text-sm text-muted-foreground mt-1">
-                {total} producto{total !== 1 ? 's' : ''}
+                {total} producto{total !== 1 ? 's' : ''} de {category.name.toLowerCase()} disponibles para comparar entre proveedores
               </p>
             </div>
             <SortSelect />

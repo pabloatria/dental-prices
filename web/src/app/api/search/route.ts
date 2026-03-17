@@ -16,7 +16,11 @@ export async function GET(request: NextRequest) {
     .select('*', { count: 'exact' })
 
   if (query) {
-    productQuery = productQuery.or(`name.ilike.%${query}%,brand.ilike.%${query}%`)
+    // Use full-text search (accent-insensitive, Spanish stemming) combined with ILIKE fallback
+    const sanitized = query.replace(/[\\%_]/g, '\\$&')
+    productQuery = productQuery.or(
+      `search_vector.wfts(dental_spanish).${query},name.ilike.%${sanitized}%,brand.ilike.%${sanitized}%`
+    )
   }
 
   if (category) {

@@ -7,6 +7,71 @@ import SupplierShowcase from '@/components/home/SupplierShowcase'
 import HowItWorks from '@/components/home/HowItWorks'
 import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
 
+const BASE_URL = 'https://www.dentalprecios.cl'
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '¿Qué es DentalPrecios?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'DentalPrecios es el primer comparador de precios de insumos dentales en Chile. Recopilamos precios de múltiples proveedores como Techdent, MayorDent, Dentobal y más, para que los dentistas encuentren el mejor precio en composites, adhesivos, instrumental y todo lo que necesitan para su consulta.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Cómo funciona la comparación de precios?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Nuestro sistema monitorea diariamente los precios de los principales proveedores dentales de Chile. Mostramos el precio más bajo disponible, la diferencia entre tiendas y el historial de precios para que puedas comprar en el momento justo.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Cuántos productos y proveedores comparan?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Actualmente comparamos más de 7.800 productos de insumos dentales entre los principales proveedores de Chile, incluyendo Techdent, MayorDent, Dentobal, DentalStore, Depodental y más.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Es gratis usar DentalPrecios?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Sí, DentalPrecios es completamente gratis para comparar precios de insumos dentales. Puedes buscar, filtrar y comparar precios sin costo.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Qué productos dentales puedo comparar?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Puedes comparar precios de resinas y composites (3M, Ivoclar, Kerr), adhesivos dentales, cementos, instrumental, fresas y diamantes, materiales de endodoncia, ortodoncia, implantes, anestesia, flúor, ácido grabador, y muchos más. Cubrimos más de 30 categorías de productos dentales.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Dónde comprar insumos dentales más baratos en Chile?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Los precios varían entre proveedores como Techdent, MayorDent, Dentobal, DentalStore, Depodental y otros. DentalPrecios te muestra el precio más bajo de cada producto comparando todos los proveedores, para que siempre compres al mejor precio.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Cómo sé cuándo es buen momento para comprar un producto dental?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'DentalPrecios ofrece historial de precios de los últimos 30 días para cada producto. Puedes ver si el precio actual está más alto o más bajo que su promedio. También puedes activar alertas de precio para recibir notificaciones cuando baje el precio de un producto.',
+      },
+    },
+  ],
+}
+
 export default async function Home() {
   const supabase = await createClient()
 
@@ -46,6 +111,10 @@ export default async function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <HeroSection
         productCount={productCount || 0}
         supplierCount={suppliers?.length || 0}

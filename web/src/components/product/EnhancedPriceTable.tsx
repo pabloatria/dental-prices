@@ -102,7 +102,7 @@ export default function EnhancedPriceTable({ prices, productId }: { prices: Pric
                 </td>
                 <td className="py-4 px-4 text-right">
                   <a
-                    href={price.product_url}
+                    href={`/api/redirect?url=${encodeURIComponent(price.product_url)}&product=${productId}&supplier=${price.supplier_id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${

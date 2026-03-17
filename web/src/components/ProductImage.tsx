@@ -33,6 +33,7 @@ export default function ProductImage({
         <img
           src={imageUrl}
           alt={productName}
+          loading="lazy"
           className="w-full h-full object-contain rounded-lg"
         />
       </div>

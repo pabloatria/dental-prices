@@ -10,10 +10,11 @@ export async function GET(request: NextRequest) {
 
   const supabase = await createClient()
 
+  const sanitized = q.replace(/[\\%_]/g, '\\$&')
   const { data: products } = await supabase
     .from('products')
     .select('id, name, brand, category_id')
-    .or(`name.ilike.%${q}%,brand.ilike.%${q}%`)
+    .or(`search_vector.wfts(dental_spanish).${q},name.ilike.%${sanitized}%,brand.ilike.%${sanitized}%`)
     .limit(6)
 
   return Response.json({ products: products || [] })

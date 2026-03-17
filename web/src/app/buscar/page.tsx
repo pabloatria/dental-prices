@@ -1,9 +1,49 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import ProductCard from '@/components/ProductCard'
 import FilterPanel from '@/components/filters/FilterPanel'
 import SortSelect from '@/components/filters/SortSelect'
+
+const BASE_URL = 'https://www.dentalprecios.cl'
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; category?: string }>
+}): Promise<Metadata> {
+  const params = await searchParams
+  const query = params.q
+  const category = params.category
+
+  if (query) {
+    const title = `${query} — Comparar precios en Chile`
+    const description = `Compara precios de ${query} entre múltiples proveedores dentales en Chile. Encuentra el precio más bajo de ${query} en DentalPrecios.`
+    return {
+      title,
+      description,
+      alternates: { canonical: `${BASE_URL}/buscar?q=${encodeURIComponent(query)}` },
+      openGraph: {
+        title,
+        description,
+        url: `${BASE_URL}/buscar?q=${encodeURIComponent(query)}`,
+        siteName: 'DentalPrecios',
+        locale: 'es_CL',
+        type: 'website',
+      },
+      robots: { index: true, follow: true },
+    }
+  }
+
+  return {
+    title: 'Buscar productos dentales — DentalPrecios',
+    description:
+      'Busca y compara precios de insumos dentales, composites, adhesivos, resinas, instrumental y más entre los principales proveedores de Chile.',
+    alternates: { canonical: `${BASE_URL}/buscar` },
+    robots: { index: true, follow: true },
+  }
+}
 
 export default async function SearchPage({
   searchParams,

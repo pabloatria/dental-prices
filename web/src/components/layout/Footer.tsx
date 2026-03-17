@@ -62,16 +62,25 @@ export default function Footer({ categories }: { categories: Category[] }) {
                   Suscripción
                 </Link>
               </li>
+              <li>
+                <Link href="/blog" className="text-sm text-background/60 hover:text-background transition-colors">
+                  Blog
+                </Link>
+              </li>
             </ul>
           </div>
 
           {/* Info */}
           <div>
-            <h3 className="font-semibold text-background mb-4">Informaci&oacute;n</h3>
-            <p className="text-sm text-background/60 leading-relaxed">
-              DentalPrecios compara precios de m&uacute;ltiples proveedores dentales en Chile para ayudarte a encontrar la mejor oferta.
-            </p>
-            <p className="text-sm text-background/60 mt-3">
+            <h3 className="font-semibold text-background mb-4">Legal</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/privacidad" className="text-sm text-background/60 hover:text-background transition-colors">
+                  Pol&iacute;tica de Privacidad
+                </Link>
+              </li>
+            </ul>
+            <p className="text-sm text-background/60 leading-relaxed mt-4">
               Precios actualizados diariamente.
             </p>
           </div>

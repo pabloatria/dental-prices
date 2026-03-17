@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { formatCLP, aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
@@ -11,6 +12,46 @@ import FavoriteButton from '@/components/product/FavoriteButton'
 import PriceAlertButton from '@/components/product/PriceAlertButton'
 import SimilarProducts from '@/components/product/SimilarProducts'
 import { Badge } from '@/components/ui/badge'
+
+const BASE_URL = 'https://www.dentalprecios.cl'
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const supabase = await createClient()
+  const { data: product } = await supabase
+    .from('products')
+    .select('name, brand, image_url, category_id')
+    .eq('id', id)
+    .single()
+
+  if (!product) return {}
+
+  const brandText = product.brand ? ` ${product.brand}` : ''
+  const title = `${product.name}${brandText} — Comparar precios en Chile`
+  const description = `Compara precios de ${product.name}${brandText} entre múltiples proveedores dentales en Chile. Encuentra el precio más bajo y ahorra en tu compra.`
+  const url = `${BASE_URL}/producto/${id}`
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: 'DentalPrecios',
+      locale: 'es_CL',
+      type: 'website',
+      ...(product.image_url && {
+        images: [{ url: product.image_url, alt: product.name }],
+      }),
+    },
+  }
+}
 
 export default async function ProductPage({
   params,
@@ -105,8 +146,84 @@ export default async function ProductPage({
     }
   }
 
+  // JSON-LD: Product schema
+  const productSchema: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    ...(product.brand && { brand: { '@type': 'Brand', name: product.brand } }),
+    ...(product.image_url && { image: product.image_url }),
+    ...(category && { category: category.name }),
+    url: `${BASE_URL}/producto/${product.id}`,
+  }
+
+  if (lowestPrice > 0) {
+    productSchema.offers = {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'CLP',
+      lowPrice: lowestPrice,
+      highPrice: highestPrice || lowestPrice,
+      offerCount: currentPrices.length,
+      offers: currentPrices
+        .filter((p: any) => p.price > 0)
+        .map((p: any) => ({
+          '@type': 'Offer',
+          price: p.price,
+          priceCurrency: 'CLP',
+          availability: p.in_stock
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock',
+          seller: {
+            '@type': 'Organization',
+            name: p.supplier?.name,
+          },
+          url: p.product_url,
+        })),
+    }
+  }
+
+  // JSON-LD: BreadcrumbList
+  const breadcrumbItems = [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL },
+  ]
+  if (category) {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: category.name,
+      item: `${BASE_URL}/categorias/${category.slug}`,
+    })
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 3,
+      name: product.name,
+      item: `${BASE_URL}/producto/${product.id}`,
+    })
+  } else {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: product.name,
+      item: `${BASE_URL}/producto/${product.id}`,
+    })
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems,
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Breadcrumb */}
       <nav className="text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-foreground">Inicio</Link>

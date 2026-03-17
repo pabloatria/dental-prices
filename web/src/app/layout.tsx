@@ -5,13 +5,87 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { createClient } from '@/lib/supabase/server'
 import type { Category } from '@/lib/types'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
+const BASE_URL = 'https://www.dentalprecios.cl'
+
 export const metadata: Metadata = {
-  title: 'DentalPrecios — Todo para tu consulta dental en un solo lugar',
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: 'DentalPrecios — Comparador de precios de productos dentales en Chile',
+    template: '%s | DentalPrecios',
+  },
   description:
-    'Compara precios de insumos dentales, instrumental, est\u00E9tica facial y m\u00E1s entre los principales proveedores de Chile.',
+    'Compara precios de insumos y productos dentales entre los principales proveedores de Chile. Resinas, composites, adhesivos, instrumental, flúor, ácido grabador y más. Encuentra el precio más bajo en Techdent, MayorDent, Dentobal y otros.',
+  keywords: [
+    'insumos dentales Chile',
+    'precios insumos dentales',
+    'comparar precios dentales',
+    'comparador productos dentales Chile',
+    'materiales dentales Chile',
+    'productos dentales Chile',
+    'composite dental precio',
+    'resina dental precio Chile',
+    'resina 3m precio',
+    'adhesivo dental precio',
+    'fluor dental Chile',
+    'acido grabador dental',
+    'instrumental dental Chile',
+    'tienda dental online Chile',
+    'proveedores dentales Chile',
+    'Techdent',
+    'MayorDent',
+    'Dentobal',
+    'DentalStore',
+    'fresas dentales precio',
+    'cemento dental Chile',
+    'endodoncia insumos precio',
+    'ortodoncia materiales Chile',
+  ],
+  authors: [{ name: 'DentalPrecios' }],
+  creator: 'DentalPrecios',
+  openGraph: {
+    type: 'website',
+    locale: 'es_CL',
+    url: BASE_URL,
+    siteName: 'DentalPrecios',
+    title: 'DentalPrecios — Compara precios de insumos dentales en Chile',
+    description:
+      'Compara precios de insumos dentales, instrumental y estética facial entre los principales proveedores de Chile.',
+    images: [
+      {
+        url: `${BASE_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'DentalPrecios — Comparador de precios de insumos dentales en Chile',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'DentalPrecios — Compara precios de insumos dentales en Chile',
+    description:
+      'Compara precios de insumos dentales entre los principales proveedores de Chile.',
+    images: [`${BASE_URL}/og-image.png`],
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 async function getCategories(): Promise<Category[]> {
@@ -38,9 +112,49 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.variable} font-sans antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': `${BASE_URL}/#organization`,
+                  name: 'DentalPrecios',
+                  url: BASE_URL,
+                  logo: {
+                    '@type': 'ImageObject',
+                    url: `${BASE_URL}/og-image.png`,
+                  },
+                  description:
+                    'Comparador de precios de insumos dentales en Chile. Compara precios entre múltiples proveedores.',
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': `${BASE_URL}/#website`,
+                  url: BASE_URL,
+                  name: 'DentalPrecios',
+                  publisher: { '@id': `${BASE_URL}/#organization` },
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: {
+                      '@type': 'EntryPoint',
+                      urlTemplate: `${BASE_URL}/buscar?q={search_term_string}`,
+                    },
+                    'query-input': 'required name=search_term_string',
+                  },
+                },
+              ],
+            }),
+          }}
+        />
         <Header categories={categories} />
         <main className="min-h-[calc(100vh-8rem)]">{children}</main>
         <Footer categories={categories} />
+        <Analytics />
+        <SpeedInsights />
+        <GoogleAnalytics />
         <script
           dangerouslySetInnerHTML={{
             __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}`,
