@@ -44,11 +44,9 @@ export default async function SubscriptionPage() {
           <ul className="mt-6 space-y-3">
             {[
               'Favoritos ilimitados',
-              'Alertas de precio ilimitadas',
-              '2 alertas de stock',
-              'Notificaciones por email',
               'Historial de precios 30 días',
               'Comparador de precios',
+              'Información técnica de productos',
             ].map((feature) => (
               <li key={feature} className="flex items-center gap-2 text-sm">
                 <svg className="w-4 h-4 text-success shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -75,11 +73,10 @@ export default async function SubscriptionPage() {
           <p className="text-sm text-muted-foreground mt-4 mb-2">Todo lo del plan gratis, más:</p>
           <ul className="space-y-3">
             {[
+              'Alertas de precio ilimitadas',
               'Alertas de stock ilimitadas',
               'Notificaciones por WhatsApp',
-              'Alertas de precio por email',
               'Notificaciones prioritarias',
-              'Sin publicidad',
             ].map((feature) => (
               <li key={feature} className="flex items-center gap-2 text-sm">
                 <svg className="w-4 h-4 text-success shrink-0" fill="currentColor" viewBox="0 0 20 20">
