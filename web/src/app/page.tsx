@@ -123,6 +123,33 @@ export default async function Home() {
 
       <PracticeTypes />
 
+      {/* Subscription CTA Banner */}
+      <section className="py-12 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-8 sm:p-12 text-white">
+            <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6">
+              <div className="flex-1 text-center sm:text-left">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2">
+                  No te pierdas ninguna oferta
+                </h2>
+                <p className="text-white/80 text-lg">
+                  Suscr&iacute;bete y recibe alertas cuando bajen los precios de tus productos favoritos
+                </p>
+              </div>
+              <Link
+                href="/suscripcion"
+                className="shrink-0 bg-white text-primary font-semibold px-8 py-3 rounded-xl text-lg hover:bg-white/90 transition-colors shadow-lg"
+              >
+                Suscr&iacute;bete gratis
+              </Link>
+            </div>
+            {/* Background decoration */}
+            <div className="absolute -right-8 -top-8 w-40 h-40 bg-white/10 rounded-full" />
+            <div className="absolute -right-4 -bottom-12 w-60 h-60 bg-white/5 rounded-full" />
+          </div>
+        </div>
+      </section>
+
       {/* Categories */}
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
@@ -152,34 +179,6 @@ export default async function Home() {
       </section>
 
       <TrendingProducts products={productsWithPrices} />
-
-      {/* Subscription CTA Banner */}
-      <section className="py-12 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-primary to-primary/80 p-8 sm:p-12 text-white">
-            <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6">
-              <div className="flex-1 text-center sm:text-left">
-                <h2 className="text-2xl sm:text-3xl font-bold mb-2">
-                  No te pierdas ninguna oferta
-                </h2>
-                <p className="text-white/80 text-lg">
-                  Suscr&iacute;bete y recibe alertas cuando bajen los precios de tus productos favoritos
-                </p>
-              </div>
-              <Link
-                href="/suscripcion"
-                className="shrink-0 bg-white text-primary font-semibold px-8 py-3 rounded-xl text-lg hover:bg-white/90 transition-colors shadow-lg"
-              >
-                Suscr&iacute;bete gratis
-              </Link>
-            </div>
-            {/* Background decoration */}
-            <div className="absolute -right-8 -top-8 w-40 h-40 bg-white/10 rounded-full" />
-            <div className="absolute -right-4 -bottom-12 w-60 h-60 bg-white/5 rounded-full" />
-          </div>
-        </div>
-      </section>
-
       <SupplierShowcase suppliers={suppliers || []} />
       <HowItWorks />
     </>
