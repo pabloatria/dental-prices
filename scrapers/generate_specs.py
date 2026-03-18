@@ -71,34 +71,47 @@ def fetch_products(env, category_slug=None, product_id=None, limit=50):
         )
         return r.json()
 
-    # Get products that don't have specs yet, ordered by how many stores carry them
-    # First get existing spec product_ids
-    r = requests.get(
-        f"{url}/rest/v1/product_specs?select=product_id",
-        headers=headers,
-    )
-    existing_ids = {s["product_id"] for s in r.json()}
+    # Get ALL existing spec product_ids (paginated)
+    existing_ids = set()
+    offset = 0
+    while True:
+        r = requests.get(
+            f"{url}/rest/v1/product_specs?select=product_id&limit=1000&offset={offset}",
+            headers=headers,
+        )
+        batch = r.json()
+        if not batch:
+            break
+        existing_ids.update(s["product_id"] for s in batch)
+        offset += len(batch)
 
-    # Build query
-    query = f"{url}/rest/v1/products?select=id,name,brand,category:categories(name,slug)"
+    # Build base query
+    base_query = f"{url}/rest/v1/products?select=id,name,brand,category:categories(name,slug)"
     if category_slug:
-        # Need to get category ID first
         r = requests.get(
             f"{url}/rest/v1/categories?slug=eq.{category_slug}&select=id",
             headers=headers,
         )
         cats = r.json()
         if cats:
-            query += f"&category_id=eq.{cats[0]['id']}"
+            base_query += f"&category_id=eq.{cats[0]['id']}"
 
-    query += f"&limit={min(limit * 2, 500)}"  # Fetch extra to filter
-    r = requests.get(query, headers=headers)
-    products = r.json()
+    # Paginate through all products
+    products = []
+    offset = 0
+    while len(products) < limit:
+        r = requests.get(f"{base_query}&limit=1000&offset={offset}", headers=headers)
+        batch = r.json()
+        if not batch:
+            break
+        for p in batch:
+            if p["id"] not in existing_ids:
+                products.append(p)
+                if len(products) >= limit:
+                    break
+        offset += len(batch)
 
-    # Filter out products that already have specs
-    products = [p for p in products if p["id"] not in existing_ids]
-
-    return products[:limit]
+    return products
 
 
 SYSTEM_PROMPT = """You are a dental materials expert. Generate precise technical specifications for dental products.
