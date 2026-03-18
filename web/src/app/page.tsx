@@ -5,6 +5,7 @@ import HeroSection from '@/components/home/HeroSection'
 import TrendingProducts from '@/components/home/TrendingProducts'
 import SupplierShowcase from '@/components/home/SupplierShowcase'
 import HowItWorks from '@/components/home/HowItWorks'
+import PracticeTypes from '@/components/home/PracticeTypes'
 import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
@@ -119,6 +120,8 @@ export default async function Home() {
         productCount={productCount || 0}
         supplierCount={suppliers?.length || 0}
       />
+
+      <PracticeTypes />
 
       {/* Categories */}
       <section className="py-12 px-4">
