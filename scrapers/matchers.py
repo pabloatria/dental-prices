@@ -219,5 +219,17 @@ def are_same_product(name_a: str, name_b: str, threshold: float = 0.70) -> bool:
         if not (nums_a <= nums_b or nums_b <= nums_a):
             return False
 
+    # Differentiator check: if the only difference between the two names is
+    # a purely alphabetic word (like DENTIN vs OPAQUE vs ENAMEL), they are
+    # different products in the same product line, not duplicates.
+    diff_a = tokens_a - tokens_b
+    diff_b = tokens_b - tokens_a
+    # Only consider purely alphabetic tokens as meaningful differentiators
+    alpha_a = {t for t in diff_a if t.isalpha()}
+    alpha_b = {t for t in diff_b if t.isalpha()}
+    if alpha_a and alpha_b and len(alpha_a) <= 2 and len(alpha_b) <= 2:
+        # Both sides have a unique distinguishing word — different products
+        return False
+
     sim = jaccard_similarity(tokens_a, tokens_b)
     return sim >= threshold
