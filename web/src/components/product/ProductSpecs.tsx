@@ -19,7 +19,6 @@ interface Props {
 }
 
 const PROPERTY_LABELS: Record<string, string> = {
-  curing_time: 'Tiempo de fotocurado',
   // Mechanical
   resistencia_compresiva: 'Resistencia compresiva',
   resistencia_flexural: 'Resistencia flexural',
@@ -29,16 +28,13 @@ const PROPERTY_LABELS: Record<string, string> = {
   resistencia_traccion: 'Resistencia a la tracción',
   resistencia_desgaste: 'Resistencia al desgaste',
   tenacidad_fractura: 'Tenacidad a la fractura',
-  compressive_strength: 'Resistencia compresiva',
-  flexural_strength: 'Resistencia flexural',
-  bond_strength: 'Fuerza de adhesión',
+  fuerza_adhesion: 'Fuerza de adhesión',
   // Optical / Shades
   numero_tonos: 'Número de tonos',
   opciones_tonos: 'Tonos disponibles',
   opacidad_translucidez: 'Opacidad/Translucidez',
   fluorescencia: 'Fluorescencia',
   efecto_camaleon: 'Efecto camaleón',
-  shade_options: 'Opciones de color',
   // Working
   tiempo_trabajo: 'Tiempo de trabajo',
   tiempo_fraguado: 'Tiempo de fraguado',
@@ -50,29 +46,19 @@ const PROPERTY_LABELS: Record<string, string> = {
   viscosidad: 'Viscosidad',
   radiopacidad: 'Radiopacidad',
   liberacion_fluor: 'Liberación de flúor',
-  working_time: 'Tiempo de trabajo',
-  setting_time: 'Tiempo de fraguado',
-  curing_time: 'Tiempo de curado',
-  depth_of_cure: 'Profundidad de curado',
-  film_thickness: 'Espesor de película',
-  shrinkage: 'Contracción',
-  filler_content: 'Contenido de relleno',
-  fluoride_release: 'Liberación de flúor',
+  contenido_relleno: 'Contenido de relleno',
   // Physical
   absorcion_agua: 'Absorción de agua',
   solubilidad: 'Solubilidad',
   estabilidad_dimensional: 'Estabilidad dimensional',
   densidad: 'Densidad',
+  ph: 'pH',
   // Presentation
   presentacion: 'Presentación',
   contenido: 'Contenido',
   vida_util: 'Vida útil',
   almacenamiento: 'Almacenamiento',
-  shelf_life: 'Vida útil',
-  storage: 'Almacenamiento',
-  volume: 'Volumen',
-  concentration: 'Concentración',
-  ph: 'pH',
+  concentracion: 'Concentración',
 }
 
 function Section({
