@@ -110,11 +110,51 @@ The JSON must have these keys:
 - indications: Clinical indications for use (string, comma-separated list)
 - contraindications: When NOT to use (string, comma-separated list)
 - technique_tips: Practical clinical tips for dentists (string, 2-4 short tips)
-- properties: Technical properties as a JSON object with keys like "curing_time", "compressive_strength", "shade_options", "working_time", "film_thickness", etc. Only include properties relevant to this product type. Values should be strings with units.
+- properties: Technical properties as a JSON object. Include ALL applicable properties from the lists below. Use snake_case keys in Spanish. Values must be strings with units.
 - compatible_products: Products commonly used together (string, comma-separated)
 - comparison_notes: How this product compares to main alternatives (string, 2-3 sentences)
 
-Be accurate. If you're unsure about a specific value, say "consult manufacturer datasheet" for that field rather than guessing. Use Spanish for all text content."""
+IMPORTANT — Include these properties when applicable to the product type:
+
+MECHANICAL PROPERTIES (resins, composites, cements, ceramics):
+- resistencia_compresiva (MPa)
+- resistencia_flexural (MPa)
+- modulo_elasticidad (GPa)
+- dureza_vickers or dureza_knoop (units)
+- resistencia_traccion (MPa)
+- resistencia_desgaste (description)
+- tenacidad_fractura (MPa·m½)
+
+OPTICAL / SHADE PROPERTIES (resins, composites, ceramics, whitening):
+- numero_tonos: exact number of available shades (e.g., "31 tonos")
+- opciones_tonos: list specific shade names (e.g., "A1, A2, A3, A3.5, B1, B2...")
+- opacidad_translucidez: description
+- fluorescencia: Si/No
+- efecto_camaleon: Si/No
+
+WORKING PROPERTIES (all materials):
+- tiempo_trabajo (minutes/seconds)
+- tiempo_fraguado or tiempo_curado (minutes/seconds)
+- profundidad_curado (mm, for light-cured)
+- contraccion_polimerizacion (% volumetric)
+- espesor_pelicula (µm, for cements/adhesives)
+- viscosidad: description
+- radiopacidad: Si/No, or value in mm Al equivalent
+- liberacion_fluor: Si/No
+
+PHYSICAL PROPERTIES:
+- absorcion_agua (µg/mm³)
+- solubilidad (µg/mm³)
+- estabilidad_dimensional: description
+- densidad (g/cm³)
+
+PRESENTATION:
+- presentacion: packaging description (e.g., "Jeringa 4g", "Kit con 8 jeringas")
+- contenido: what's included
+- vida_util: shelf life
+- almacenamiento: storage conditions
+
+Be accurate with real published data. If you know the exact value, include it. If unsure about a specific numeric value, write "consultar ficha técnica" for that field. Use Spanish for all text content."""
 
 
 def build_prompt(product):
