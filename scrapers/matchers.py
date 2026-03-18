@@ -64,9 +64,10 @@ def normalize_name(name: str) -> str:
         '', name
     )
     # Remove dental descriptor noise (words that describe but don't identify)
+    # NOTE: "kit" is intentionally kept — it differentiates kits from single units
     name = re.sub(
         r'\b(treatment|fluoride|sodio|sodium|barniz|sabor|flavor|'
-        r'recubrimiento|protector|protective|coating|kit|intro|acc|accesorios)\b',
+        r'recubrimiento|protector|protective|coating|intro|acc|accesorios)\b',
         '', name
     )
     # Remove flavor names (variants, not different products for pricing)
@@ -179,12 +180,19 @@ def shared_brand(name_a: str, name_b: str) -> bool:
     return bool(brands_a & brands_b)
 
 
+def _has_packaging_keyword(name: str) -> bool:
+    """Check if a product name contains a packaging/quantity keyword."""
+    lowered = normalize_name(name)
+    return bool(re.search(r'\b(kit|set|pack|combo|surtido|estuche|sistema|system)\b', lowered))
+
+
 def are_same_product(name_a: str, name_b: str, threshold: float = 0.70) -> bool:
     """Determine if two product names refer to the same product.
 
     Conservative matching that requires:
     1. High Jaccard similarity (default 0.70)
     2. Compatible specification numbers (sizes, concentrations, etc.)
+    3. Compatible packaging (kit vs single unit = different product)
 
     Number compatibility: if both have numbers, one set must be a subset
     of the other (or equal). This allows "Product 100" to match
@@ -194,6 +202,12 @@ def are_same_product(name_a: str, name_b: str, threshold: float = 0.70) -> bool:
     tokens_b = tokenize(name_b)
 
     if not tokens_a or not tokens_b:
+        return False
+
+    # Packaging mismatch: if one is a kit/set and the other isn't, they're different
+    pkg_a = _has_packaging_keyword(name_a)
+    pkg_b = _has_packaging_keyword(name_b)
+    if pkg_a != pkg_b:
         return False
 
     # Extract specification numbers
