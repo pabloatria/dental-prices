@@ -11,6 +11,7 @@ import SavingsIndicator from '@/components/product/SavingsIndicator'
 import FavoriteButton from '@/components/product/FavoriteButton'
 import PriceAlertButton from '@/components/product/PriceAlertButton'
 import SimilarProducts from '@/components/product/SimilarProducts'
+import ProductSpecs from '@/components/product/ProductSpecs'
 import { Badge } from '@/components/ui/badge'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
@@ -145,6 +146,13 @@ export default async function ProductPage({
         .slice(0, 4)
     }
   }
+
+  // Fetch product specs
+  const { data: specData } = await supabase
+    .from('product_specs')
+    .select('composition, indications, contraindications, technique_tips, properties, compatible_products, comparison_notes, ai_generated, reviewed')
+    .eq('product_id', id)
+    .single()
 
   // JSON-LD: Product schema
   const productSchema: Record<string, unknown> = {
@@ -337,6 +345,9 @@ export default async function ProductPage({
           <PriceChart priceHistory={priceHistory} />
         </div>
       )}
+
+      {/* Technical specs */}
+      {specData && <ProductSpecs spec={specData} />}
 
       {/* Similar products */}
       <div className="mb-8">
