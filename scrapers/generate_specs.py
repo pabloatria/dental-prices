@@ -202,7 +202,7 @@ def save_spec(env, product_id, spec):
         "indications": spec.get("indications", ""),
         "contraindications": spec.get("contraindications", ""),
         "technique_tips": spec.get("technique_tips", ""),
-        "properties": json.dumps(properties),
+        "properties": properties,
         "compatible_products": spec.get("compatible_products", ""),
         "comparison_notes": spec.get("comparison_notes", ""),
         "ai_generated": True,

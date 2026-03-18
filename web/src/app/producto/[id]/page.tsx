@@ -324,6 +324,9 @@ export default async function ProductPage({
         </div>
       </div>
 
+      {/* Technical specs */}
+      {specData && <ProductSpecs spec={specData} />}
+
       {/* Price comparison table */}
       <div className="bg-card rounded-xl border border-border p-6 mb-8">
         <div className="flex items-center justify-between mb-4">
@@ -345,9 +348,6 @@ export default async function ProductPage({
           <PriceChart priceHistory={priceHistory} />
         </div>
       )}
-
-      {/* Technical specs */}
-      {specData && <ProductSpecs spec={specData} />}
 
       {/* Similar products */}
       <div className="mb-8">
