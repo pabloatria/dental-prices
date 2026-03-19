@@ -12,6 +12,7 @@ import FavoriteButton from '@/components/product/FavoriteButton'
 import PriceAlertButton from '@/components/product/PriceAlertButton'
 import SimilarProducts from '@/components/product/SimilarProducts'
 import ProductSpecs from '@/components/product/ProductSpecs'
+import TrackProductView from '@/components/analytics/TrackProductView'
 import { Badge } from '@/components/ui/badge'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
@@ -224,6 +225,7 @@ export default async function ProductPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      <TrackProductView productId={product.id} productName={product.name} brand={product.brand || undefined} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}

@@ -6,6 +6,7 @@ import TrendingProducts from '@/components/home/TrendingProducts'
 import SupplierShowcase from '@/components/home/SupplierShowcase'
 import HowItWorks from '@/components/home/HowItWorks'
 import PracticeTypes from '@/components/home/PracticeTypes'
+import TrackLink from '@/components/analytics/TrackLink'
 import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
@@ -136,12 +137,14 @@ export default async function Home() {
                   Suscr&iacute;bete y recibe alertas cuando bajen los precios de tus productos favoritos
                 </p>
               </div>
-              <Link
+              <TrackLink
                 href="/suscripcion"
+                eventName="subscription_click"
+                eventParams={{ source: 'homepage_banner' }}
                 className="shrink-0 bg-white text-primary font-semibold px-8 py-3 rounded-xl text-lg hover:bg-white/90 transition-colors shadow-lg"
               >
-                Suscr&iacute;bete gratis
-              </Link>
+                Suscríbete gratis
+              </TrackLink>
             </div>
             {/* Background decoration */}
             <div className="absolute -right-8 -top-8 w-40 h-40 bg-white/10 rounded-full" />

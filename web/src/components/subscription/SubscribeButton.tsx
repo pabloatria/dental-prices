@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { trackSubscriptionClick } from '@/lib/analytics'
 
 export default function SubscribeButton({
   isLoggedIn,
@@ -25,6 +26,7 @@ export default function SubscribeButton({
   }
 
   const handleSubscribe = async () => {
+    trackSubscriptionClick('subscribe_button')
     if (!isLoggedIn) {
       window.location.href = '/ingresar'
       return

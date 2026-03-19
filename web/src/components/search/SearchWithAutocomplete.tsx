@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { trackSearch } from '@/lib/analytics'
 
 export default function SearchWithAutocomplete() {
   const [query, setQuery] = useState('')
@@ -43,6 +44,7 @@ export default function SearchWithAutocomplete() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (query.trim()) {
+      trackSearch(query.trim())
       setOpen(false)
       router.push(`/buscar?q=${encodeURIComponent(query.trim())}`)
     }
