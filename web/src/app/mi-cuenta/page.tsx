@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { formatCLP } from '@/lib/queries/products'
+import CompleteProfileBanner from '@/components/subscription/CompleteProfileBanner'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -47,6 +48,11 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-bold text-foreground">Mi cuenta</h1>
         <span className="text-sm text-muted-foreground">{user.email}</span>
       </div>
+
+      {/* Complete profile banner — show if no subscription */}
+      {!subscription && (
+        <CompleteProfileBanner userEmail={user.email || ''} />
+      )}
 
       {/* Subscription status */}
       <div className="bg-card rounded-xl border border-border p-4 mb-8 flex items-center justify-between">
