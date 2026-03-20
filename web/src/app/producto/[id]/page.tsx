@@ -13,6 +13,7 @@ import PriceAlertButton from '@/components/product/PriceAlertButton'
 import SimilarProducts from '@/components/product/SimilarProducts'
 import ProductSpecs from '@/components/product/ProductSpecs'
 import TrackProductView from '@/components/analytics/TrackProductView'
+import StarRating from '@/components/product/StarRating'
 import { Badge } from '@/components/ui/badge'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
@@ -155,6 +156,17 @@ export default async function ProductPage({
     .eq('product_id', id)
     .single()
 
+  // Fetch aggregate rating
+  const { data: ratingsData } = await supabase
+    .from('product_ratings')
+    .select('rating')
+    .eq('product_id', id)
+
+  const ratingCount = ratingsData?.length || 0
+  const ratingAverage = ratingCount > 0
+    ? Math.round((ratingsData!.reduce((sum, r) => sum + r.rating, 0) / ratingCount) * 10) / 10
+    : 0
+
   // JSON-LD: Product schema
   const productSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -164,6 +176,16 @@ export default async function ProductPage({
     ...(product.image_url && { image: product.image_url }),
     ...(category && { category: category.name }),
     url: `${BASE_URL}/producto/${product.id}`,
+  }
+
+  if (ratingCount > 0) {
+    productSchema.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: ratingAverage,
+      bestRating: 5,
+      worstRating: 1,
+      ratingCount: ratingCount,
+    }
   }
 
   if (lowestPrice > 0) {
@@ -277,6 +299,11 @@ export default async function ProductPage({
                   {category.name}
                 </Link>
               )}
+
+              {/* Star rating */}
+              <div className="mt-2">
+                <StarRating productId={product.id} />
+              </div>
 
               {/* Price range */}
               <div className="mt-4">
