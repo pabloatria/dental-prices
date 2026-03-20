@@ -1,7 +1,98 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+// --- Rate limiter (in-memory, per edge instance) ---
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT_WINDOW = 60_000 // 1 minute
+const RATE_LIMIT_MAX_API = 30 // max API requests per minute per IP
+const RATE_LIMIT_MAX_SEARCH = 15 // stricter for search endpoints
+
+function isRateLimited(ip: string, maxRequests: number): boolean {
+  const now = Date.now()
+  const entry = rateLimitMap.get(ip)
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW })
+    return false
+  }
+
+  entry.count++
+  return entry.count > maxRequests
+}
+
+// Clean up stale entries periodically (prevent memory leak)
+setInterval(() => {
+  const now = Date.now()
+  for (const [key, value] of rateLimitMap) {
+    if (now > value.resetAt) rateLimitMap.delete(key)
+  }
+}, 60_000)
+
+// --- Known scraper/bot user agents to block ---
+const BLOCKED_BOTS = [
+  'scrapy', 'python-requests', 'python-urllib', 'httpclient',
+  'go-http-client', 'java/', 'wget', 'curl/',
+  'libwww-perl', 'mechanize', 'httpie',
+  'node-fetch', 'axios/', 'got/',
+  'colly', 'aiohttp', 'httpx',
+  'scraperapi', 'scrapingbee', 'brightdata',
+  'phantomjs', 'headlesschrome',
+  'selenium', 'puppeteer', 'playwright',
+]
+
+function isBlockedBot(userAgent: string): boolean {
+  const ua = userAgent.toLowerCase()
+  return BLOCKED_BOTS.some(bot => ua.includes(bot))
+}
+
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  const userAgent = request.headers.get('user-agent') || ''
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || request.headers.get('x-real-ip')
+    || 'unknown'
+
+  // --- Bot protection for API routes ---
+  if (pathname.startsWith('/api/')) {
+    // Block known scraper user agents
+    if (isBlockedBot(userAgent)) {
+      return NextResponse.json(
+        { error: 'Access denied' },
+        { status: 403 }
+      )
+    }
+
+    // Block requests with no user agent (likely bots)
+    if (!userAgent || userAgent.length < 10) {
+      return NextResponse.json(
+        { error: 'Access denied' },
+        { status: 403 }
+      )
+    }
+
+    // Rate limiting — stricter for search endpoints
+    const isSearch = pathname.startsWith('/api/search')
+    const limit = isSearch ? RATE_LIMIT_MAX_SEARCH : RATE_LIMIT_MAX_API
+    const rateLimitKey = isSearch ? `search:${ip}` : `api:${ip}`
+
+    if (isRateLimited(rateLimitKey, limit)) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': '60' } }
+      )
+    }
+  }
+
+  // --- Honeypot: catch bots that ignore robots.txt ---
+  if (pathname === '/api/data-export' || pathname === '/api/prices-dump') {
+    // Log and block — real users would never hit these endpoints
+    return NextResponse.json(
+      { error: 'Not found' },
+      { status: 404 }
+    )
+  }
+
+  // --- Supabase auth (existing logic) ---
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(

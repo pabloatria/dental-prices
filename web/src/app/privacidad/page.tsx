@@ -17,7 +17,7 @@ export default function PrivacidadPage() {
 
       <h1 className="text-3xl font-bold mb-8">Pol&iacute;tica de Privacidad</h1>
       <p className="text-muted-foreground mb-8">
-        &Uacute;ltima actualizaci&oacute;n: 16 de marzo de 2026
+        &Uacute;ltima actualizaci&oacute;n: 19 de marzo de 2026
       </p>
 
       <div className="prose prose-neutral dark:prose-invert max-w-none space-y-6">
@@ -135,7 +135,35 @@ export default function PrivacidadPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold mt-8 mb-4">9. Cambios a esta pol&iacute;tica</h2>
+          <h2 className="text-xl font-semibold mt-8 mb-4">9. Acceso automatizado y scraping</h2>
+          <p>
+            Queda estrictamente prohibido el acceso automatizado, scraping, crawling o cualquier forma de
+            extracci&oacute;n masiva de datos de DentalPrecios, ya sea mediante bots, scripts, herramientas
+            de scraping u otros medios automatizados, sin autorizaci&oacute;n previa y por escrito.
+          </p>
+          <p className="mt-2">
+            Esta prohibici&oacute;n incluye, sin limitaci&oacute;n:
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mt-2">
+            <li>La recopilaci&oacute;n automatizada de precios, datos de productos o informaci&oacute;n de proveedores.</li>
+            <li>El uso de herramientas como Scrapy, Selenium, Puppeteer, scripts personalizados o cualquier software dise&ntilde;ado para extraer datos de la plataforma.</li>
+            <li>La reproducci&oacute;n, redistribuci&oacute;n o uso comercial de los datos recopilados por DentalPrecios.</li>
+            <li>El acceso a las APIs de la plataforma fuera del uso normal del sitio web.</li>
+          </ul>
+          <p className="mt-2">
+            Los datos de precios comparativos publicados en DentalPrecios son el resultado de un proceso
+            propietario de recopilaci&oacute;n, normalizaci&oacute;n y an&aacute;lisis. Esta base de datos
+            constituye una compilaci&oacute;n protegida por derechos de autor bajo la legislaci&oacute;n chilena
+            (Ley 17.336 sobre Propiedad Intelectual).
+          </p>
+          <p className="mt-2">
+            DentalPrecios se reserva el derecho de bloquear el acceso, tomar acciones legales y reclamar
+            da&ntilde;os y perjuicios contra cualquier persona o entidad que viole esta pol&iacute;tica.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-semibold mt-8 mb-4">10. Cambios a esta pol&iacute;tica</h2>
           <p>
             Nos reservamos el derecho de actualizar esta pol&iacute;tica de privacidad. Cualquier cambio
             ser&aacute; publicado en esta p&aacute;gina con la fecha de actualizaci&oacute;n correspondiente.
@@ -144,7 +172,7 @@ export default function PrivacidadPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold mt-8 mb-4">10. Contacto</h2>
+          <h2 className="text-xl font-semibold mt-8 mb-4">11. Contacto</h2>
           <p>
             Si tienes preguntas sobre esta pol&iacute;tica de privacidad o sobre el tratamiento de tus
             datos personales, puedes contactarnos en{' '}

@@ -8,7 +8,16 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/api/', '/mi-cuenta/', '/ingresar/'],
       },
-      // Explicitly allow AI search engine bots
+      // Block known scraper frameworks
+      { userAgent: 'Scrapy', disallow: '/' },
+      { userAgent: 'MJ12bot', disallow: '/' },
+      { userAgent: 'AhrefsBot', disallow: '/' },
+      { userAgent: 'SemrushBot', disallow: '/' },
+      { userAgent: 'DotBot', disallow: '/' },
+      { userAgent: 'MegaIndex', disallow: '/' },
+      { userAgent: 'BLEXBot', disallow: '/' },
+      { userAgent: 'DataForSeoBot', disallow: '/' },
+      // Explicitly allow search engines and AI bots
       { userAgent: 'GPTBot', allow: '/' },
       { userAgent: 'ChatGPT-User', allow: '/' },
       { userAgent: 'PerplexityBot', allow: '/' },

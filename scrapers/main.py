@@ -84,6 +84,9 @@ from suppliers.parejalecaros import ParejaLecarosScraper
 from suppliers.tiendadentinet import TiendaDentinetScraper
 from suppliers.depodental import DepodentalScraper
 
+# New dental suppliers (batch 5)
+from suppliers.dentalprime import DentalPrimeScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -137,6 +140,9 @@ SCRAPERS = [
     # New dental suppliers (batch 4)
     TiendaDentinetScraper(),             # Jumpseller (composites, endodontics, surgery, etc.)
     DepodentalScraper(),                 # WC Store API (composites, instruments, orthodontics)
+
+    # New dental suppliers (batch 5)
+    DentalPrimeScraper(),                    # WooCommerce (tissue adhesives, sutures)
 ]
 
 
@@ -536,6 +542,10 @@ CATEGORY_MAP = {
     "raspadores": "cirugia",
     "regeneracion": "implantes",
     "bienair": "piezas-de-mano",
+
+    # Dental Prime (WooCommerce)
+    "adhesivos": "cementos-adhesivos",
+    "suturas": "cirugia",
 }
 
 
