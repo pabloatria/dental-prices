@@ -87,6 +87,10 @@ from suppliers.depodental import DepodentalScraper
 # New dental suppliers (batch 5)
 from suppliers.dentalprime import DentalPrimeScraper
 
+# New dental suppliers (batch 6)
+from suppliers.gacchile import GacChileScraper
+from suppliers.dentalpluschile import DentalPlusChileScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -143,6 +147,10 @@ SCRAPERS = [
 
     # New dental suppliers (batch 5)
     DentalPrimeScraper(),                    # WooCommerce (tissue adhesives, sutures)
+
+    # New dental suppliers (batch 6)
+    GacChileScraper(),                       # WooCommerce (orthodontic supplies)
+    DentalPlusChileScraper(),                # PrestaShop (dental supplies, instruments)
 ]
 
 
@@ -546,6 +554,31 @@ CATEGORY_MAP = {
     # Dental Prime (WooCommerce)
     "adhesivos": "cementos-adhesivos",
     "suturas": "cirugia",
+
+    # GAC Chile (WooCommerce - orthodontics)
+    "ali": "ortodoncia",
+    "anclaje": "ortodoncia",
+    "arcos-y-alambres": "ortodoncia",
+    "auxiliares": "ortodoncia",
+    "bandas": "ortodoncia",
+    "brackets": "ortodoncia",
+    "consulta-y-laboratorio": "laboratorio",
+    "elastomericos": "ortodoncia",
+    "instrumentos": "instrumental",
+    "ortopedia-dental": "ortodoncia",
+    "tubos": "ortodoncia",
+
+    # Dental Plus Chile (PrestaShop)
+    "4-clinica-dental": "desechables",
+    "171-higiene-dental": "preventivos",
+    "6-endodoncia": "endodoncia",
+    "3-carbide": "fresas-diamantes",
+    "5-diamante": "fresas-diamantes",
+    "7-equipamiento": "equipamiento",
+    "8-instrumental": "instrumental",
+    "9-insumos-medicos": "desechables",
+    "10-laboratorio": "laboratorio",
+    "11-instr-rotatorio": "piezas-de-mano",
 }
 
 
