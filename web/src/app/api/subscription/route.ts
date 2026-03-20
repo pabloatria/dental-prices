@@ -15,10 +15,32 @@ export async function GET() {
   return Response.json({ subscription: data })
 }
 
-export async function POST() {
+export async function POST(request: Request) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return Response.json({ error: 'No autorizado' }, { status: 401 })
+
+  const body = await request.json().catch(() => ({}))
+  const { first_name, last_name, rut, professional_address, whatsapp_number } = body
+
+  // Validate required fields
+  if (!first_name?.trim() || !last_name?.trim()) {
+    return Response.json({ error: 'Nombre y apellido son obligatorios' }, { status: 400 })
+  }
+  if (!rut?.trim()) {
+    return Response.json({ error: 'El RUT es obligatorio' }, { status: 400 })
+  }
+  if (!professional_address?.trim()) {
+    return Response.json({ error: 'La dirección profesional es obligatoria' }, { status: 400 })
+  }
+
+  const profileData = {
+    first_name: first_name.trim(),
+    last_name: last_name.trim(),
+    rut: rut.trim(),
+    professional_address: professional_address.trim(),
+    whatsapp_number: whatsapp_number?.trim() || null,
+  }
 
   // Check if already subscribed (active)
   const { data: existing } = await supabase
@@ -41,7 +63,11 @@ export async function POST() {
   if (inactive) {
     const { error } = await supabase
       .from('subscribers')
-      .update({ active: true, subscribed_at: new Date().toISOString() })
+      .update({
+        active: true,
+        subscribed_at: new Date().toISOString(),
+        ...profileData,
+      })
       .eq('id', inactive.id)
 
     if (error) return Response.json({ error: error.message }, { status: 400 })
@@ -50,7 +76,11 @@ export async function POST() {
 
   const { error } = await supabase
     .from('subscribers')
-    .insert({ user_id: user.id, plan: 'free' })
+    .insert({
+      user_id: user.id,
+      plan: 'free',
+      ...profileData,
+    })
 
   if (error) return Response.json({ error: error.message }, { status: 400 })
   return Response.json({ success: true })

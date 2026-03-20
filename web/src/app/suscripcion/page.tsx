@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import SubscribeButton from '@/components/subscription/SubscribeButton'
+import SubscribeForm from '@/components/subscription/SubscribeForm'
 
 export default async function SubscriptionPage() {
   const supabase = await createClient()
@@ -58,7 +58,11 @@ export default async function SubscriptionPage() {
           </ul>
 
           <div className="mt-6">
-            <SubscribeButton isLoggedIn={!!user} isSubscribed={!!subscription} />
+            <SubscribeForm
+              isLoggedIn={!!user}
+              isSubscribed={!!subscription}
+              userEmail={user?.email}
+            />
           </div>
         </div>
 
