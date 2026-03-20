@@ -2,7 +2,9 @@ name: Daily Price Scrape
 
 on:
   schedule:
-    - cron: '0 7 * * *'
+    # Runs at 04:00 UTC (01:00 Chile time), then random sleep adds 0-4h
+    # Effective range: 01:00 - 05:00 Chile time (UTC-3)
+    - cron: '0 4 * * *'
   workflow_dispatch:
 
 jobs:
@@ -10,6 +12,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Random delay (0-4 hours)
+        if: github.event_name == 'schedule'
+        run: |
+          DELAY=$((RANDOM % 14400))
+          echo "Sleeping for $DELAY seconds ($(($DELAY / 3600))h $((($DELAY % 3600) / 60))m)"
+          sleep $DELAY
+
       - uses: actions/checkout@v4
 
       - name: Set up Python
