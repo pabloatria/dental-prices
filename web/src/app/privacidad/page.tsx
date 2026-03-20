@@ -1,14 +1,23 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+const BASE_URL = 'https://www.dentalprecios.cl'
+
 export const metadata: Metadata = {
-  title: 'Pol\u00edtica de Privacidad \u2014 DentalPrecios',
-  description: 'Pol\u00edtica de privacidad y protecci\u00f3n de datos personales de DentalPrecios.',
+  title: 'Política de Privacidad',
+  description: 'Política de privacidad y protección de datos personales de DentalPrecios. Información sobre el uso de datos, cookies y derechos del usuario.',
+  alternates: { canonical: `${BASE_URL}/privacidad` },
+  openGraph: {
+    title: 'Política de Privacidad — DentalPrecios',
+    description: 'Política de privacidad y protección de datos personales de DentalPrecios.',
+    url: `${BASE_URL}/privacidad`,
+  },
 }
 
 export default function PrivacidadPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Inicio',item:BASE_URL},{'@type':'ListItem',position:2,name:'Política de Privacidad',item:`${BASE_URL}/privacidad`}]}) }} />
       <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
         <Link href="/" className="hover:text-foreground transition-colors">Inicio</Link>
         <span>/</span>

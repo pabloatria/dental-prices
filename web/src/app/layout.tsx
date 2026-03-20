@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/layout/Header'
@@ -12,6 +12,11 @@ import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 const BASE_URL = 'https://www.dentalprecios.cl'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -58,11 +63,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_CL',
-    url: BASE_URL,
     siteName: 'DentalPrecios',
-    title: 'DentalPrecios — Compara precios de insumos dentales en Chile',
-    description:
-      'Compara precios de insumos dentales, instrumental y estética facial entre los principales proveedores de Chile.',
     images: [
       {
         url: `${BASE_URL}/og-image.png`,
@@ -74,13 +75,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DentalPrecios — Compara precios de insumos dentales en Chile',
-    description:
-      'Compara precios de insumos dentales entre los principales proveedores de Chile.',
     images: [`${BASE_URL}/og-image.png`],
-  },
-  alternates: {
-    canonical: BASE_URL,
   },
   robots: {
     index: true,

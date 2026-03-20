@@ -1,8 +1,14 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { formatCLP } from '@/lib/queries/products'
 import CompleteProfileBanner from '@/components/subscription/CompleteProfileBanner'
+
+export const metadata: Metadata = {
+  title: 'Mi cuenta',
+  robots: { index: false, follow: false },
+}
 
 export default async function DashboardPage() {
   const supabase = await createClient()

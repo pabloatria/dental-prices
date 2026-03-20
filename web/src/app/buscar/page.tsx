@@ -180,8 +180,23 @@ export default async function SearchPage({
     return `/buscar?${u.toString()}`
   }
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Búsqueda', item: `${BASE_URL}/buscar` },
+    ],
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
       {/* Breadcrumb */}
       <nav className="text-sm text-muted-foreground mb-4">
         <Link href="/" className="hover:text-foreground">Inicio</Link>

@@ -1,6 +1,22 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
+
+const BASE_URL = 'https://www.dentalprecios.cl'
+
+export const metadata: Metadata = {
+  title: 'Categorías de productos dentales',
+  description:
+    'Explora todas las categorías de insumos dentales: resinas, endodoncia, ortodoncia, implantes, instrumental, fresas, anestesia y más. Compara precios entre proveedores en Chile.',
+  alternates: { canonical: `${BASE_URL}/categorias` },
+  openGraph: {
+    title: 'Categorías de productos dentales — DentalPrecios',
+    description:
+      'Explora más de 30 categorías de insumos dentales y compara precios entre proveedores en Chile.',
+    url: `${BASE_URL}/categorias`,
+  },
+}
 
 export default async function CategoriesPage() {
   const supabase = await createClient()
@@ -23,8 +39,29 @@ export default async function CategoriesPage() {
     }
   }
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Categorías', item: `${BASE_URL}/categorias` },
+    ],
+  }
+
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Categorías de productos dentales',
+    description: 'Todas las categorías de insumos dentales disponibles en DentalPrecios.',
+    url: `${BASE_URL}/categorias`,
+    numberOfItems: categories?.length || 0,
+    publisher: { '@id': `${BASE_URL}/#organization` },
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }} />
       {/* Breadcrumb */}
       <nav className="text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-foreground">Inicio</Link>

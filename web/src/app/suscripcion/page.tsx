@@ -1,6 +1,22 @@
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import SubscribeForm from '@/components/subscription/SubscribeForm'
+
+const BASE_URL = 'https://www.dentalprecios.cl'
+
+export const metadata: Metadata = {
+  title: 'Planes de suscripción',
+  description:
+    'Suscríbete gratis a DentalPrecios y recibe alertas de stock y precio de insumos dentales en Chile. Plan gratuito con favoritos ilimitados, historial de precios y comparador.',
+  alternates: { canonical: `${BASE_URL}/suscripcion` },
+  openGraph: {
+    title: 'Planes de suscripción — DentalPrecios',
+    description:
+      'Suscríbete gratis y recibe alertas de stock y precio de insumos dentales en Chile.',
+    url: `${BASE_URL}/suscripcion`,
+  },
+}
 
 export default async function SubscriptionPage() {
   const supabase = await createClient()
@@ -19,6 +35,7 @@ export default async function SubscriptionPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL }, { '@type': 'ListItem', position: 2, name: 'Suscripción', item: `${BASE_URL}/suscripcion` }] }) }} />
       <nav className="text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-foreground">Inicio</Link>
         <span className="mx-2">/</span>

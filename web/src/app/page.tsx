@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import HeroSection from '@/components/home/HeroSection'
@@ -10,6 +11,21 @@ import TrackLink from '@/components/analytics/TrackLink'
 import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
+
+export const metadata: Metadata = {
+  alternates: { canonical: BASE_URL },
+  openGraph: {
+    title: 'DentalPrecios — Compara precios de insumos dentales en Chile',
+    description:
+      'Compara precios de insumos dentales, instrumental y estética facial entre los principales proveedores de Chile.',
+    url: BASE_URL,
+  },
+  twitter: {
+    title: 'DentalPrecios — Compara precios de insumos dentales en Chile',
+    description:
+      'Compara precios de insumos dentales entre los principales proveedores de Chile.',
+  },
+}
 
 const faqSchema = {
   '@context': 'https://schema.org',
