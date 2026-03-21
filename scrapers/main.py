@@ -91,6 +91,9 @@ from suppliers.dentalprime import DentalPrimeScraper
 from suppliers.gacchile import GacChileScraper
 from suppliers.dentalpluschile import DentalPlusChileScraper
 
+# New dental suppliers (batch 7)
+from suppliers.surdent import SurdentScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -151,6 +154,9 @@ SCRAPERS = [
     # New dental suppliers (batch 6)
     GacChileScraper(),                       # WooCommerce (orthodontic supplies)
     DentalPlusChileScraper(),                # PrestaShop (dental supplies, instruments)
+
+    # New dental suppliers (batch 7)
+    SurdentScraper(),                            # WC Store API (Kuraray distributor, equipment, materials)
 ]
 
 
@@ -568,6 +574,37 @@ CATEGORY_MAP = {
     "instrumentos": "instrumental",
     "ortopedia-dental": "ortodoncia",
     "tubos": "ortodoncia",
+
+    # Surdent (WC Store API - Kuraray distributor)
+    "material-dental": None,  # too broad, sub-categories below
+    "materiales-rehabilitacion": "laboratorio",
+    "composite": "resinas-compuestas",
+    "cementos": "cementos-adhesivos",
+    "acabado-y-pulido": "acabado-pulido",
+    "estetica-y-rehabilitacion": "estetica",
+    "fresas-fresarios-kits": "fresas-diamantes",
+    "lampara-fotocurado": "lupas-lamparas",
+    "papeles-articulares": "miscelaneos",
+    "elastomeros": "materiales-impresion",
+    "siliconas": "materiales-impresion",
+    "otros-materiales": None,
+    "profilaxis": "preventivos",
+    "sillones-dentales": "equipamiento",
+    "unidades-dentales": "equipamiento",
+    "autoclaves": "control-infecciones-clinico",
+    "esterilizacion-y-autoclave": "control-infecciones-clinico",
+    "ultrasonidos-piezoelectricos": "piezas-de-mano",
+    "instrumental-rotatorio": "piezas-de-mano",
+    "insertos": "piezas-de-mano",
+    "radiologia-intraoral": "radiologia",
+    "proteccion-radiologica-y-otros": "radiologia",
+    "elementos-proteccion-personal-epp": "control-infecciones-personal",
+    "instrumental-ortodoncia": "ortodoncia",
+    "equipos-laboratorio": "laboratorio",
+    "vacio-aspiracion": "evacuacion",
+    "bombas-de-vacio": "equipamiento",
+    "aire": "equipamiento",
+    "muebles-odontologicos": "equipamiento",
 
     # Dental Plus Chile (PrestaShop)
     "4-clinica-dental": "desechables",
