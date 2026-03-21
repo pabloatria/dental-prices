@@ -523,6 +523,7 @@ CATEGORY_MAP = {
     "odontopediatria": "preventivos",
     "rehabilitacion-oral": "laboratorio",
     "periodoncia": "cirugia",
+    "flujo-digital": "cad-cam",
 
     # NexoDental (WooCommerce)
     "equipos": "equipamiento",

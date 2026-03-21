@@ -31,6 +31,7 @@ class ExpressDentScraper(WooGenericScraper):
         "periodoncia",
         "prevencion",
         "rehabilitacion-oral",
+        "flujo-digital",
     ]
 
     pagination_style = "path"
