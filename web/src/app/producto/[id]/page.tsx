@@ -172,6 +172,7 @@ export default async function ProductPage({
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
+    ...(product.description && { description: product.description }),
     ...(product.brand && { brand: { '@type': 'Brand', name: product.brand } }),
     ...(product.image_url && { image: product.image_url }),
     ...(category && { category: category.name }),
@@ -298,6 +299,13 @@ export default async function ProductPage({
                 >
                   {category.name}
                 </Link>
+              )}
+
+              {/* Product description */}
+              {product.description && (
+                <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
+                  {product.description}
+                </p>
               )}
 
               {/* Star rating */}
