@@ -9,6 +9,7 @@ import json
 import logging
 from typing import Optional, List, Dict
 from base_scraper import BaseScraper
+from matchers import extract_brand
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,10 @@ class ShopifyGenericScraper(BaseScraper):
     name = "ShopifyGeneric"
     base_url = ""
     website_url = ""
+
+    # Set to False when the Shopify vendor field is the store name, not the product brand.
+    # When False, extract_brand() from matchers will be used to detect brand from product name.
+    vendor_is_brand = True
 
     # Number of products per API page (max 250)
     page_size = 250
@@ -96,6 +101,13 @@ class ShopifyGenericScraper(BaseScraper):
         vendor = product.get("vendor", "")
         product_type = product.get("product_type", "")
 
+        # Determine brand: use vendor if it's a real brand, otherwise extract from name
+        brand = None
+        if vendor and self.vendor_is_brand:
+            brand = vendor
+        else:
+            brand = extract_brand(title)
+
         # Get product image
         images = product.get("images", [])
         image_url = images[0].get("src", "") if images else ""
@@ -107,8 +119,8 @@ class ShopifyGenericScraper(BaseScraper):
             "in_stock": in_stock,
         }
 
-        if vendor:
-            result["brand"] = vendor
+        if brand:
+            result["brand"] = brand
         if product_type:
             result["_category"] = product_type.lower()
         if image_url:

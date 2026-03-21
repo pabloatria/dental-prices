@@ -13,3 +13,4 @@ class OrbisDentalScraper(ShopifyGenericScraper):
     name = "Orbis Dental"
     base_url = "https://www.orbisdental.cl"
     website_url = "https://www.orbisdental.cl"
+    vendor_is_brand = False  # Shopify vendor is the store name, not the product brand

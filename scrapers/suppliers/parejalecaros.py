@@ -13,3 +13,4 @@ class ParejaLecarosScraper(ShopifyGenericScraper):
     name = "Pareja Lecaros"
     base_url = "https://parejalecaros.cl"
     website_url = "https://parejalecaros.cl"
+    vendor_is_brand = False  # Shopify vendor is the store name, not the product brand
