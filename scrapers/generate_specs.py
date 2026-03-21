@@ -200,40 +200,52 @@ def generate_spec(product, api_key, dry_run=False):
         print(f"User: {prompt}")
         return None
 
-    try:
-        r = requests.post(
-            "https://api.anthropic.com/v1/messages",
-            headers={
-                "x-api-key": api_key,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
-            },
-            json={
-                "model": "claude-haiku-4-5-20251001",
-                "max_tokens": 1024,
-                "system": SYSTEM_PROMPT,
-                "messages": [{"role": "user", "content": prompt}],
-            },
-            timeout=30,
-        )
-        r.raise_for_status()
-        data = r.json()
-        text = data["content"][0]["text"]
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            r = requests.post(
+                "https://api.anthropic.com/v1/messages",
+                headers={
+                    "x-api-key": api_key,
+                    "anthropic-version": "2023-06-01",
+                    "content-type": "application/json",
+                },
+                json={
+                    "model": "claude-haiku-4-5-20251001",
+                    "max_tokens": 1024,
+                    "system": SYSTEM_PROMPT,
+                    "messages": [{"role": "user", "content": prompt}],
+                },
+                timeout=30,
+            )
+            if r.status_code == 429:
+                wait = min(30, 5 * (attempt + 1))
+                logger.warning(f"Rate limited, waiting {wait}s (attempt {attempt + 1}/{max_retries})")
+                time.sleep(wait)
+                continue
+            r.raise_for_status()
+            data = r.json()
+            text = data["content"][0]["text"]
 
-        # Parse JSON from response (handle potential markdown wrapping)
-        text = text.strip()
-        if text.startswith("```"):
-            text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+            # Parse JSON from response (handle potential markdown wrapping)
+            text = text.strip()
+            if text.startswith("```"):
+                text = text.split("\n", 1)[1].rsplit("```", 1)[0].strip()
 
-        spec = json.loads(text)
-        return spec
-    except json.JSONDecodeError as e:
-        logger.error(f"Failed to parse JSON for {product['name']}: {e}")
-        logger.error(f"Raw response: {text[:500]}")
-        return None
-    except Exception as e:
-        logger.error(f"API error for {product['name']}: {e}")
-        return None
+            spec = json.loads(text)
+            return spec
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse JSON for {product['name']}: {e}")
+            logger.error(f"Raw response: {text[:500]}")
+            return None
+        except Exception as e:
+            if attempt < max_retries - 1:
+                logger.warning(f"Error for {product['name']}: {e}, retrying...")
+                time.sleep(5)
+                continue
+            logger.error(f"API error for {product['name']}: {e}")
+            return None
+    return None
 
 
 def save_spec(env, product_id, spec):
@@ -315,9 +327,9 @@ def main():
         else:
             errors += 1
 
-        # Rate limit: ~20 requests/minute for Haiku
+        # Rate limit: stay under API limits
         if not args.dry_run and i < len(products) - 1:
-            time.sleep(1)
+            time.sleep(3)
 
     logger.info(f"Done. Success: {success}, Errors: {errors}")
 

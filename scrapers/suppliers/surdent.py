@@ -7,6 +7,7 @@ Notable: Kuraray distributor (Panavia V5, Clearfil SE Bond)
 """
 from __future__ import annotations
 
+import html
 import logging
 from typing import Optional, List, Dict
 from base_scraper import BaseScraper
@@ -68,7 +69,7 @@ class SurdentScraper(BaseScraper):
 
     def _parse_product(self, product: dict) -> Optional[Dict]:
         """Parse a WC Store API product."""
-        name = product.get("name", "").strip()
+        name = html.unescape(product.get("name", "")).strip()
         if not name:
             return None
 
