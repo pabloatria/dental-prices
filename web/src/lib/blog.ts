@@ -33,9 +33,11 @@ export function getAllPosts(): BlogPost[] {
         author: data.author || 'DentalPrecios',
         keywords: data.keywords || [],
         image: data.image,
+        draft: data.draft === true,
         content,
       }
     })
+    .filter((post) => !post.draft)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
