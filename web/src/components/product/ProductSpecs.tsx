@@ -306,11 +306,6 @@ export default function ProductSpecs({ spec }: Props) {
     <div className="bg-card rounded-xl border border-border p-6 mb-8">
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-lg font-semibold text-foreground">Información técnica</h2>
-        {spec.ai_generated && !spec.reviewed && (
-          <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
-            Generado con IA
-          </span>
-        )}
       </div>
 
       {spec.composition && (
