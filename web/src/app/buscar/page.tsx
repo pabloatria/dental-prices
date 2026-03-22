@@ -23,16 +23,16 @@ export async function generateMetadata({
     return {
       title,
       description,
-      alternates: { canonical: `${BASE_URL}/buscar?q=${encodeURIComponent(query)}` },
+      alternates: { canonical: `${BASE_URL}/buscar` },
       openGraph: {
         title,
         description,
-        url: `${BASE_URL}/buscar?q=${encodeURIComponent(query)}`,
+        url: `${BASE_URL}/buscar`,
         siteName: 'DentalPrecios',
         locale: 'es_CL',
         type: 'website',
       },
-      robots: { index: true, follow: true },
+      robots: { index: false, follow: true },
     }
   }
 
