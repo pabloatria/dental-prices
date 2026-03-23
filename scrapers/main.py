@@ -94,6 +94,9 @@ from suppliers.dentalpluschile import DentalPlusChileScraper
 # New dental suppliers (batch 7)
 from suppliers.surdent import SurdentScraper
 
+# New dental suppliers (batch 8)
+from suppliers.schudent import SchudentScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -157,6 +160,7 @@ SCRAPERS = [
 
     # New dental suppliers (batch 7)
     SurdentScraper(),                            # WC Store API (Kuraray distributor, equipment, materials)
+    SchudentScraper(),                           # WooCommerce HTML (SprintRay distributor, CAD/CAM blocks)
 ]
 
 
@@ -617,6 +621,11 @@ CATEGORY_MAP = {
     "9-insumos-medicos": "desechables",
     "10-laboratorio": "laboratorio",
     "11-instr-rotatorio": "piezas-de-mano",
+
+    # Schudent (WooCommerce HTML - shop page scrape)
+    # All products come as "tienda" since we scrape /tienda/
+    # Products are mixed (CAD/CAM, instruments, resins) — map to general
+    "tienda": None,  # Will be categorized by product name matching
 }
 
 
