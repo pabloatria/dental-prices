@@ -369,7 +369,7 @@ CATEGORY_MAP = {
     #   jeringas-agujas, laboratorio, lupas-lamparas, materiales-impresion,
     #   materiales-retraccion, matrices-cunas, miscelaneos, ortodoncia,
     #   pernos-postes, piezas-de-mano, preventivos, radiologia,
-    #   resinas-compuestas
+    #   resinas-3d, resinas-compuestas
     # ──────────────────────────────────────────────────────────────
 
     # SuperDental
@@ -485,7 +485,7 @@ CATEGORY_MAP = {
     # 3Dental (WC Store API - CAD/CAM, 3D printing)
     "impresoras-3d-odontologicas": "cad-cam",
     "impresoras-3d": "cad-cam",
-    "resinas-dentales": "cad-cam",
+    "resinas-dentales": "resinas-3d",
     "termoformadoras": "laboratorio",
     "termoformadoras-laminas": "laboratorio",
     "scanners": "cad-cam",
@@ -493,7 +493,7 @@ CATEGORY_MAP = {
     "scanners-de-mesa": "cad-cam",
     "pre-y-pos-proceso": "cad-cam",
     "insumos-de-laboratorio": "laboratorio",
-    "filamento-para-impresion-3d": "cad-cam",
+    "filamento-para-impresion-3d": "resinas-3d",
     "higiene-protesica": "preventivos",
     "ofertas": None,
     "ofertas-cyber": None,

@@ -120,6 +120,7 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>
   implantes: CirugiaIcon,
   laboratorio: EquipamientoIcon,
   "cad-cam": EquipamientoIcon,
+  "resinas-3d": EquipamientoIcon,
   preventivos: ToothIcon,
   radiologia: EquipamientoIcon,
   desechables: BioseguridadIcon,
