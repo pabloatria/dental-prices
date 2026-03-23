@@ -104,7 +104,8 @@ class ShopifyGenericScraper(BaseScraper):
         # Determine brand: use vendor if it's a real brand, otherwise extract from name
         brand = None
         if vendor and self.vendor_is_brand:
-            brand = vendor
+            from matchers import is_valid_brand
+            brand = vendor if is_valid_brand(vendor) else extract_brand(title)
         else:
             brand = extract_brand(title)
 

@@ -78,9 +78,18 @@ def normalize_name(name: str) -> str:
     )
     # Remove manufacturer company names (noise alongside product sub-brands)
     name = re.sub(
-        r'\b(3m|espe|solventum|dentsply|sirona)\b',
+        r'\b(3m|espe|solventum|dentsply|sirona|vivadent)\b',
         '', name
     )
+    # Normalize CAD/CAM block product names so different suppliers match:
+    # "Bloques Ivoclar Empress Multi" <-> "IPS EMPRESS CAD MULTI CEREC/INLAB"
+    name = re.sub(
+        r'\b(cerec|inlab|programat|primemill|primescan)\b',
+        '', name
+    )
+    name = re.sub(r'\b(bloques|bloque|blocks)\b', 'block', name)
+    name = re.sub(r'\bips\b', '', name)
+    name = re.sub(r'\bcad\b', '', name)
     # Collapse whitespace again
     name = re.sub(r'\s+', ' ', name)
     return name.strip()
@@ -151,7 +160,26 @@ KNOWN_BRANDS = [
     "shofu", "premier", "sdi", "densco", "bredent", "vita",
     "straumann", "nobel biocare", "osstem", "neodent", "megagen",
     "galderma", "merz", "allergan",
+    "biodinamica", "eighteeth", "renfert", "kuraray", "dte",
+    "coltene", "sprintray", "detax", "mani", "microdont",
 ]
+
+# Supplier names that should NEVER be used as brands
+SUPPLIER_NAMES = {
+    "parejalecaroschile", "parejalecarosch", "pareja lecaros",
+    "eksadental", "eksa dental", "orbisdental", "orbis dental",
+    "clandent", "mayordent", "mayor dent", "biotech chile",
+    "depodental", "dentalmarket", "dental market", "surdent",
+    "expressdent", "dental store", "3dental", "tres dental",
+    "dentobal", "techdent", "tech dent", "dentamarket",
+    "dental macaya", "tienda dentinet", "dentinet",
+    "cadcam service", "dentaltech", "dental america",
+}
+
+
+def is_valid_brand(brand: str) -> bool:
+    """Check if a string is a valid brand (not a supplier name)."""
+    return brand.lower().strip() not in SUPPLIER_NAMES
 
 
 def extract_brands(name: str) -> set[str]:
