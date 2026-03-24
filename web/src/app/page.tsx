@@ -15,15 +15,15 @@ const BASE_URL = 'https://www.dentalprecios.cl'
 export const metadata: Metadata = {
   alternates: { canonical: BASE_URL },
   openGraph: {
-    title: 'DentalPrecios — Compara precios de insumos dentales en Chile',
+    title: 'Compara precios de insumos dentales en Chile | DentalPrecios',
     description:
-      'Compara precios de insumos dentales, instrumental y estética facial entre los principales proveedores de Chile.',
+      'Compara precios de +14.000 productos dentales entre 20+ proveedores chilenos. Ahorra hasta un 40% comparando en DentalPrecios.',
     url: BASE_URL,
   },
   twitter: {
-    title: 'DentalPrecios — Compara precios de insumos dentales en Chile',
+    title: 'Compara precios de insumos dentales en Chile | DentalPrecios',
     description:
-      'Compara precios de insumos dentales entre los principales proveedores de Chile.',
+      'Compara precios de +14.000 productos dentales entre 20+ proveedores chilenos. Ahorra hasta un 40% comparando en DentalPrecios.',
   },
 }
 

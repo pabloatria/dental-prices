@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
   title: {
-    default: 'DentalPrecios — Comparador de precios de productos dentales en Chile',
+    default: 'Compara precios de insumos dentales en Chile | DentalPrecios',
     template: '%s | DentalPrecios',
   },
   description:
-    'Compara precios de insumos y productos dentales entre los principales proveedores de Chile. Resinas, composites, adhesivos, instrumental, flúor, ácido grabador y más. Encuentra el precio más bajo en Techdent, MayorDent, Dentobal y otros.',
+    'Compara precios de +14.000 productos dentales entre 20+ proveedores chilenos. Encuentra el precio más bajo en resinas, composites, adhesivos, instrumental, anestesia y más. Ahorra hasta un 40% comparando en DentalPrecios.',
   keywords: [
     'insumos dentales Chile',
     'precios insumos dentales',
