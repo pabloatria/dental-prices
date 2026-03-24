@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: '%s | DentalPrecios',
   },
   description:
-    'Compara precios de +14.000 productos dentales entre 20+ proveedores chilenos. Encuentra el precio más bajo en resinas, composites, adhesivos, instrumental, anestesia y más. Ahorra hasta un 40% comparando en DentalPrecios.',
+    'Compara precios de +14.000 productos dentales entre 20+ proveedores chilenos. Ahorra hasta 40% en resinas, adhesivos, instrumental y más.',
   keywords: [
     'insumos dentales Chile',
     'precios insumos dentales',
