@@ -79,6 +79,7 @@ from suppliers.denteeth import DenteethScraper
 from suppliers.biomateriales import BiomaterialesScraper
 from suppliers.dentalmaxspa import DentalMaxSpaScraper
 from suppliers.parejalecaros import ParejaLecarosScraper
+from suppliers.dentallaval import DentalLavalScraper
 
 # New dental suppliers (batch 4)
 from suppliers.tiendadentinet import TiendaDentinetScraper
@@ -146,6 +147,7 @@ SCRAPERS = [
     BiomaterialesScraper(),            # Jumpseller (bone grafts, membranes, surgical)
     DentalMaxSpaScraper(),             # WC Store API (bone grafts, membranes, instruments)
     ParejaLecarosScraper(),            # Shopify JSON API (composites, endodontics, lab)
+    DentalLavalScraper(),              # Shopify JSON API (Zeiss, W&H, EMS, equipment)
 
     # New dental suppliers (batch 4)
     TiendaDentinetScraper(),             # Jumpseller (composites, endodontics, surgery, etc.)
