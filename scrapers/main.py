@@ -2,11 +2,24 @@ from __future__ import annotations
 
 import os
 import sys
+import time
 import logging
 from collections import defaultdict
 from typing import Optional
 from dotenv import load_dotenv
 from supabase import create_client
+
+
+def retry_supabase(fn, max_retries=3, delay=5):
+    """Retry a Supabase operation with exponential backoff."""
+    for attempt in range(max_retries):
+        try:
+            return fn()
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            logger.warning(f"Supabase error (attempt {attempt + 1}/{max_retries}): {e}")
+            time.sleep(delay * (2 ** attempt))
 
 # Add the scrapers directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -168,16 +181,20 @@ SCRAPERS = [
 
 def ensure_supplier(supabase, scraper) -> Optional[str]:
     """Get or create supplier in database. Returns supplier_id."""
-    result = supabase.table("suppliers").select("id").eq("name", scraper.name).execute()
+    result = retry_supabase(
+        lambda: supabase.table("suppliers").select("id").eq("name", scraper.name).execute()
+    )
     if result.data:
         return result.data[0]["id"]
 
     # Create supplier
-    result = supabase.table("suppliers").insert({
-        "name": scraper.name,
-        "website_url": scraper.website_url,
-        "active": True,
-    }).execute()
+    result = retry_supabase(
+        lambda: supabase.table("suppliers").insert({
+            "name": scraper.name,
+            "website_url": scraper.website_url,
+            "active": True,
+        }).execute()
+    )
 
     if result.data:
         logger.info(f"Created supplier: {scraper.name}")
@@ -728,13 +745,13 @@ def main():
 
                 # Insert price record
                 try:
-                    supabase.table("prices").insert({
+                    retry_supabase(lambda: supabase.table("prices").insert({
                         "product_id": product_id,
                         "supplier_id": supplier_id,
                         "price": product["price"],
                         "product_url": product.get("product_url", ""),
                         "in_stock": product.get("in_stock", True),
-                    }).execute()
+                    }).execute())
                     total_prices += 1
                 except Exception as e:
                     logger.warning(f"[{scraper.name}] Price insert failed: {e}")

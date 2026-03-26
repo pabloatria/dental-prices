@@ -10,6 +10,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    timeout-minutes: 300
 
     steps:
       - name: Random delay (0-4 hours)
