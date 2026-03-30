@@ -9,6 +9,7 @@ import HowItWorks from '@/components/home/HowItWorks'
 import PracticeTypes from '@/components/home/PracticeTypes'
 import TrackLink from '@/components/analytics/TrackLink'
 import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
+import OfertasSection from '@/components/home/OfertasSection'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
 
@@ -127,6 +128,45 @@ export default async function Home() {
   const productsWithPrices = buildProductsWithPrices(trendingProducts || [], latestPrices)
     .sort((a, b) => b.store_count - a.store_count)
 
+  // Fetch active offers (products with original_price > price * 1.10)
+  const { data: offerPrices } = await supabase
+    .from('prices')
+    .select(`
+      product_id,
+      supplier_id,
+      price,
+      original_price,
+      products!inner ( id, name, brand, image_url ),
+      suppliers!inner ( id, name )
+    `)
+    .not('original_price', 'is', null)
+    .gt('original_price', 0)
+    .order('scraped_at', { ascending: false })
+    .limit(100)
+
+  const seenOffers = new Set<string>()
+  const homeOffers = ((offerPrices || []) as any[])
+    .filter(row => {
+      const key = `${row.product_id}:${row.supplier_id}`
+      if (seenOffers.has(key)) return false
+      seenOffers.add(key)
+      return true
+    })
+    .filter(row => row.original_price > row.price * 1.10)
+    .map(row => ({
+      product_id: row.product_id,
+      supplier_id: row.supplier_id,
+      product_name: row.products.name,
+      brand: row.products.brand,
+      image_url: row.products.image_url,
+      price: row.price,
+      original_price: row.original_price,
+      discount_pct: Math.round(((row.original_price - row.price) / row.original_price) * 100),
+      supplier_name: row.suppliers.name,
+      product_url: '',
+    }))
+    .sort((a: any, b: any) => b.discount_pct - a.discount_pct)
+
   return (
     <>
       <script
@@ -196,6 +236,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <OfertasSection offers={homeOffers} />
 
       <TrendingProducts products={productsWithPrices} />
       <SupplierShowcase suppliers={suppliers || []} />
