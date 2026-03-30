@@ -83,11 +83,24 @@ class TresDentalScraper(BaseScraper):
             return None
 
         prices = product.get("prices", {})
-        price_str = prices.get("sale_price") or prices.get("price", "0")
+        sale_price_str = prices.get("sale_price", "")
+        regular_price_str = prices.get("price", "0")
+
+        price_str = sale_price_str if sale_price_str else regular_price_str
         try:
             price = int(price_str)
         except (ValueError, TypeError):
             return None
+
+        # Detect active promotion: sale_price is set AND lower than regular price
+        original_price = None
+        try:
+            if sale_price_str:
+                regular = int(regular_price_str)
+                if regular > price:
+                    original_price = regular
+        except (ValueError, TypeError):
+            pass
 
         # Skip products with no price (contact-for-price items)
         if price <= 0:
@@ -119,6 +132,8 @@ class TresDentalScraper(BaseScraper):
             result["image_url"] = image_url
         if brand:
             result["brand"] = brand
+        if original_price:
+            result["original_price"] = original_price
 
         return result
 

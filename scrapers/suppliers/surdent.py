@@ -74,11 +74,24 @@ class SurdentScraper(BaseScraper):
             return None
 
         prices = product.get("prices", {})
-        price_str = prices.get("sale_price") or prices.get("price", "0")
+        sale_price_str = prices.get("sale_price", "")
+        regular_price_str = prices.get("price", "0")
+
+        price_str = sale_price_str if sale_price_str else regular_price_str
         try:
             price = int(price_str)
         except (ValueError, TypeError):
             return None
+
+        # Detect active promotion: sale_price is set AND lower than regular price
+        original_price = None
+        try:
+            if sale_price_str:
+                regular = int(regular_price_str)
+                if regular > price:
+                    original_price = regular
+        except (ValueError, TypeError):
+            pass
 
         if price <= 0:
             return None
@@ -103,6 +116,8 @@ class SurdentScraper(BaseScraper):
             result["_category"] = category
         if image_url:
             result["image_url"] = image_url
+        if original_price:
+            result["original_price"] = original_price
 
         return result
 
