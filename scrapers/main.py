@@ -773,9 +773,13 @@ def main():
                 # Use explicit sale price if scraper found one; otherwise check for price drop
                 original_price = product.get("original_price")
                 if original_price is None:
-                    original_price = detect_price_drop(
-                        supabase, product_id, supplier_id, product["price"]
-                    )
+                    try:
+                        original_price = detect_price_drop(
+                            supabase, product_id, supplier_id, product["price"]
+                        )
+                    except Exception as e:
+                        logger.warning(f"[{scraper.name}] detect_price_drop failed: {e}")
+                        original_price = None
                 if original_price:
                     product["original_price"] = original_price
 

@@ -107,7 +107,7 @@ class SuperDentalCFScraper(BaseScraper):
         in_stock = product.get("is_purchasable", True)
 
         categories = product.get("categories", [])
-        category = categories[0]["name"] if categories else ""
+        category = categories[0]["slug"] if categories else ""
 
         # Get product image
         images = product.get("images", [])
