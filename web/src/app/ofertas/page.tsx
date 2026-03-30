@@ -6,7 +6,7 @@ import OfferCard from '@/components/product/OfferCard'
 const BASE_URL = 'https://www.dentalprecios.cl'
 
 export const metadata: Metadata = {
-  title: 'Ofertas en insumos dentales hoy | DentalPrecios',
+  title: 'Ofertas en insumos dentales hoy',
   description:
     'Descuentos activos detectados hoy en insumos dentales. Composites, adhesivos, instrumental y más con hasta 40% de descuento en proveedores chilenos.',
   alternates: { canonical: `${BASE_URL}/ofertas` },
