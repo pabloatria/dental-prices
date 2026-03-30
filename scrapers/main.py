@@ -680,6 +680,33 @@ def check_and_record_restock(supabase, product_id, supplier_id, new_in_stock):
         logger.warning(f"Failed to record restock event: {e}")
 
 
+def detect_price_drop(supabase, product_id, supplier_id, current_price):
+    """
+    Fallback offer detection: if price dropped >10% vs previous scrape,
+    return the previous price as original_price (synthetic discount).
+    Returns previous price int if drop ≥10%, else None.
+    """
+    result = supabase.table("prices") \
+        .select("price") \
+        .eq("product_id", product_id) \
+        .eq("supplier_id", supplier_id) \
+        .order("scraped_at", desc=True) \
+        .limit(1) \
+        .execute()
+
+    if not result.data:
+        return None  # First time seeing this product
+
+    prev_price = result.data[0]["price"]
+    if prev_price <= 0 or current_price <= 0:
+        return None
+
+    drop_pct = (prev_price - current_price) / prev_price
+    if drop_pct >= 0.10:
+        return prev_price
+    return None
+
+
 def main():
     global _product_cache
 
@@ -743,6 +770,15 @@ def main():
                     product.get("in_stock", True),
                 )
 
+                # Use explicit sale price if scraper found one; otherwise check for price drop
+                original_price = product.get("original_price")
+                if original_price is None:
+                    original_price = detect_price_drop(
+                        supabase, product_id, supplier_id, product["price"]
+                    )
+                if original_price:
+                    product["original_price"] = original_price
+
                 # Insert price record
                 try:
                     retry_supabase(lambda: supabase.table("prices").insert({
@@ -751,6 +787,7 @@ def main():
                         "price": product["price"],
                         "product_url": product.get("product_url", ""),
                         "in_stock": product.get("in_stock", True),
+                        "original_price": product.get("original_price"),  # None if no sale
                     }).execute())
                     total_prices += 1
                 except Exception as e:
