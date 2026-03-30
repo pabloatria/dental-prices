@@ -1,20 +1,8 @@
 import Link from 'next/link'
 import OfferCard from '@/components/product/OfferCard'
+import { OfferItem } from '@/lib/queries/offers'
 
-interface Offer {
-  product_id: string
-  supplier_id: string
-  product_name: string
-  brand: string | null
-  image_url: string | null
-  price: number
-  original_price: number
-  discount_pct: number
-  supplier_name: string
-  product_url: string
-}
-
-export default function OfertasSection({ offers }: { offers: Offer[] }) {
+export default function OfertasSection({ offers }: { offers: OfferItem[] }) {
   if (offers.length === 0) return null
 
   const top8 = offers.slice(0, 8)

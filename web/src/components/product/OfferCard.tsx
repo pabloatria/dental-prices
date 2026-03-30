@@ -1,20 +1,9 @@
 import Link from 'next/link'
 import { formatCLP } from '@/lib/queries/products'
 import DiscountBadge from './DiscountBadge'
+import { OfferItem } from '@/lib/queries/offers'
 
-interface Offer {
-  product_id: string
-  product_name: string
-  brand: string | null
-  image_url: string | null
-  price: number
-  original_price: number
-  discount_pct: number
-  supplier_name: string
-  product_url: string
-}
-
-export default function OfferCard({ offer }: { offer: Offer }) {
+export default function OfferCard({ offer }: { offer: OfferItem }) {
   return (
     <Link
       href={`/producto/${offer.product_id}`}
