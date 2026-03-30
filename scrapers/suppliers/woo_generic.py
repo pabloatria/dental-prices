@@ -168,9 +168,16 @@ class WooGenericScraper(BaseScraper):
 
         # Price (prefer sale price)
         price = 0
+        original_price = None
         sale_el = el.select_one(self.sale_price_selector)
         if sale_el:
             price = self._parse_clp(sale_el.get_text())
+            # Grab struck-through regular price (<del> element)
+            del_el = el.select_one("del .woocommerce-Price-amount, del .amount")
+            if del_el:
+                parsed_original = self._parse_clp(del_el.get_text())
+                if parsed_original > price:
+                    original_price = parsed_original
         else:
             price_el = el.select_one(self.regular_price_selector)
             if price_el:
@@ -197,6 +204,8 @@ class WooGenericScraper(BaseScraper):
             "product_url": product_url,
             "in_stock": in_stock,
         }
+        if original_price:
+            result["original_price"] = original_price
         if category:
             result["_category"] = category
         if image_url:
