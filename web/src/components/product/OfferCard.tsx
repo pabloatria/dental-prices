@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { formatCLP } from '@/lib/queries/products'
 import DiscountBadge from './DiscountBadge'
 
@@ -29,12 +28,10 @@ export default function OfferCard({ offer }: { offer: Offer }) {
       {/* Product image */}
       <div className="relative aspect-square bg-muted flex items-center justify-center p-4">
         {offer.image_url ? (
-          <Image
+          <img
             src={offer.image_url}
             alt={offer.product_name}
-            fill
-            className="object-contain p-3"
-            sizes="(max-width: 640px) 50vw, 200px"
+            className="max-w-full max-h-full object-contain"
           />
         ) : (
           <div className="w-12 h-12 rounded-full bg-border" />
