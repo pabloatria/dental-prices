@@ -51,6 +51,11 @@ export default function Footer({ categories }: { categories: Category[] }) {
                 </Link>
               </li>
               <li>
+                <Link href="/ofertas" className="text-sm text-background/60 hover:text-background transition-colors">
+                  Ofertas del día
+                </Link>
+              </li>
+              <li>
                 <Link href="/categorias" className="text-sm text-background/60 hover:text-background transition-colors">
                   Todas las categor&iacute;as
                 </Link>

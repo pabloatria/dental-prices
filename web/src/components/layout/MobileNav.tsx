@@ -41,6 +41,10 @@ export default function MobileNav({ categories }: { categories: Category[] }) {
               Inicio
             </Link>
 
+            <Link href="/ofertas" className="flex items-center gap-3 px-4 py-3 text-red-500 font-medium hover:bg-muted transition-colors">
+              🔥 Ofertas del día
+            </Link>
+
             <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-4">
               Categor&iacute;as
             </div>
