@@ -111,6 +111,9 @@ from suppliers.surdent import SurdentScraper
 # New dental suppliers (batch 8)
 from suppliers.schudent import SchudentScraper
 
+# New dental suppliers (batch 9)
+from suppliers.dentica import DenticaScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -176,6 +179,9 @@ SCRAPERS = [
     # New dental suppliers (batch 7)
     SurdentScraper(),                            # WC Store API (Kuraray distributor, equipment, materials)
     SchudentScraper(),                           # WooCommerce HTML (SprintRay distributor, CAD/CAM blocks)
+
+    # New dental suppliers (batch 9)
+    DenticaScraper(),                                # WC Store API (general dental supplies)
 ]
 
 
