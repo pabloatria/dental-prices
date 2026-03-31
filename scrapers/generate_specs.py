@@ -212,7 +212,7 @@ def generate_spec(product, api_key, dry_run=False):
                 },
                 json={
                     "model": "claude-haiku-4-5-20251001",
-                    "max_tokens": 1024,
+                    "max_tokens": 2048,
                     "system": SYSTEM_PROMPT,
                     "messages": [{"role": "user", "content": prompt}],
                 },
