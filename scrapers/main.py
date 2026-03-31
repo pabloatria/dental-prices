@@ -117,6 +117,13 @@ from suppliers.dentica import DenticaScraper
 # New dental suppliers (batch 10)
 from suppliers.odontoimport import OdontoimportScraper
 
+# New dental suppliers (batch 11)
+from suppliers.larense import LarenseScraper
+from suppliers.dentalalameda import DentalAlamedaScraper
+from suppliers.dentaltech import DentalTechScraper
+from suppliers.dentalstore import DentalStoreScraper
+from suppliers.dentalimport import DentalImportScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -188,6 +195,13 @@ SCRAPERS = [
 
     # New dental suppliers (batch 10)
     OdontoimportScraper(),                               # ASP.NET HTML + JSON-LD (sitemap discovery, ~1000 products)
+
+    # New dental suppliers (batch 11)
+    LarenseScraper(),                                        # WC Store API (general dental supplies)
+    DentalAlamedaScraper(),                                  # WC Store API (general dental supplies)
+    DentalTechScraper(),                                     # WC Store API (general dental supplies)
+    DentalStoreScraper(),                                    # WC Store API (general dental supplies)
+    DentalImportScraper(),                                   # WC Store API (general dental supplies)
 ]
 
 
