@@ -22,6 +22,14 @@ class DenticaScraper(BaseScraper):
     api_url = "https://dentica.cl/wp-json/wc/store/v1/products"
     page_size = 100
 
+    def _api_get(self, **kwargs):
+        """Make a GET request to the WC Store API with proper headers."""
+        headers = {
+            "Accept": "application/json",
+            "Accept-Encoding": "gzip, deflate",
+        }
+        return self.session.get(self.api_url, headers=headers, **kwargs)
+
     def scrape(self) -> List[Dict]:
         """Scrape all products via WC Store API."""
         all_products = []
@@ -31,12 +39,16 @@ class DenticaScraper(BaseScraper):
             try:
                 import time, random
                 time.sleep(random.uniform(1, 2))
-                response = self.session.get(
-                    self.api_url,
+                response = self._api_get(
                     params={"per_page": self.page_size, "page": page},
                     timeout=30,
                 )
                 if response.status_code != 200:
+                    break
+
+                content_type = response.headers.get("Content-Type", "")
+                if "application/json" not in content_type:
+                    logger.error(f"[{self.name}] Non-JSON response: {content_type}")
                     break
 
                 data = response.json()
@@ -133,13 +145,17 @@ class DenticaScraper(BaseScraper):
     def test(self) -> bool:
         """Test the Store API."""
         try:
-            response = self.session.get(
-                self.api_url,
+            response = self._api_get(
                 params={"per_page": 5, "page": 1},
                 timeout=15,
             )
             if response.status_code != 200:
                 print(f"ERROR: {self.name} API returned {response.status_code}")
+                return False
+            content_type = response.headers.get("Content-Type", "")
+            if "application/json" not in content_type:
+                print(f"ERROR: {self.name} API returned non-JSON Content-Type: {content_type}")
+                print(f"  Response preview: {response.text[:200]}")
                 return False
             data = response.json()
             if not isinstance(data, list) or not data:
