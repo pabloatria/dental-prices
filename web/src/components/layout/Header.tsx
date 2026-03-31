@@ -18,15 +18,15 @@ export default function Header({ categories }: HeaderProps) {
         <MobileNav categories={categories} />
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0">
+        <Link href="/" className="shrink-0">
           <Image
-            src="/logo-icon.png"
+            src="/logo.png"
             alt="DentalPrecios"
-            width={32}
-            height={32}
-            className="w-8 h-8 rounded-lg"
+            width={165}
+            height={50}
+            className="h-10 w-auto"
+            priority
           />
-          <span className="text-xl font-bold text-primary hidden sm:inline">DentalPrecios</span>
         </Link>
 
         {/* Search bar */}
