@@ -125,6 +125,9 @@ from suppliers.dentalstore import DentalStoreScraper
 from suppliers.dentalimport import DentalImportScraper
 from suppliers.dentaldepot import DentalDepotScraper
 
+# New dental suppliers (batch 13)
+from suppliers.exprodental import ExproDentalScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -206,6 +209,9 @@ SCRAPERS = [
 
     # New dental suppliers (batch 12)
     DentalDepotScraper(),                                        # Shopify JSON API (dental consumables, ~145 products)
+
+    # New dental suppliers (batch 13)
+    ExproDentalScraper(),                                            # Custom PHP HTML (~1800 dental products)
 ]
 
 
