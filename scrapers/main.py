@@ -728,29 +728,39 @@ def check_and_record_restock(supabase, product_id, supplier_id, new_in_stock):
         logger.warning(f"Failed to record restock event: {e}")
 
 
-def detect_price_drop(supabase, product_id, supplier_id, current_price):
+def detect_price_drop(supabase, product_id, supplier_id, current_price, product_url=""):
     """
-    Fallback offer detection: if price dropped >10% vs previous scrape,
-    return the previous price as original_price (synthetic discount).
-    Returns previous price int if drop ≥10%, else None.
+    Fallback offer detection: if price dropped >10% vs previous scrape
+    for the SAME product URL, return the previous price as original_price.
+    Requires same product_url to avoid false positives from dedup collisions
+    (e.g. two different products sharing one product_id).
+    Caps at 50% max discount to filter data anomalies.
+    Returns previous price int if drop is 10-50%, else None.
     """
-    result = supabase.table("prices") \
-        .select("price") \
+    query = supabase.table("prices") \
+        .select("price, product_url") \
         .eq("product_id", product_id) \
         .eq("supplier_id", supplier_id) \
         .order("scraped_at", desc=True) \
-        .limit(1) \
-        .execute()
+        .limit(1)
+
+    result = query.execute()
 
     if not result.data:
         return None  # First time seeing this product
 
     prev_price = result.data[0]["price"]
+    prev_url = result.data[0].get("product_url", "")
+
+    # Only compare if same product URL (avoids dedup collision false positives)
+    if product_url and prev_url and product_url != prev_url:
+        return None
+
     if prev_price <= 0 or current_price <= 0:
         return None
 
     drop_pct = (prev_price - current_price) / prev_price
-    if drop_pct >= 0.10:
+    if 0.10 <= drop_pct <= 0.50:
         return prev_price
     return None
 
@@ -828,7 +838,8 @@ def main():
                 if original_price is None:
                     try:
                         original_price = detect_price_drop(
-                            supabase, product_id, supplier_id, product["price"]
+                            supabase, product_id, supplier_id, product["price"],
+                            product_url=product.get("product_url", "")
                         )
                     except Exception as e:
                         logger.warning(f"[{scraper.name}] detect_price_drop failed: {e}")
