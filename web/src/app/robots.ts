@@ -6,11 +6,11 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/_next/'],
+        disallow: ['/api/', '/mi-cuenta/', '/ingresar/'],
       },
-      // Explicitly allow search engines
-      { userAgent: 'Googlebot', allow: '/' },
-      { userAgent: 'Bingbot', allow: '/' },
+      // Explicitly allow search engines (including /_next/ for CSS/JS rendering)
+      { userAgent: 'Googlebot', allow: ['/', '/_next/'] },
+      { userAgent: 'Bingbot', allow: ['/', '/_next/'] },
       // Block AI training bots
       { userAgent: 'GPTBot', disallow: '/' },
       { userAgent: 'ChatGPT-User', disallow: '/' },
