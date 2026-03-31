@@ -128,7 +128,7 @@ export default async function BlogPostPage({
           Compara precios en tiempo real
         </p>
         <p className="text-muted-foreground mt-1">
-          Más de 9.000 productos de insumos dentales entre 17 proveedores
+          Más de 20.000 productos de insumos dentales entre 70+ proveedores
         </p>
         <Link
           href="/"
