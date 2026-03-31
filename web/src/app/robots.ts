@@ -6,8 +6,23 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/mi-cuenta/', '/ingresar/'],
+        disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/_next/'],
       },
+      // Explicitly allow search engines
+      { userAgent: 'Googlebot', allow: '/' },
+      { userAgent: 'Bingbot', allow: '/' },
+      // Block AI training bots
+      { userAgent: 'GPTBot', disallow: '/' },
+      { userAgent: 'ChatGPT-User', disallow: '/' },
+      { userAgent: 'ClaudeBot', disallow: '/' },
+      { userAgent: 'anthropic-ai', disallow: '/' },
+      { userAgent: 'PerplexityBot', disallow: '/' },
+      { userAgent: 'Google-Extended', disallow: '/' },
+      { userAgent: 'CCBot', disallow: '/' },
+      { userAgent: 'Bytespider', disallow: '/' },
+      { userAgent: 'Amazonbot', disallow: '/' },
+      { userAgent: 'Applebot-Extended', disallow: '/' },
+      { userAgent: 'meta-externalagent', disallow: '/' },
       // Block known scraper frameworks
       { userAgent: 'Scrapy', disallow: '/' },
       { userAgent: 'MJ12bot', disallow: '/' },
@@ -17,14 +32,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: 'MegaIndex', disallow: '/' },
       { userAgent: 'BLEXBot', disallow: '/' },
       { userAgent: 'DataForSeoBot', disallow: '/' },
-      // Explicitly allow search engines and AI bots
-      { userAgent: 'GPTBot', allow: '/' },
-      { userAgent: 'ChatGPT-User', allow: '/' },
-      { userAgent: 'PerplexityBot', allow: '/' },
-      { userAgent: 'ClaudeBot', allow: '/' },
-      { userAgent: 'anthropic-ai', allow: '/' },
-      { userAgent: 'Googlebot', allow: '/' },
-      { userAgent: 'Bingbot', allow: '/' },
     ],
     sitemap: 'https://www.dentalprecios.cl/sitemap.xml',
   }
