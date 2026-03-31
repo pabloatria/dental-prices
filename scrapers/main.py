@@ -750,8 +750,13 @@ def main():
             continue
 
         # Test scraper connectivity
-        if not scraper.test():
-            logger.warning(f"[{scraper.name}] Connection test FAILED - skipping")
+        try:
+            if not scraper.test():
+                logger.warning(f"[{scraper.name}] Connection test FAILED - skipping")
+                total_skipped += 1
+                continue
+        except Exception as e:
+            logger.error(f"[{scraper.name}] Connection test crashed: {e} - skipping")
             total_skipped += 1
             continue
 

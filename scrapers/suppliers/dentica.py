@@ -129,3 +129,24 @@ class DenticaScraper(BaseScraper):
             result["brand"] = brand
 
         return result
+
+    def test(self) -> bool:
+        """Test the Store API."""
+        try:
+            response = self.session.get(
+                self.api_url,
+                params={"per_page": 5, "page": 1},
+                timeout=15,
+            )
+            if response.status_code != 200:
+                print(f"ERROR: {self.name} API returned {response.status_code}")
+                return False
+            data = response.json()
+            if not isinstance(data, list) or not data:
+                print(f"ERROR: {self.name} API returned empty or invalid data")
+                return False
+            print(f"OK: Found {len(data)} products via API on {self.name}")
+            return True
+        except Exception as e:
+            print(f"ERROR: {self.name} API failed: {e}")
+            return False
