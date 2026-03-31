@@ -40,3 +40,11 @@ jobs:
         run: |
           cd scrapers
           python main.py
+
+      - name: Notify IndexNow (Bing/Yandex)
+        if: always()
+        run: |
+          curl -s -X POST https://www.dentalprecios.cl/api/indexnow \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -H "Content-Type: application/json" \
+            || echo "IndexNow notification failed (non-critical)"
