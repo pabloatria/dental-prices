@@ -114,6 +114,9 @@ from suppliers.schudent import SchudentScraper
 # New dental suppliers (batch 9)
 from suppliers.dentica import DenticaScraper
 
+# New dental suppliers (batch 10)
+from suppliers.odontoimport import OdontoimportScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -182,6 +185,9 @@ SCRAPERS = [
 
     # New dental suppliers (batch 9)
     DenticaScraper(),                                # WC Store API (general dental supplies)
+
+    # New dental suppliers (batch 10)
+    OdontoimportScraper(),                               # ASP.NET HTML + JSON-LD (sitemap discovery, ~1000 products)
 ]
 
 
