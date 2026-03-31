@@ -128,6 +128,12 @@ from suppliers.dentaldepot import DentalDepotScraper
 # New dental suppliers (batch 13)
 from suppliers.exprodental import ExproDentalScraper
 
+# New dental suppliers (batch 14)
+from suppliers.dentalguzman import DentalGuzmanScraper
+
+# New dental suppliers (batch 15)
+from suppliers.ccdental import CCDentalScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -212,6 +218,12 @@ SCRAPERS = [
 
     # New dental suppliers (batch 13)
     ExproDentalScraper(),                                            # Custom PHP HTML (~1800 dental products)
+
+    # New dental suppliers (batch 14)
+    DentalGuzmanScraper(),                                               # WooCommerce HTML (~159 dental products)
+
+    # New dental suppliers (batch 15)
+    CCDentalScraper(),                                                       # Jumpseller HTML (~280 endodontics products)
 ]
 
 
