@@ -123,6 +123,7 @@ from suppliers.dentalalameda import DentalAlamedaScraper
 from suppliers.dentaltech import DentalTechScraper
 from suppliers.dentalstore import DentalStoreScraper
 from suppliers.dentalimport import DentalImportScraper
+from suppliers.dentaldepot import DentalDepotScraper
 
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
@@ -202,6 +203,9 @@ SCRAPERS = [
     DentalTechScraper(),                                     # WC Store API (general dental supplies)
     DentalStoreScraper(),                                    # WC Store API (general dental supplies)
     DentalImportScraper(),                                   # WC Store API (general dental supplies)
+
+    # New dental suppliers (batch 12)
+    DentalDepotScraper(),                                        # Shopify JSON API (dental consumables, ~145 products)
 ]
 
 
