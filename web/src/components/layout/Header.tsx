@@ -4,6 +4,7 @@ import type { Category } from '@/lib/types'
 import SearchWithAutocomplete from '@/components/search/SearchWithAutocomplete'
 import CategoryMegaMenu from '@/components/layout/CategoryMegaMenu'
 import MobileNav from '@/components/layout/MobileNav'
+import CartIcon from '@/components/layout/CartIcon'
 
 interface HeaderProps {
   categories: Category[]
@@ -36,6 +37,7 @@ export default function Header({ categories }: HeaderProps) {
 
         {/* Account links */}
         <nav className="flex items-center gap-2 shrink-0">
+          <CartIcon />
           <Link
             href="/blog"
             className="hidden sm:flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-lg hover:bg-accent"
