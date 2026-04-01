@@ -17,7 +17,11 @@ export async function GET(request: NextRequest) {
   }
 
   // Log the click event asynchronously (don't block the redirect)
-  if (productId && supplierId) {
+  // Skip bot clicks — only track real user visits
+  const userAgent = request.headers.get('user-agent') || ''
+  const isBot = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|gptbot|claudebot/i.test(userAgent)
+
+  if (productId && supplierId && !isBot) {
     void supabase
       .from('click_events')
       .insert({
@@ -25,7 +29,7 @@ export async function GET(request: NextRequest) {
         supplier_id: supplierId,
         url,
         referrer: request.headers.get('referer') || null,
-        user_agent: request.headers.get('user-agent') || null,
+        user_agent: userAgent,
       })
       .then(() => {})
   }
