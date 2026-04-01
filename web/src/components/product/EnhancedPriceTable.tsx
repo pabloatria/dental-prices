@@ -1,3 +1,4 @@
+import AddToCartButton from '@/components/product/AddToCartButton'
 import StockAlertButton from '@/components/product/StockAlertButton'
 import type { Price } from '@/lib/types'
 import { formatCLP } from '@/lib/queries/products'
@@ -101,23 +102,32 @@ export default function EnhancedPriceTable({ prices, productId }: { prices: Pric
                   )}
                 </td>
                 <td className="py-4 px-4 text-right">
-                  <a
-                    href={`/api/redirect?url=${encodeURIComponent(price.product_url)}&product=${productId}&supplier=${price.supplier_id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      isCatalog
-                        ? 'bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20'
-                        : isBest
-                          ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                          : 'bg-card border border-border text-foreground hover:bg-accent'
-                    }`}
-                  >
-                    {isCatalog ? 'Contactar proveedor' : 'Ir a comprar'}
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                    </svg>
-                  </a>
+                  <div className="flex items-center justify-end gap-2">
+                    {!isCatalog && (
+                      <AddToCartButton
+                        productId={productId}
+                        supplierId={price.supplier_id}
+                        price={price.price}
+                      />
+                    )}
+                    <a
+                      href={`/api/redirect?url=${encodeURIComponent(price.product_url)}&product=${productId}&supplier=${price.supplier_id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        isCatalog
+                          ? 'bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20'
+                          : isBest
+                            ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                            : 'bg-card border border-border text-foreground hover:bg-accent'
+                      }`}
+                    >
+                      {isCatalog ? 'Contactar proveedor' : 'Ir a comprar'}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                      </svg>
+                    </a>
+                  </div>
                 </td>
               </tr>
             )
