@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
   const url = request.nextUrl.searchParams.get('url')
   const productId = request.nextUrl.searchParams.get('product')
   const supplierId = request.nextUrl.searchParams.get('supplier')
+  const source = request.nextUrl.searchParams.get('source') || 'product_page'
 
   if (!url) {
     return NextResponse.redirect(new URL('/', request.url))
@@ -30,6 +31,7 @@ export async function GET(request: NextRequest) {
         url,
         referrer: request.headers.get('referer') || null,
         user_agent: userAgent,
+        source,
       })
       .then(() => {})
   }
