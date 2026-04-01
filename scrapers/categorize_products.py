@@ -289,6 +289,7 @@ CATEGORIES_LIST = """Available categories (use the exact slug):
 - preventivos: Preventivos (fluoride, sealants, prophylaxis paste)
 - radiologia: Radiología (x-ray film, sensors, phosphor plates)
 - resinas-compuestas: Resinas compuestas (composite resins, flowable, bulk fill)
+- sillones-dentales: Sillones dentales (dental chairs, dental units, portable chairs)
 """
 
 AI_SYSTEM_PROMPT = f"""You are a dental product categorization expert. Given a product name and brand, respond with ONLY the category slug that best fits. No explanation, just the slug.

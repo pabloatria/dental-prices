@@ -12,6 +12,7 @@ export default function AuthPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [oauthLoading, setOauthLoading] = useState(false)
+  const [newsletter, setNewsletter] = useState(true)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,9 +27,18 @@ export default function AuthPage() {
       if (error) setError(error.message)
       else router.push('/mi-cuenta')
     } else {
-      const { error } = await supabase.auth.signUp({ email, password })
+      const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) setError(error.message)
       else {
+        // Create subscriber record with newsletter preference
+        if (data.user) {
+          await supabase.from('subscribers').upsert({
+            user_id: data.user.id,
+            plan: 'free',
+            active: true,
+            email_newsletter: newsletter,
+          }, { onConflict: 'user_id' })
+        }
         setError('')
         alert('Revisa tu correo para confirmar tu cuenta')
       }
@@ -107,6 +117,20 @@ export default function AuthPage() {
             minLength={6}
             className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 text-foreground placeholder:text-muted-foreground"
           />
+
+          {!isLogin && (
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={newsletter}
+                onChange={(e) => setNewsletter(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded border-border text-primary focus:ring-primary/20"
+              />
+              <span className="text-sm text-muted-foreground">
+                Quiero recibir ofertas destacadas y novedades de DentalPrecios por email (máximo 2 veces al mes)
+              </span>
+            </label>
+          )}
 
           {error && <p className="text-red-500 text-sm">{error}</p>}
 

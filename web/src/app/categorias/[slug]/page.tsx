@@ -72,6 +72,8 @@ const CATEGORY_INTROS: Record<string, string> = {
     'Compara precios de películas radiográficas, sensores digitales, líquidos reveladores, delantales plomados y posicionadores de marcas como Carestream, Agfa, Fuji y Maquira. DentalPrecios reúne más de 70 proveedores en Chile para que encuentres insumos de radiología dental al mejor precio. Desde radiografías periapicales hasta sistemas de imagenología digital.',
   'resinas-compuestas':
     'Encuentra resinas compuestas, composites fluidos, resinas bulk fill y sistemas adhesivos de marcas como 3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM y Tokuyama Estelite. DentalPrecios compara precios de resinas dentales entre más de 70 proveedores en Chile. Accede a composites nanohíbridos, microhíbridos y resinas de alta estética para restauraciones directas al mejor precio.',
+  'sillones-dentales':
+    'Compara precios de sillones dentales, unidades odontológicas completas y sillones portátiles de marcas como Gnatus, KaVo, A-dec, Fengdan y Woson. DentalPrecios reúne más de 70 proveedores en Chile para que equipes tu consulta al mejor precio. Encuentra sillones con luz LED integrada, tapizado de cuero sintético, pedal multifunción y entrega técnica incluida.',
 }
 
 export async function generateMetadata({
