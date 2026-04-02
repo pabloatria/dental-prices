@@ -158,6 +158,11 @@ export default async function RootLayout({
         <SpeedInsights />
         <GoogleAnalytics />
         <script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="gehQcSuxrToqglhlm+qTWw"
+          async
+        />
+        <script
           dangerouslySetInnerHTML={{
             __html: `if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}`,
           }}
