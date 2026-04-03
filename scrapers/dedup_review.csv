@@ -464,7 +464,7 @@ group_id,action,product_id,current_name,canonical_name,brand,category_id
 200,MERGE,6e2c05e7-fc13-4035-a994-cc43ed4b25ac,Clearfil APX ES-2 A2 (3.6 Grs),Clearfil APX ES-2 A3 (3.6 Grs),Kuraray,
 201,KEEP,af2d1208-b88c-4cfc-b52b-6fd635675f79,3M FILTEK EASY MATCH UNIVERSAL,3M FILTEK EASY MATCH UNIVERSAL,Solventum,fe3759d1-e08d-43ec-b9e7-f4ecb45827a4
 201,MERGE,b32d09c1-457f-49e8-be11-88dc46da50a9,3M Composite Filtek Easy Match Universal,3M FILTEK EASY MATCH UNIVERSAL,Solventum,fe3759d1-e08d-43ec-b9e7-f4ecb45827a4
-201,MERGE,65cacf12-ec11-4afa-af26-729c639f6ff9,"3M Kit Filtek Easy Match Universal Intro, Solventum",3M FILTEK EASY MATCH UNIVERSAL,,
+201,KEEP,65cacf12-ec11-4afa-af26-729c639f6ff9,"3M Kit Filtek Easy Match Universal Intro, Solventum","3M Kit Filtek Easy Match Universal Intro, Solventum",,
 202,KEEP,7c3241cd-9058-49a5-ab1c-584ed5f79204,Kerr Soft Clamp Set 5 unidades,Kerr Soft Clamp Set 5 unidades,Kerr,
 202,MERGE,a2ea6627-9d69-4142-bdd4-00551151c965,Soft Clamp Set 5 unidades – Kerr,Kerr Soft Clamp Set 5 unidades,,
 203,KEEP,3f859da3-4f48-481e-8800-8729ec51c578,Goma Dique Verde – Rubber Care,Goma Dique Verde – Rubber Care,Rubbercare,

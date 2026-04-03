@@ -41,6 +41,13 @@ jobs:
           cd scrapers
           python main.py
 
+      - name: Revalidate ISR cache
+        if: success()
+        run: |
+          curl -s -X POST "https://www.dentalprecios.cl/api/revalidate" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            || echo "ISR revalidation failed (non-critical)"
+
       - name: Notify IndexNow (Bing/Yandex)
         if: always()
         run: |

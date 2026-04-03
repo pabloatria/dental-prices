@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       { source: '/categorias/aleaciones-accesorios', destination: '/categorias/laboratorio', permanent: true },
       { source: '/categorias/confort-proteccion', destination: '/categorias/control-infecciones-personal', permanent: true },
       { source: '/categorias/suministros-oficina', destination: '/categorias/miscelaneos', permanent: true },
+      { source: '/categorias/fresas-y-diamantes', destination: '/categorias/fresas-diamantes', permanent: true },
     ]
   },
   async headers() {
