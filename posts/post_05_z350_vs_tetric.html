@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z350 vs Tetric - DentalPrecios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 1080px;
+            height: 1080px;
+            background: linear-gradient(135deg, #1A2332 0%, #0F1621 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 40px;
+            position: relative;
+        }
+        .vs-background {
+            position: absolute;
+            font-size: 420px;
+            font-weight: 900;
+            color: rgba(43, 123, 185, 0.08);
+            text-align: center;
+            line-height: 1;
+            z-index: 0;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            pointer-events: none;
+            letter-spacing: -15px;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex: 1;
+            align-items: center;
+        }
+        .side {
+            flex: 1;
+            text-align: center;
+            max-width: 400px;
+        }
+        .product-name {
+            font-size: 44px;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+        }
+        .divider-line {
+            position: absolute;
+            width: 3px;
+            height: 400px;
+            background: #2B7BB9;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .bullet {
+            font-size: 18px;
+            color: #FFFFFF;
+            margin-bottom: 15px;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+        .bottom-text {
+            position: relative;
+            z-index: 1;
+            font-size: 24px;
+            font-weight: 600;
+            color: #FFFFFF;
+            text-align: center;
+            margin-top: 30px;
+            max-width: 900px;
+        }
+        .bottom-text-highlight {
+            color: #2B7BB9;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 25px;
+            right: 35px;
+            font-size: 14px;
+            color: #FFFFFF;
+            opacity: 0.5;
+            font-weight: 500;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="vs-background">VS</div>
+        <div class="divider-line"></div>
+        <div class="content">
+            <div class="side">
+                <div class="product-name">Z350</div>
+                <div class="bullet">• Pulido superior</div>
+                <div class="bullet">• Estética predecible</div>
+                <div class="bullet">• Nanorelleno</div>
+            </div>
+            <div class="side">
+                <div class="product-name">TETRIC</div>
+                <div class="bullet">• Mejor manejo</div>
+                <div class="bullet">• Polimerización eficiente</div>
+                <div class="bullet">• Adaptación fácil</div>
+            </div>
+        </div>
+        <div class="bottom-text">¿De qué bando eres? <span class="bottom-text-highlight">Comenta.</span></div>
+        <div class="watermark">dentalprecios.cl</div>
+    </div>
+</body>
+</html>

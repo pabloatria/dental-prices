@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advertencia - DentalPrecios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 1080px;
+            height: 1080px;
+            background: linear-gradient(135deg, #111821 0%, #0A0E14 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 60px;
+            position: relative;
+        }
+        .warning-label {
+            font-size: 16px;
+            color: #888888;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .main-text {
+            font-size: 52px;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 60px;
+            max-width: 900px;
+            letter-spacing: -0.5px;
+        }
+        .main-text-line {
+            margin-bottom: 16px;
+        }
+        .subtext-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .subtext-label {
+            font-size: 20px;
+            color: #2B7BB9;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .subtext-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+        .subtext-item {
+            font-size: 18px;
+            color: #AAAAAA;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        .subtext-item:before {
+            content: "→ ";
+            color: #2B7BB9;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+        .bottom-blog-link {
+            font-size: 24px;
+            color: #2B7BB9;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 25px;
+            right: 35px;
+            font-size: 14px;
+            color: #FFFFFF;
+            opacity: 0.5;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning-label">Advertencia</div>
+        <div class="main-text">
+            <div class="main-text-line">Hay un blog dental</div>
+            <div class="main-text-line">que tus distribuidores</div>
+            <div class="main-text-line">no quieren que leas.</div>
+        </div>
+        <div class="subtext-section">
+            <div class="subtext-label">Datos incómodos. Precios reales.</div>
+            <div class="subtext-items">
+                <div class="subtext-item">Comparaciones honestas.</div>
+                <div class="subtext-item">Sin financiamiento de fabricantes.</div>
+            </div>
+        </div>
+        <div class="bottom-blog-link">dentalprecios.cl/blog</div>
+        <div class="watermark">dentalprecios.cl</div>
+    </div>
+</body>
+</html>

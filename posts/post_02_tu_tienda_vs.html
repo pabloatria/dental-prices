@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu tienda vs DentalPrecios - DentalPrecios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 1080px;
+            height: 1080px;
+            background: linear-gradient(135deg, #1A2332 0%, #0F1621 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 60px 30px;
+            position: relative;
+        }
+        .comparison {
+            display: flex;
+            flex: 1;
+            gap: 0;
+            margin-bottom: 40px;
+        }
+        .column {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .column-left {
+            background: rgba(15, 22, 33, 0.8);
+        }
+        .column-right {
+            background: rgba(15, 22, 33, 0.8);
+            border-left: 5px solid #2B7BB9;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 35px;
+            line-height: 1.2;
+        }
+        .column-left .header {
+            color: #FFFFFF;
+        }
+        .column-right .header {
+            color: #2B7BB9;
+        }
+        .item {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .column-left .item {
+            color: #888888;
+        }
+        .column-right .item {
+            color: #FFFFFF;
+        }
+        .mark {
+            font-size: 22px;
+            font-weight: bold;
+            min-width: 24px;
+            line-height: 1;
+            margin-top: 3px;
+        }
+        .column-left .mark {
+            color: #666666;
+        }
+        .column-right .mark {
+            color: #2B7BB9;
+        }
+        .bottom-tagline {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 600;
+            color: #FFFFFF;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+        .watermark {
+            position: absolute;
+            bottom: 25px;
+            right: 35px;
+            font-size: 14px;
+            color: #FFFFFF;
+            opacity: 0.5;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="comparison">
+            <div class="column column-left">
+                <div class="header">Tu tienda dental</div>
+                <div class="item">
+                    <span class="mark">✗</span>
+                    <span>Nombre del producto</span>
+                </div>
+                <div class="item">
+                    <span class="mark">✗</span>
+                    <span>Precio</span>
+                </div>
+                <div class="item">
+                    <span class="mark">✗</span>
+                    <span>Botón de compra</span>
+                </div>
+                <div class="item">
+                    <span class="mark">✗</span>
+                    <span>Fin.</span>
+                </div>
+            </div>
+            <div class="column column-right">
+                <div class="header">DentalPrecios</div>
+                <div class="item">
+                    <span class="mark">✓</span>
+                    <span>Precios en múltiples tiendas</span>
+                </div>
+                <div class="item">
+                    <span class="mark">✓</span>
+                    <span>Características técnicas</span>
+                </div>
+                <div class="item">
+                    <span class="mark">✓</span>
+                    <span>Indicaciones clínicas</span>
+                </div>
+                <div class="item">
+                    <span class="mark">✓</span>
+                    <span>Tips de manejo</span>
+                </div>
+                <div class="item">
+                    <span class="mark">✓</span>
+                    <span>Comparación con alternativas</span>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-tagline">No es lo mismo buscar un producto que entenderlo.</div>
+        <div class="watermark">dentalprecios.cl</div>
+    </div>
+</body>
+</html>
