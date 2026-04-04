@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
       { source: '/categorias/confort-proteccion', destination: '/categorias/control-infecciones-personal', permanent: true },
       { source: '/categorias/suministros-oficina', destination: '/categorias/miscelaneos', permanent: true },
       { source: '/categorias/fresas-y-diamantes', destination: '/categorias/fresas-diamantes', permanent: true },
+      { source: '/categorias/cementos-y-adhesivos', destination: '/categorias/cementos-adhesivos', permanent: true },
+      { source: '/categorias/acabado-y-pulido', destination: '/categorias/acabado-pulido', permanent: true },
+      { source: '/categorias/coronas-y-cofias', destination: '/categorias/coronas-cofias', permanent: true },
+      { source: '/categorias/jeringas-y-agujas', destination: '/categorias/jeringas-agujas', permanent: true },
+      { source: '/categorias/lupas-y-lamparas', destination: '/categorias/lupas-lamparas', permanent: true },
+      { source: '/categorias/matrices-y-cunas', destination: '/categorias/matrices-cunas', permanent: true },
+      { source: '/categorias/pernos-y-postes', destination: '/categorias/pernos-postes', permanent: true },
     ]
   },
   async headers() {
