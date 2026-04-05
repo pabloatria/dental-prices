@@ -212,6 +212,13 @@ export default async function ProductPage({
           url: p.product_url,
         })),
     }
+  } else {
+    productSchema.offers = {
+      '@type': 'Offer',
+      priceCurrency: 'CLP',
+      availability: 'https://schema.org/OutOfStock',
+      price: 0,
+    }
   }
 
   // JSON-LD: BreadcrumbList
