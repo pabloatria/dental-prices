@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   const userAgent = request.headers.get('user-agent') || ''
   const isBot = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|gptbot|claudebot/i.test(userAgent)
 
-  if (productId && supplierId && !isBot) {
+  if (productId && supplierId) {
     void supabase
       .from('click_events')
       .insert({
@@ -32,6 +32,7 @@ export async function GET(request: NextRequest) {
         referrer: request.headers.get('referer') || null,
         user_agent: userAgent,
         source,
+        is_bot: isBot,
       })
       .then(() => {})
   }
