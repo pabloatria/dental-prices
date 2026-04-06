@@ -47,6 +47,19 @@ export default async function BlogPostPage({
   const post = getPostBySlug(slug)
   if (!post) notFound()
 
+  // Find similar posts by keyword overlap
+  const allPosts = getAllPosts().filter((p) => p.slug !== slug)
+  const currentKeywords = new Set(post.keywords.map((k) => k.toLowerCase()))
+
+  const similarPosts = allPosts
+    .map((p) => {
+      const overlap = p.keywords.filter((k) => currentKeywords.has(k.toLowerCase())).length
+      return { ...p, overlap }
+    })
+    .filter((p) => p.overlap > 0)
+    .sort((a, b) => b.overlap - a.overlap)
+    .slice(0, 3)
+
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -137,6 +150,37 @@ export default async function BlogPostPage({
           Buscar productos →
         </Link>
       </div>
+
+      {similarPosts.length > 0 && (
+        <section className="mt-12">
+          <h2 className="text-lg font-semibold text-foreground mb-4">
+            Artículos relacionados
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {similarPosts.map((related) => (
+              <Link
+                key={related.slug}
+                href={`/blog/${related.slug}`}
+                className="group block p-4 bg-card rounded-xl border border-border hover:border-primary/40 transition-colors"
+              >
+                <time className="text-xs text-muted-foreground">
+                  {new Date(related.date).toLocaleDateString('es-CL', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+                <h3 className="mt-1 text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                  {related.title}
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground line-clamp-2">
+                  {related.description}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   )
 }
