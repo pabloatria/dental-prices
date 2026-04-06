@@ -5,6 +5,7 @@ const REVALIDATE_PATHS = [
   '/',
   '/ofertas',
   '/comparar',
+  '/precios/resina-compuesta',
 ]
 
 export async function POST(request: NextRequest) {

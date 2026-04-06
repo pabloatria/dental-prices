@@ -9,15 +9,39 @@ import SortSelect from '@/components/filters/SortSelect'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
 
+// Keyword-optimized SEO metadata for priority categories (from Ahrefs research 2026-04-06)
+const CATEGORY_SEO: Record<string, { title: string; description: (count: number) => string; h1: string }> = {
+  'resinas-compuestas': {
+    title: 'Resinas Compuestas — Precios y Comparativa en Chile 2026',
+    description: (count) => `Compara precios de resinas dentales en Chile. ${count} composites de 3M Filtek, Ivoclar, Kerr y más entre +70 proveedores. Encuentra el precio más bajo.`,
+    h1: 'Resinas Dentales: Compara Precios en Chile',
+  },
+  'anestesia': {
+    title: 'Anestesia Dental — Precios de Anestésicos en Chile 2026',
+    description: (count) => `Precios de anestesia dental en Chile. Lidocaína, articaína y ${count} anestésicos más comparados entre +70 proveedores dentales.`,
+    h1: 'Anestesia Dental: Precios y Proveedores en Chile',
+  },
+  'cementos-adhesivos': {
+    title: 'Adhesivos y Cementos Dentales — Precios en Chile 2026',
+    description: (count) => `Compara precios de adhesivos dentales y cementos en Chile. ${count} productos de RelyX, Variolink, FGM y más al mejor precio.`,
+    h1: 'Adhesivos y Cementos Dentales: Compara Precios',
+  },
+  'fresas-diamantes': {
+    title: 'Fresas Dentales — Precios y Tipos en Chile 2026',
+    description: (count) => `Precios de fresas dentales en Chile. ${count} fresas de diamante y carburo de Komet, Microdont, SS White entre +70 proveedores.`,
+    h1: 'Fresas Dentales: Compara Precios en Chile',
+  },
+}
+
 const CATEGORY_INTROS: Record<string, string> = {
   'acabado-pulido':
     'Encuentra discos de pulido, copas, puntas de silicona, tiras de acabado y pastas de pulir de marcas como Shofu, 3M, Kerr y TDV. Compara precios de sistemas de acabado y pulido para resinas y cerámicas entre más de 70 proveedores dentales en Chile. En DentalPrecios reunimos todo lo que necesitas para lograr restauraciones con brillo y lisura superficial óptima, desde kits de contorneado hasta compuestos diamantados para el pulido final.',
   'anestesia':
-    'Compara precios de anestésicos dentales como lidocaína, articaína, mepivacaína y prilocaína de marcas como Septodont, DFL y Zeyco. Encuentra carpules, agujas dentales y sistemas de anestesia computarizada en más de 70 proveedores de Chile. DentalPrecios te ayuda a encontrar el mejor precio en anestesia local, anestesia tópica y todos los insumos necesarios para un procedimiento indoloro.',
+    'Anestesia dental al mejor precio en Chile: compara lidocaína, articaína, mepivacaína y prilocaína de marcas como Septodont, DFL y Zeyco. Si buscas anestesia dental en farmacia o directamente con proveedores dentales, DentalPrecios reúne más de 70 distribuidores para que compares precios de carpules, agujas dentales, anestesia tópica y sistemas de anestesia computarizada en un solo lugar.',
   'cad-cam':
     'Explora bloques de fresado, discos de zirconia, escáneres intraorales y accesorios CAD/CAM de marcas como Ivoclar, VITA, Sirona y Amann Girrbach. DentalPrecios compara precios de materiales e insumos para odontología digital entre más de 70 proveedores en Chile. Encuentra bloques de disilicato de litio, PMMA, resinas para impresión 3D y todo lo necesario para tu flujo de trabajo digital.',
   'cementos-adhesivos':
-    'Compara precios de cementos de resina, cementos de ionómero de vidrio, adhesivos dentales y sistemas de cementación de marcas como 3M RelyX, Ivoclar Variolink, Kerr y FGM. En DentalPrecios reunimos más de 70 proveedores dentales de Chile para que encuentres el mejor precio en cementos definitivos, provisionales y adhesivos universales para tu consulta.',
+    'Adhesivo dental y cemento dental al mejor precio en Chile: compara cementos de resina, ionómero de vidrio, adhesivos universales y sistemas de cementación de marcas como 3M RelyX, Ivoclar Variolink, Kerr y FGM. DentalPrecios reúne más de 70 proveedores dentales de Chile para que encuentres el mejor precio en adhesivos dentales, cementos definitivos, provisionales y cementos duales para tu consulta.',
   'ceras':
     'Encuentra ceras para modelar, ceras de mordida, ceras utility y ceras para colado de marcas como Yeti Dental, Renfert, Lysanda y Technowax. DentalPrecios compara precios de ceras dentales para laboratorio y clínica entre más de 70 proveedores en Chile. Accede a ceras de base plate, ceras de inmersión y ceras para patrones de todo tipo al mejor precio.',
   'cirugia':
@@ -37,7 +61,7 @@ const CATEGORY_INTROS: Record<string, string> = {
   'evacuacion':
     'Encuentra puntas de aspiración quirúrgica, cánulas de succión, eyectores desechables y adaptadores de evacuación de marcas como Medicom, Premium Plus y TPC. Compara precios de sistemas de evacuación dental entre más de 70 proveedores en Chile. DentalPrecios te ayuda a mantener un campo operatorio limpio con los mejores insumos de succión y aspiración.',
   'fresas-diamantes':
-    'Compara precios de fresas de diamante, fresas de carburo de tungsteno, piedras de Arkansas y fresas multilaminadas de marcas como Komet, Microdont, SS White y Jota. DentalPrecios reúne más de 70 proveedores dentales en Chile para que encuentres fresas para turbina, contraángulo y pieza recta al mejor precio. Fresas de grano fino, medio y grueso para cada procedimiento.',
+    'Fresas dentales al mejor precio en Chile: compara fresas de diamante, fresas de carburo de tungsteno, piedras de Arkansas y fresas multilaminadas de marcas como Komet, Microdont, SS White y Jota. Todos los tipos de fresas dentales y sus usos — para turbina, contraángulo y pieza recta — comparados entre más de 70 proveedores dentales. Fresas de grano fino, medio y grueso para cada procedimiento clínico.',
   'goma-dique':
     'Encuentra gomas de dique, arcos de Young, clamps, porta-clamps y perforadoras de marcas como Coltene Hygenic, Hu-Friedy y Sanctuary. Compara precios de kits de aislamiento absoluto entre más de 70 proveedores dentales en Chile. DentalPrecios te ayuda a equipar tu consulta con todo lo necesario para un aislamiento seguro y eficiente en operatoria y endodoncia.',
   'implantes':
@@ -71,7 +95,7 @@ const CATEGORY_INTROS: Record<string, string> = {
   'radiologia':
     'Compara precios de películas radiográficas, sensores digitales, líquidos reveladores, delantales plomados y posicionadores de marcas como Carestream, Agfa, Fuji y Maquira. DentalPrecios reúne más de 70 proveedores en Chile para que encuentres insumos de radiología dental al mejor precio. Desde radiografías periapicales hasta sistemas de imagenología digital.',
   'resinas-compuestas':
-    'Encuentra resinas compuestas, composites fluidos, resinas bulk fill y sistemas adhesivos de marcas como 3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM y Tokuyama Estelite. DentalPrecios compara precios de resinas dentales entre más de 70 proveedores en Chile. Accede a composites nanohíbridos, microhíbridos y resinas de alta estética para restauraciones directas al mejor precio.',
+    'Resina dental al mejor precio en Chile: compara precios de resinas compuestas, composites fluidos y resinas bulk fill de marcas como 3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM Vittra y Tokuyama Estelite. DentalPrecios reúne más de 70 proveedores dentales para que encuentres el composite dental más barato — nanohíbridos, microhíbridos y resinas de alta estética para restauraciones directas.',
   'sillones-dentales':
     'Compara precios de sillones dentales, unidades odontológicas completas y sillones portátiles de marcas como Gnatus, KaVo, A-dec, Fengdan y Woson. DentalPrecios reúne más de 70 proveedores en Chile para que equipes tu consulta al mejor precio. Encuentra sillones con luz LED integrada, tapizado de cuero sintético, pedal multifunción y entrega técnica incluida.',
 }
@@ -98,8 +122,11 @@ export async function generateMetadata({
     .eq('category_id', (await supabase.from('categories').select('id').eq('slug', slug).single()).data?.id || '')
 
   const productCount = count || 0
-  const title = `${category.name} — Comparar precios de productos dentales en Chile`
-  const description = `Compara precios de ${category.name.toLowerCase()} entre los principales proveedores dentales de Chile. ${productCount > 0 ? `${productCount} productos disponibles. ` : ''}Encuentra el mejor precio en ${category.name.toLowerCase()} — composites, instrumental, adhesivos y más.`
+  const seo = CATEGORY_SEO[slug]
+  const title = seo?.title || `${category.name} — Comparar precios de productos dentales en Chile`
+  const description = seo
+    ? seo.description(productCount)
+    : `Compara precios de ${category.name.toLowerCase()} entre los principales proveedores dentales de Chile. ${productCount > 0 ? `${productCount} productos disponibles. ` : ''}Encuentra el mejor precio en ${category.name.toLowerCase()}.`
   const url = `${BASE_URL}/categorias/${category.slug}`
 
   return {
@@ -281,7 +308,7 @@ export default async function CategoryPage({
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-foreground">
-                {category.name} — Comparar precios en Chile
+                {CATEGORY_SEO[slug]?.h1 || `${category.name} — Comparar precios en Chile`}
               </h1>
               <p className="text-sm text-muted-foreground mt-1">
                 {total} producto{total !== 1 ? 's' : ''} de {category.name.toLowerCase()} disponibles para comparar entre proveedores
