@@ -1,7 +1,8 @@
 import type { Price } from '@/lib/types'
 import { formatCLP } from '@/lib/queries/products'
+import SupplierLink from '@/components/product/SupplierLink'
 
-export default function BestPriceCard({ prices }: { prices: Price[] }) {
+export default function BestPriceCard({ prices, productId }: { prices: Price[]; productId: string }) {
   const realPrices = prices.filter((p) => p.price > 0)
   const catalogPrices = prices.filter((p) => p.price === 0)
   const isCatalogOnly = prices.length > 0 && realPrices.length === 0
@@ -23,11 +24,14 @@ export default function BestPriceCard({ prices }: { prices: Price[] }) {
 
         <div className="space-y-2">
           {catalogPrices.map((price) => (
-            <a
+            <SupplierLink
               key={price.id}
-              href={price.product_url}
-              target="_blank"
-              rel="noopener noreferrer"
+              productUrl={price.product_url}
+              productId={productId}
+              supplierId={price.supplier_id}
+              supplierName={price.supplier.name}
+              price={0}
+              source="best_price_catalog"
               className="flex items-center justify-between gap-3 bg-card border border-border rounded-lg px-4 py-3 hover:bg-accent transition-colors"
             >
               <span className="font-medium text-foreground">{price.supplier.name}</span>
@@ -37,7 +41,7 @@ export default function BestPriceCard({ prices }: { prices: Price[] }) {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                 </svg>
               </span>
-            </a>
+            </SupplierLink>
           ))}
         </div>
       </div>
@@ -77,17 +81,20 @@ export default function BestPriceCard({ prices }: { prices: Price[] }) {
         {bestPrice.in_stock && ' · En stock'}
       </p>
 
-      <a
-        href={bestPrice.product_url}
-        target="_blank"
-        rel="noopener noreferrer"
+      <SupplierLink
+        productUrl={bestPrice.product_url}
+        productId={productId}
+        supplierId={bestPrice.supplier_id}
+        supplierName={bestPrice.supplier.name}
+        price={bestPrice.price}
+        source="best_price"
         className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
       >
         Ir a comprar
         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
         </svg>
-      </a>
+      </SupplierLink>
 
       {/* Show additional catalog-only suppliers */}
       {catalogPrices.length > 0 && (

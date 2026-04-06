@@ -364,7 +364,7 @@ export default async function ProductPage({
 
         {/* Right: Best price card */}
         <div>
-          <BestPriceCard prices={currentPrices} />
+          <BestPriceCard prices={currentPrices} productId={product.id} />
         </div>
       </div>
 

@@ -1,10 +1,11 @@
 import { Price } from '@/lib/types'
+import SupplierLink from '@/components/product/SupplierLink'
 
 function formatCLP(amount: number): string {
   return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(amount)
 }
 
-export default function PriceTable({ prices }: { prices: Price[] }) {
+export default function PriceTable({ prices, productId }: { prices: Price[]; productId: string }) {
   const sorted = [...prices].sort((a, b) => a.price - b.price)
 
   return (
@@ -35,14 +36,17 @@ export default function PriceTable({ prices }: { prices: Price[] }) {
                 </span>
               </td>
               <td className="py-3 px-4 text-right">
-                <a
-                  href={price.product_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <SupplierLink
+                  productUrl={price.product_url}
+                  productId={productId}
+                  supplierId={price.supplier_id}
+                  supplierName={price.supplier.name}
+                  price={price.price}
+                  source="price_table"
                   className="inline-block bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                 >
                   Ir a comprar
-                </a>
+                </SupplierLink>
               </td>
             </tr>
           ))}
