@@ -105,7 +105,48 @@ export default async function ResinaPreciosPage({
       break
   }
 
-  const lowestOverall = productsWithPrices.length > 0 ? productsWithPrices[0].lowest_price : 0
+  const lowestOverall = productsWithPrices.length > 0
+    ? Math.min(...productsWithPrices.map((p) => p.lowest_price))
+    : 0
+  const highestOverall = productsWithPrices.length > 0
+    ? Math.max(...productsWithPrices.map((p) => p.highest_price || p.lowest_price))
+    : 0
+  const totalOffers = productsWithPrices.reduce((sum, p) => sum + p.store_count, 0)
+
+  // Top-level Product schema with flat Offer list — optimized for AI Overview
+  // (Google SGE, Perplexity, ChatGPT) which prefer a primary Product entity
+  const productSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'Resinas Dentales — Composites para restauraciones',
+    description: `Comparativa de precios de ${productsWithPrices.length} resinas compuestas dentales en Chile entre +70 proveedores. Filtek, Tetric, Herculite, Vittra y más.`,
+    category: 'Resinas compuestas dentales',
+    brand: { '@type': 'Brand', name: '3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM Vittra, Tokuyama Estelite' },
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'CLP',
+      lowPrice: lowestOverall,
+      highPrice: highestOverall,
+      offerCount: totalOffers,
+      availability: 'https://schema.org/InStock',
+      offers: productsWithPrices.slice(0, 50).flatMap((p) =>
+        p.prices
+          .filter((pr: any) => pr.price > 0 && pr.in_stock)
+          .map((pr: any) => ({
+            '@type': 'Offer',
+            name: p.name,
+            price: pr.price,
+            priceCurrency: 'CLP',
+            availability: 'https://schema.org/InStock',
+            url: `${BASE_URL}/producto/${p.id}`,
+            seller: {
+              '@type': 'Organization',
+              name: pr.supplier?.name,
+            },
+          }))
+      ),
+    },
+  })
 
   // JSON-LD structured data (server-rendered, trusted content only)
   const itemListSchema = JSON.stringify({
@@ -145,6 +186,7 @@ export default async function ResinaPreciosPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: itemListSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbSchema }} />
 

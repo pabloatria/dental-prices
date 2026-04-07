@@ -5,6 +5,7 @@ const REVALIDATE_PATHS = [
   '/',
   '/ofertas',
   '/comparar',
+  '/categorias',
   '/precios/resina-compuesta',
 ]
 

@@ -5,6 +5,8 @@ import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
 
+export const revalidate = 3600
+
 export const metadata: Metadata = {
   title: 'Categorías de productos dentales',
   description:
@@ -27,15 +29,18 @@ export default async function CategoriesPage() {
     .is('parent_id', null)
     .order('name')
 
-  // Get product counts per category
+  // Get product counts per category — single grouped query (not N+1)
   const counts = new Map<string, number>()
-  if (categories) {
-    for (const cat of categories) {
-      const { count } = await supabase
-        .from('products')
-        .select('*', { count: 'exact', head: true })
-        .eq('category_id', cat.id)
-      counts.set(cat.id, count || 0)
+  if (categories && categories.length > 0) {
+    const { data: countData } = await supabase
+      .from('products')
+      .select('category_id')
+      .in('category_id', categories.map((c) => c.id))
+
+    for (const row of countData || []) {
+      if (row.category_id) {
+        counts.set(row.category_id, (counts.get(row.category_id) || 0) + 1)
+      }
     }
   }
 
