@@ -20,6 +20,10 @@ export default function OfferCard({ offer }: { offer: OfferItem }) {
           <img
             src={offer.image_url}
             alt={offer.product_name}
+            loading="lazy"
+            decoding="async"
+            width={200}
+            height={200}
             className="max-w-full max-h-full object-contain"
           />
         ) : (

@@ -76,7 +76,7 @@ export default function CompleteProfileBanner({ userEmail }: { userEmail: string
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="cp_first_name" className="block text-sm font-medium text-foreground mb-1">
-              Nombre <span className="text-red-500">*</span>
+              Nombre <span className="text-destructive" aria-hidden="true">*</span>
             </label>
             <input
               id="cp_first_name"
@@ -90,7 +90,7 @@ export default function CompleteProfileBanner({ userEmail }: { userEmail: string
           </div>
           <div>
             <label htmlFor="cp_last_name" className="block text-sm font-medium text-foreground mb-1">
-              Apellido <span className="text-red-500">*</span>
+              Apellido <span className="text-destructive" aria-hidden="true">*</span>
             </label>
             <input
               id="cp_last_name"
@@ -119,7 +119,7 @@ export default function CompleteProfileBanner({ userEmail }: { userEmail: string
 
         <div>
           <label htmlFor="cp_rut" className="block text-sm font-medium text-foreground mb-1">
-            RUT <span className="text-red-500">*</span>
+            RUT <span className="text-destructive" aria-hidden="true">*</span>
           </label>
           <input
             id="cp_rut"
@@ -134,7 +134,7 @@ export default function CompleteProfileBanner({ userEmail }: { userEmail: string
 
         <div>
           <label htmlFor="cp_address" className="block text-sm font-medium text-foreground mb-1">
-            Dirección profesional <span className="text-red-500">*</span>
+            Dirección profesional <span className="text-destructive" aria-hidden="true">*</span>
           </label>
           <input
             id="cp_address"
@@ -165,7 +165,7 @@ export default function CompleteProfileBanner({ userEmail }: { userEmail: string
         </div>
 
         {error && (
-          <p className="text-sm text-red-500 bg-red-50 dark:bg-red-950/20 px-3 py-2 rounded-lg">
+          <p role="alert" className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-lg">
             {error}
           </p>
         )}

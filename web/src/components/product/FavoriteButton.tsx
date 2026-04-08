@@ -57,13 +57,16 @@ export default function FavoriteButton({ productId }: { productId: string }) {
     <button
       onClick={toggleFavorite}
       disabled={loading}
-      className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors disabled:opacity-50 ${
+      aria-label={isFavorite ? 'Quitar de favoritos' : 'Guardar en favoritos'}
+      aria-pressed={isFavorite}
+      className={`inline-flex items-center gap-2 min-h-11 px-4 py-2 rounded-lg border text-sm font-medium transition-colors disabled:opacity-50 ${
         isFavorite
-          ? 'bg-red-50 border-red-200 text-red-600 hover:bg-red-100'
+          ? 'bg-destructive/10 border-destructive/20 text-destructive hover:bg-destructive/15'
           : 'bg-card border-border text-muted-foreground hover:bg-accent hover:text-foreground'
       }`}
     >
       <svg
+        aria-hidden="true"
         className="w-4 h-4"
         fill={isFavorite ? 'currentColor' : 'none'}
         stroke="currentColor"

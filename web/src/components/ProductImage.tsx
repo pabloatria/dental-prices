@@ -34,6 +34,7 @@ export default function ProductImage({
           src={imageUrl}
           alt={productName}
           loading="lazy"
+          decoding="async"
           className="w-full h-full object-contain rounded-lg"
         />
       </div>

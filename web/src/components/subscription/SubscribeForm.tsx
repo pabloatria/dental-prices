@@ -96,7 +96,7 @@ export default function SubscribeForm({
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label htmlFor="first_name" className="block text-sm font-medium text-foreground mb-1">
-            Nombre <span className="text-red-500">*</span>
+            Nombre <span className="text-destructive" aria-hidden="true">*</span>
           </label>
           <input
             id="first_name"
@@ -110,7 +110,7 @@ export default function SubscribeForm({
         </div>
         <div>
           <label htmlFor="last_name" className="block text-sm font-medium text-foreground mb-1">
-            Apellido <span className="text-red-500">*</span>
+            Apellido <span className="text-destructive" aria-hidden="true">*</span>
           </label>
           <input
             id="last_name"
@@ -142,7 +142,7 @@ export default function SubscribeForm({
 
       <div>
         <label htmlFor="rut" className="block text-sm font-medium text-foreground mb-1">
-          RUT <span className="text-red-500">*</span>
+          RUT <span className="text-destructive" aria-hidden="true">*</span>
         </label>
         <input
           id="rut"
@@ -157,7 +157,7 @@ export default function SubscribeForm({
 
       <div>
         <label htmlFor="professional_address" className="block text-sm font-medium text-foreground mb-1">
-          Dirección profesional <span className="text-red-500">*</span>
+          Dirección profesional <span className="text-destructive" aria-hidden="true">*</span>
         </label>
         <input
           id="professional_address"
@@ -188,7 +188,7 @@ export default function SubscribeForm({
       </div>
 
       {error && (
-        <p className="text-sm text-red-500 bg-red-50 dark:bg-red-950/20 px-3 py-2 rounded-lg">
+        <p role="alert" className="text-sm text-destructive bg-destructive/10 px-3 py-2 rounded-lg">
           {error}
         </p>
       )}

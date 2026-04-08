@@ -13,6 +13,7 @@ export default function SearchWithAutocomplete() {
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const debounceRef = useRef<NodeJS.Timeout>(undefined)
+  const abortRef = useRef<AbortController | null>(null)
 
   const fetchSuggestions = useCallback(async (q: string) => {
     if (q.length < 2) {
@@ -20,19 +21,27 @@ export default function SearchWithAutocomplete() {
       setOpen(false)
       return
     }
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
     setLoading(true)
     try {
-      const res = await fetch(`/api/search/suggest?q=${encodeURIComponent(q)}`)
+      const res = await fetch(`/api/search/suggest?q=${encodeURIComponent(q)}`, { signal: controller.signal })
       if (res.ok) {
         const data = await res.json()
         setSuggestions(data.products || [])
         setOpen(true)
       }
     } catch {
-      // ignore
+      // ignore abort and network errors
     } finally {
-      setLoading(false)
+      if (abortRef.current === controller) setLoading(false)
     }
+  }, [])
+
+  useEffect(() => () => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    abortRef.current?.abort()
   }, [])
 
   const handleChange = (value: string) => {
@@ -70,7 +79,9 @@ export default function SearchWithAutocomplete() {
     <div ref={containerRef} className="relative w-full">
       <form onSubmit={handleSubmit} className="relative">
         <div className="relative">
+          <label htmlFor="site-search" className="sr-only">Buscar productos dentales</label>
           <svg
+            aria-hidden="true"
             className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
             fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"
           >
@@ -79,6 +90,7 @@ export default function SearchWithAutocomplete() {
           </svg>
           <input
             ref={inputRef}
+            id="site-search"
             type="text"
             value={query}
             onChange={(e) => handleChange(e.target.value)}

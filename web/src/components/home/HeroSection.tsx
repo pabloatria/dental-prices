@@ -13,7 +13,7 @@ export default function HeroSection({ productCount, supplierCount }: HeroSection
           Compara precios de productos dentales en Chile
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          El comparador de insumos dentales m&aacute;s completo de Chile. Busca resinas, composites, adhesivos, instrumental y m&aacute;s entre los principales proveedores — todo en un solo lugar.
+          Compara insumos dentales de los principales proveedores de Chile en un solo lugar.
         </p>
 
         <div className="mt-8 max-w-xl mx-auto">
