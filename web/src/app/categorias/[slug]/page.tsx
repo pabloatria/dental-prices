@@ -102,46 +102,55 @@ const CATEGORY_INTROS: Record<string, string> = {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ page?: string; brand?: string; supplier?: string; in_stock?: string; sort?: string }>
 }): Promise<Metadata> {
   const { slug } = await params
+  const sp = await searchParams
+  const pageNum = parseInt(sp.page || '1')
+  const hasFilters = Boolean(sp.brand || sp.supplier || sp.in_stock || sp.sort)
+  const isPaginated = pageNum > 1
+
   const supabase = await createClient()
   const { data: category } = await supabase
     .from('categories')
-    .select('name, slug')
+    .select('id, name, slug')
     .eq('slug', slug)
     .single()
 
   if (!category) return {}
 
-  // Get product count for richer description
   const { count } = await supabase
     .from('products')
     .select('*', { count: 'exact', head: true })
-    .eq('category_id', (await supabase.from('categories').select('id').eq('slug', slug).single()).data?.id || '')
+    .eq('category_id', category.id)
 
   const productCount = count || 0
   const seo = CATEGORY_SEO[slug]
-  const title = seo?.title || `${category.name} — Comparar precios de productos dentales en Chile`
+  const baseTitle = seo?.title || `${category.name} — Comparar precios en Chile 2026`
+  const title = isPaginated ? `${baseTitle} — Página ${pageNum}` : baseTitle
   const description = seo
     ? seo.description(productCount)
-    : `Compara precios de ${category.name.toLowerCase()} entre los principales proveedores dentales de Chile. ${productCount > 0 ? `${productCount} productos disponibles. ` : ''}Encuentra el mejor precio en ${category.name.toLowerCase()}.`
-  const url = `${BASE_URL}/categorias/${category.slug}`
+    : `Compara precios de ${category.name.toLowerCase()} entre +70 proveedores dentales en Chile. ${productCount > 0 ? `${productCount} productos disponibles.` : ''}`
+  const canonical = `${BASE_URL}/categorias/${category.slug}`
 
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: { canonical },
     openGraph: {
       title,
       description,
-      url,
+      url: canonical,
       siteName: 'DentalPrecios',
       locale: 'es_CL',
       type: 'website',
     },
-    robots: { index: true, follow: true },
+    robots: (isPaginated || hasFilters)
+      ? { index: false, follow: true }
+      : { index: true, follow: true },
   }
 }
 
@@ -305,20 +314,30 @@ export default async function CategoryPage({
 
         {/* Main */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">
-                {CATEGORY_SEO[slug]?.h1 || `${category.name} — Comparar precios en Chile`}
-              </h1>
-              <p className="text-sm text-muted-foreground mt-1">
-                {total} producto{total !== 1 ? 's' : ''} de {category.name.toLowerCase()} disponibles para comparar entre proveedores
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-foreground">
+              {CATEGORY_SEO[slug]?.h1 || `${category.name} — Comparar precios en Chile`}
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {total} producto{total !== 1 ? 's' : ''} de {category.name.toLowerCase()} disponibles para comparar entre proveedores
+            </p>
+          </div>
+
+          {CATEGORY_INTROS[slug] && (
+            <section className="mb-6 max-w-3xl">
+              <h2 className="text-base font-semibold text-foreground mb-2">
+                Sobre {category.name.toLowerCase()}
+              </h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {CATEGORY_INTROS[slug]}
               </p>
-              {CATEGORY_INTROS[slug] && (
-                <p className="text-sm text-muted-foreground mt-3 max-w-3xl leading-relaxed">
-                  {CATEGORY_INTROS[slug]}
-                </p>
-              )}
-            </div>
+            </section>
+          )}
+
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-foreground">
+              Productos disponibles
+            </h2>
             <SortSelect />
           </div>
 
