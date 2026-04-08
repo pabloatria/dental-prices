@@ -37,7 +37,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: 'Buscar productos dentales — DentalPrecios',
+    title: 'Buscar productos dentales',
     description:
       'Busca y compara precios de insumos dentales, composites, adhesivos, resinas, instrumental y más entre los principales proveedores de Chile.',
     alternates: { canonical: `${BASE_URL}/buscar` },

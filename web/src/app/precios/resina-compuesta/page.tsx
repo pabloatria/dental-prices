@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
     .eq('category_id', category?.id || '')
 
   const productCount = count || 0
-  const title = 'Resinas Dentales — Precios en Chile 2026 | DentalPrecios'
+  const title = 'Resinas Dentales — Precios en Chile 2026'
   const description = `Compara precios de resinas compuestas en Chile. ${productCount} composites de 3M Filtek, Ivoclar Tetric, Kerr y más entre +70 proveedores dentales. Encuentra el precio más bajo.`
 
   return {
