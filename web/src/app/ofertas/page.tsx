@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export const revalidate = 3600
+export const revalidate = 900 // 15 min — offers change frequently, stale cache = 0 offers shown
 
 export default async function OfertasPage() {
   const supabase = await createClient()
