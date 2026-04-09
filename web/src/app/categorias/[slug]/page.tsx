@@ -28,7 +28,7 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
   },
   'fresas-diamantes': {
     title: 'Fresas Dentales — Precios y Tipos en Chile 2026',
-    description: (count) => `Precios de fresas dentales en Chile. ${count} fresas de diamante y carburo de Komet, Microdont, SS White entre +70 proveedores.`,
+    description: (count) => `Precios de fresas dentales en Chile. ${count} fresas de diamante y carburo de Komet, Microdont, Edenta y SS White entre +70 proveedores.`,
     h1: 'Fresas Dentales: Compara Precios en Chile',
   },
 }
@@ -37,7 +37,7 @@ const CATEGORY_INTROS: Record<string, string> = {
   'acabado-pulido':
     'Encuentra discos de pulido, copas, puntas de silicona, tiras de acabado y pastas de pulir de marcas como Shofu, 3M, Kerr y TDV. Compara precios de sistemas de acabado y pulido para resinas y cerámicas entre más de 70 proveedores dentales en Chile. En DentalPrecios reunimos todo lo que necesitas para lograr restauraciones con brillo y lisura superficial óptima, desde kits de contorneado hasta compuestos diamantados para el pulido final.',
   'anestesia':
-    'Anestesia dental al mejor precio en Chile: compara lidocaína, articaína, mepivacaína y prilocaína de marcas como Septodont, DFL y Zeyco. Si buscas anestesia dental en farmacia o directamente con proveedores dentales, DentalPrecios reúne más de 70 distribuidores para que compares precios de carpules, agujas dentales, anestesia tópica y sistemas de anestesia computarizada en un solo lugar.',
+    'Anestesia dental al mejor precio en Chile: compara lidocaína, articaína, mepivacaína y prilocaína de marcas como Septodont, DFL y Zeyco. Carpules de anestesia dental, agujas dentales, anestesia tópica y sistemas de anestesia computarizada comparados entre más de 70 proveedores dentales. DentalPrecios te muestra precios actualizados diariamente para que abastezcas tu consulta al menor costo.',
   'cad-cam':
     'Explora bloques de fresado, discos de zirconia, escáneres intraorales y accesorios CAD/CAM de marcas como Ivoclar, VITA, Sirona y Amann Girrbach. DentalPrecios compara precios de materiales e insumos para odontología digital entre más de 70 proveedores en Chile. Encuentra bloques de disilicato de litio, PMMA, resinas para impresión 3D y todo lo necesario para tu flujo de trabajo digital.',
   'cementos-adhesivos':
