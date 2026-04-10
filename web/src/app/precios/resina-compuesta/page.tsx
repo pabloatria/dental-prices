@@ -297,16 +297,22 @@ export default async function ResinaPreciosPage({
         </div>
         <div className="mt-4 flex flex-col sm:flex-row gap-3">
           <Link
-            href="/categorias/resinas-compuestas"
+            href="/comparar/filtek-z350-xt-vs-charisma-diamond"
             className="text-sm text-primary hover:underline"
           >
-            Ver catálogo completo de resinas compuestas →
+            Filtek Z350 XT vs Charisma Diamond →
           </Link>
           <Link
             href="/blog/ionomero-vs-resina-precio-chile"
             className="text-sm text-primary hover:underline"
           >
             ¿Ionómero o resina? Guía clínica →
+          </Link>
+          <Link
+            href="/categorias/resinas-compuestas"
+            className="text-sm text-primary hover:underline"
+          >
+            Ver catálogo completo →
           </Link>
         </div>
       </section>
