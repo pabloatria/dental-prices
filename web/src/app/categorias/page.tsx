@@ -8,14 +8,14 @@ const BASE_URL = 'https://www.dentalprecios.cl'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Categorías de productos dentales',
+  title: 'Categorías de Insumos Dentales',
   description:
-    'Explora todas las categorías de insumos dentales: resinas, endodoncia, ortodoncia, implantes, instrumental, fresas, anestesia y más. Compara precios entre proveedores en Chile.',
+    '33 categorías de insumos odontológicos con precios comparados de 70 proveedores chilenos. Resinas, anestesia, fresas, cementos, implantes y más.',
   alternates: { canonical: `${BASE_URL}/categorias` },
   openGraph: {
-    title: 'Categorías de productos dentales — DentalPrecios',
+    title: 'Categorías de Insumos Dentales — DentalPrecios',
     description:
-      'Explora más de 30 categorías de insumos dentales y compara precios entre proveedores en Chile.',
+      '33 categorías de insumos odontológicos con precios comparados de 70 proveedores chilenos. Resinas, anestesia, fresas, cementos, implantes y más.',
     url: `${BASE_URL}/categorias`,
   },
 }

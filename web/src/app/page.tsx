@@ -15,18 +15,48 @@ import OfertasSection from '@/components/home/OfertasSection'
 const BASE_URL = 'https://www.dentalprecios.cl'
 
 export const metadata: Metadata = {
+  title: 'Dentalprecios — Compara Precios de Insumos Dentales Chile',
+  description:
+    'Compara precios de resinas, anestésicos, fresas y más entre 70 proveedores dentales en Chile. Datos reales, actualizados. Sin cotizar a cada uno.',
   alternates: { canonical: BASE_URL },
   openGraph: {
-    title: 'Compara precios de insumos dentales en Chile | DentalPrecios',
+    title: 'Dentalprecios — Compara Precios de Insumos Dentales Chile',
     description:
-      'Compara precios de +14.000 productos dentales entre 20+ proveedores chilenos. Ahorra hasta un 40% comparando en DentalPrecios.',
+      'Compara precios de resinas, anestésicos, fresas y más entre 70 proveedores dentales en Chile. Datos reales, actualizados. Sin cotizar a cada uno.',
     url: BASE_URL,
   },
-  twitter: {
-    title: 'Compara precios de insumos dentales en Chile | DentalPrecios',
-    description:
-      'Compara precios de +14.000 productos dentales entre 20+ proveedores chilenos. Ahorra hasta un 40% comparando en DentalPrecios.',
-  },
+}
+
+const orgWebsiteSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://www.dentalprecios.cl/#organization',
+      name: 'DentalPrecios',
+      url: 'https://www.dentalprecios.cl',
+      description:
+        'Comparador de precios de insumos dentales en Chile. Compara precios entre proveedores, encuentra los mejores precios en materiales odontológicos y toma decisiones de compra con datos reales.',
+      foundingDate: '2025',
+      areaServed: { '@type': 'Country', name: 'Chile' },
+      sameAs: ['https://www.instagram.com/dentalprecioscl'],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://www.dentalprecios.cl/#website',
+      url: 'https://www.dentalprecios.cl',
+      name: 'DentalPrecios — Comparador de Precios Dentales Chile',
+      publisher: { '@id': 'https://www.dentalprecios.cl/#organization' },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: 'https://www.dentalprecios.cl/buscar?q={search_term_string}',
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ],
 }
 
 const faqSchema = {
@@ -134,6 +164,10 @@ export default async function Home() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgWebsiteSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

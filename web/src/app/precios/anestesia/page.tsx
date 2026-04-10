@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { data: category } = await supabase
     .from('categories')
     .select('id')
-    .eq('slug', 'resinas-compuestas')
+    .eq('slug', 'anestesia')
     .single()
 
   const { count } = await supabase
@@ -24,17 +24,17 @@ export async function generateMetadata(): Promise<Metadata> {
     .eq('category_id', category?.id || '')
 
   const productCount = count || 0
-  const title = 'Resina Dental Precio Chile — Compara 70 Proveedores'
-  const description = `¿Cuánto cuesta la resina dental en Chile? Filtek Z350, Charisma Diamond, Tetric y más. Precios actualizados entre 70 proveedores dentales.`
+  const title = 'Anestesia Dental Precio Chile — Carpules y Tubos'
+  const description = `Compara precios de carpules de anestesia en Chile: lidocaína, articaína, mepivacaína entre los principales proveedores dentales. Datos reales.`
 
   return {
     title,
     description,
-    alternates: { canonical: `${BASE_URL}/precios/resina-compuesta` },
+    alternates: { canonical: `${BASE_URL}/precios/anestesia` },
     openGraph: {
       title,
       description,
-      url: `${BASE_URL}/precios/resina-compuesta`,
+      url: `${BASE_URL}/precios/anestesia`,
       siteName: 'DentalPrecios',
       locale: 'es_CL',
       type: 'website',
@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function ResinaPreciosPage({
+export default async function AnestesiaPreciosPage({
   searchParams,
 }: {
   searchParams: Promise<{ sort?: string }>
@@ -51,23 +51,20 @@ export default async function ResinaPreciosPage({
   const { sort = 'price_asc' } = await searchParams
   const supabase = await createClient()
 
-  // Get resinas-compuestas category
   const { data: category } = await supabase
     .from('categories')
     .select('*')
-    .eq('slug', 'resinas-compuestas')
+    .eq('slug', 'anestesia')
     .single()
 
   if (!category) return null
 
-  // Fetch all products in category
   const { data: products } = await supabase
     .from('products')
     .select('*')
     .eq('category_id', category.id)
     .order('name')
 
-  // Fetch latest prices with supplier info
   const productIds = (products || []).map((p) => p.id)
   const { data: allPrices } = await supabase
     .from('prices')
@@ -80,7 +77,6 @@ export default async function ResinaPreciosPage({
   let productsWithPrices = buildProductsWithPrices(products || [], latestPrices)
     .filter((p) => p.lowest_price > 0)
 
-  // Get unique supplier count
   const supplierIds = new Set<string>()
   for (const p of productsWithPrices) {
     for (const price of p.prices) {
@@ -88,7 +84,6 @@ export default async function ResinaPreciosPage({
     }
   }
 
-  // Sort
   switch (sort) {
     case 'price_asc':
       productsWithPrices.sort((a, b) => a.lowest_price - b.lowest_price)
@@ -113,15 +108,14 @@ export default async function ResinaPreciosPage({
     : 0
   const totalOffers = productsWithPrices.reduce((sum, p) => sum + p.store_count, 0)
 
-  // Top-level Product schema with flat Offer list — optimized for AI Overview
-  // (Google SGE, Perplexity, ChatGPT) which prefer a primary Product entity
+  // All JSON-LD schemas use server-rendered, trusted content only (no user input)
   const productSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Resinas Dentales — Composites para restauraciones',
-    description: `Comparativa de precios de ${productsWithPrices.length} resinas compuestas dentales en Chile entre +70 proveedores. Filtek, Tetric, Herculite, Vittra y más.`,
-    category: 'Resinas compuestas dentales',
-    brand: { '@type': 'Brand', name: '3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM Vittra, Tokuyama Estelite' },
+    name: 'Anestesia Dental — Carpules y tubos anestésicos',
+    description: `Comparativa de precios de ${productsWithPrices.length} anestésicos dentales en Chile entre +70 proveedores. Lidocaína, articaína, mepivacaína y más.`,
+    category: 'Anestesia dental',
+    brand: { '@type': 'Brand', name: 'Septodont, DFL, Zeyco, Novocol, Maver' },
     offers: {
       '@type': 'AggregateOffer',
       priceCurrency: 'CLP',
@@ -139,21 +133,17 @@ export default async function ResinaPreciosPage({
             priceCurrency: 'CLP',
             availability: 'https://schema.org/InStock',
             url: `${BASE_URL}/producto/${p.id}`,
-            seller: {
-              '@type': 'Organization',
-              name: pr.supplier?.name,
-            },
+            seller: { '@type': 'Organization', name: pr.supplier?.name },
           }))
       ),
     },
   })
 
-  // JSON-LD structured data (server-rendered, trusted content only)
   const itemListSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Precios de Resinas Dentales en Chile',
-    description: `Comparativa de precios de ${productsWithPrices.length} resinas compuestas entre proveedores dentales en Chile.`,
+    name: 'Precios de Anestesia Dental en Chile',
+    description: `Comparativa de precios de ${productsWithPrices.length} anestésicos entre proveedores dentales en Chile.`,
     numberOfItems: productsWithPrices.length,
     itemListElement: productsWithPrices.slice(0, 20).map((p, i) => ({
       '@type': 'ListItem',
@@ -180,34 +170,26 @@ export default async function ResinaPreciosPage({
     mainEntity: [
       {
         '@type': 'Question',
-        name: '¿Cuánto cuesta la resina dental en Chile?',
+        name: '¿Cuánto cuesta la anestesia dental en Chile?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `El precio de una resina compuesta en Chile varía entre ${formatCLP(lowestOverall)} y ${formatCLP(highestOverall)} CLP dependiendo del proveedor y la marca. DentalPrecios compara ${productsWithPrices.length} resinas de ${supplierIds.size} proveedores y actualiza los precios diariamente.`,
+          text: `El precio de carpules de anestesia dental en Chile varía entre ${formatCLP(lowestOverall)} y ${formatCLP(highestOverall)} CLP dependiendo del proveedor, principio activo y marca. DentalPrecios compara ${productsWithPrices.length} anestésicos de ${supplierIds.size} proveedores con precios actualizados diariamente.`,
         },
       },
       {
         '@type': 'Question',
-        name: '¿Qué proveedor tiene el precio más bajo en resina compuesta en Chile?',
+        name: '¿Qué anestesia dental usan los dentistas en Chile?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `El precio más bajo depende del producto específico y del momento de compra. DentalPrecios compara precios en tiempo real entre ${supplierIds.size} proveedores chilenos para que identifiques el precio más bajo sin contactar a cada proveedor por separado.`,
+          text: 'Los anestésicos más usados en Chile son lidocaína 2% con epinefrina (Septodont, DFL, Zeyco), articaína 4% con epinefrina (Septanest, DFL Articaína) y mepivacaína 3% sin vasoconstrictor (Mepisv, Scandonest). La elección depende del procedimiento clínico y la duración de anestesia requerida.',
         },
       },
       {
         '@type': 'Question',
-        name: '¿Vale la pena comparar precios de insumos dentales en Chile?',
+        name: '¿Dónde comprar anestesia dental más barata en Chile?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `Sí. Los mismos insumos dentales pueden costar hasta un 65% más dependiendo del proveedor. DentalPrecios muestra precios actualizados de ${supplierIds.size} proveedores en un solo lugar, sin necesidad de cotizar individualmente.`,
-        },
-      },
-      {
-        '@type': 'Question',
-        name: '¿Qué resina compuesta recomiendan los dentistas en Chile?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Las resinas más usadas en Chile son Filtek Z350 XT (3M), Charisma Diamond (Kulzer) y Tetric EvoFlow (Ivoclar Vivadent). La elección depende de la indicación clínica: Z350 XT destaca por su pulido en sectores anteriores, Charisma Diamond por su naturalidad en estratificación, Tetric EvoFlow como fluida de alta resistencia.',
+          text: `Los precios de anestesia dental varían significativamente entre proveedores. DentalPrecios compara precios de ${supplierIds.size} proveedores dentales chilenos en un solo lugar para que encuentres el mejor precio sin cotizar a cada uno por separado.`,
         },
       },
     ],
@@ -219,37 +201,36 @@ export default async function ResinaPreciosPage({
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL },
       { '@type': 'ListItem', position: 2, name: 'Precios', item: `${BASE_URL}/precios` },
-      { '@type': 'ListItem', position: 3, name: 'Resinas Compuestas', item: `${BASE_URL}/precios/resina-compuesta` },
+      { '@type': 'ListItem', position: 3, name: 'Anestesia Dental', item: `${BASE_URL}/precios/anestesia` },
     ],
   })
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      {/* JSON-LD structured data — server-rendered trusted content only */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: itemListSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumbSchema }} />
 
-      {/* Breadcrumb */}
       <nav className="text-sm text-muted-foreground mb-6">
         <Link href="/" className="hover:text-foreground">Inicio</Link>
         <span className="mx-2">/</span>
         <Link href="/categorias" className="hover:text-foreground">Categorías</Link>
         <span className="mx-2">/</span>
-        <Link href="/categorias/resinas-compuestas" className="hover:text-foreground">Resinas Compuestas</Link>
+        <Link href="/categorias/anestesia" className="hover:text-foreground">Anestesia</Link>
         <span className="mx-2">/</span>
         <span className="text-foreground">Precios</span>
       </nav>
 
-      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
-              Precios de Resinas Dentales en Chile
+              Precios de Anestesia Dental en Chile
             </h1>
             <p className="text-muted-foreground mt-2">
-              {productsWithPrices.length} resinas compuestas comparadas entre {supplierIds.size} proveedores
+              {productsWithPrices.length} anestésicos comparados entre {supplierIds.size} proveedores
               {lowestOverall > 0 && (
                 <span className="text-price font-medium"> — desde {formatCLP(lowestOverall)}</span>
               )}
@@ -259,7 +240,6 @@ export default async function ResinaPreciosPage({
         </div>
       </div>
 
-      {/* Product Grid */}
       {productsWithPrices.length > 0 ? (
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-12">
           {productsWithPrices.map((product) => (
@@ -268,45 +248,38 @@ export default async function ResinaPreciosPage({
         </div>
       ) : (
         <div className="text-center py-12 text-muted-foreground">
-          No hay resinas con precio disponible en este momento.
+          No hay anestésicos con precio disponible en este momento.
         </div>
       )}
 
-      {/* SEO Content Block */}
       <section className="bg-card rounded-xl border border-border p-6 mt-8">
         <h2 className="text-lg font-semibold text-foreground mb-3">
-          Resinas compuestas: guía de precios en Chile
+          Anestesia dental: guía de precios en Chile
         </h2>
         <div className="text-sm text-muted-foreground leading-relaxed space-y-3 max-w-3xl">
           <p>
-            Las resinas dentales son el material restaurador directo más utilizado en odontología moderna.
-            En Chile, los precios de composites varían significativamente entre proveedores — una misma
-            jeringa de resina compuesta puede costar hasta un 40% más dependiendo de dónde se compre.
+            La anestesia dental es el insumo de mayor rotación en la consulta odontológica. En Chile,
+            los precios de carpules varían hasta un 65% entre proveedores para el mismo principio activo
+            y concentración, lo que representa un ahorro significativo a escala anual.
           </p>
           <p>
-            DentalPrecios compara diariamente los precios de resinas de marcas como 3M Filtek (Z350 XT,
-            Z250, Easy Match), Ivoclar Tetric (N-Ceram, PowerFill), Kerr Herculite, FGM Vittra y
-            Tokuyama Estelite entre más de 70 proveedores dentales en Chile. Cada precio incluye
-            disponibilidad de stock y enlace directo al proveedor.
+            DentalPrecios compara diariamente precios de lidocaína 2% con epinefrina (Septodont, DFL,
+            Zeyco, Maver), articaína 4% (Septanest, DFL Articaína), mepivacaína 3% (Mepisv, Scandonest)
+            y prilocaína entre los principales proveedores dentales de Chile. Cada precio incluye
+            disponibilidad y enlace directo al proveedor.
           </p>
           <p>
-            Ya sea que busques composites nanohíbridos para restauraciones estéticas, resinas bulk fill
-            para cavidades clase II o composites fluidos para sellado de fisuras, esta comparativa te
-            permite encontrar el mejor precio sin necesidad de cotizar tienda por tienda.
+            Ya sea que busques carpules de lidocaína para procedimientos de rutina, articaína para
+            cirugías más largas o mepivacaína sin vasoconstrictor para pacientes con contraindicaciones,
+            esta comparativa te permite encontrar el mejor precio sin cotizar a cada proveedor.
           </p>
         </div>
-        <div className="mt-4 flex flex-col sm:flex-row gap-3">
+        <div className="mt-4">
           <Link
-            href="/categorias/resinas-compuestas"
+            href="/categorias/anestesia"
             className="text-sm text-primary hover:underline"
           >
-            Ver catálogo completo de resinas compuestas →
-          </Link>
-          <Link
-            href="/blog/ionomero-vs-resina-precio-chile"
-            className="text-sm text-primary hover:underline"
-          >
-            ¿Ionómero o resina? Guía clínica →
+            Ver catálogo completo de anestesia dental →
           </Link>
         </div>
       </section>
