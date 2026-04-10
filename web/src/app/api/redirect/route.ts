@@ -37,5 +37,7 @@ export async function GET(request: NextRequest) {
       .then(() => {})
   }
 
-  return NextResponse.redirect(url)
+  const response = NextResponse.redirect(url)
+  response.headers.set('X-Robots-Tag', 'noindex, nofollow')
+  return response
 }
