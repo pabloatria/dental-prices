@@ -76,7 +76,10 @@ export default async function SearchPage({
     .select('*', { count: 'exact' })
 
   if (query) {
-    productQuery = productQuery.or(`name.ilike.%${query}%,brand.ilike.%${query}%`)
+    const sanitized = query.replace(/[\\%_]/g, '\\$&')
+    productQuery = productQuery.or(
+      `search_vector.wfts(dental_spanish).${query},name.ilike.%${sanitized}%,brand.ilike.%${sanitized}%`
+    )
   }
 
   if (category) {
