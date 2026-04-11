@@ -134,6 +134,9 @@ from suppliers.dentalguzman import DentalGuzmanScraper
 # New dental suppliers (batch 15)
 from suppliers.ccdental import CCDentalScraper
 
+# Brand direct stores (batch 16)
+from suppliers.curaprox import CuraproxScraper
+
 # ──────────────────────────────────────────────────────────────
 # Scraper registry
 # ──────────────────────────────────────────────────────────────
@@ -224,6 +227,9 @@ SCRAPERS = [
 
     # New dental suppliers (batch 15)
     CCDentalScraper(),                                                       # Jumpseller HTML (~280 endodontics products)
+
+    # Brand direct stores (batch 16)
+    CuraproxScraper(),                                                           # PrestaShop (toothbrushes, toothpaste, interdental, oral hygiene)
 ]
 
 
@@ -693,6 +699,19 @@ CATEGORY_MAP = {
     # All products come as "tienda" since we scrape /tienda/
     # Products are mixed (CAD/CAM, instruments, resins) — map to general
     "tienda": None,  # Will be categorized by product name matching
+
+    # Curaprox Chile (PrestaShop - oral hygiene brand store)
+    "cepillos-manuales": "preventivos",
+    "cepillos-electricos": "preventivos",
+    "cepillos-infantiles": "preventivos",
+    "cepillos-especializados": "preventivos",
+    "pasta-dental": "preventivos",
+    "pasta-dental-infantil": "preventivos",
+    "pasta-colutorio-especializado": "preventivos",
+    "cepillos-interdentales": "preventivos",
+    "cepillos-interdentales-especializados": "preventivos",
+    "hilo-dental": "preventivos",
+    "chupetes-mordedores": "preventivos",
 }
 
 
