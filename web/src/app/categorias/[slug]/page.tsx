@@ -1,13 +1,31 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import ProductCard from '@/components/ProductCard'
 import FilterPanel from '@/components/filters/FilterPanel'
 import SortSelect from '@/components/filters/SortSelect'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
+
+// 301 redirects for legacy/renamed category slugs (fixes GSC 404s)
+const SLUG_REDIRECTS: Record<string, string> = {
+  'implantologia': '/categorias/implantes',
+  'bandas-matrices': '/categorias/matrices-cunas',
+  'cementos': '/categorias/cementos-adhesivos',
+  'materiales-reconstruccion': '/categorias/pernos-postes',
+  'materiales-mezcla': '/categorias/laboratorio',
+  'materiales-articulacion': '/categorias/laboratorio',
+  'acrilicos-materiales-cubeta': '/categorias/laboratorio',
+  'aleaciones-accesorios': '/categorias/laboratorio',
+  'confort-proteccion': '/categorias/control-infecciones-personal',
+  'productos-farmaceuticos': '/categorias/preventivos',
+  'suministros-oficina': '/categorias/miscelaneos',
+  'educacion-salud-dental': '/categorias/preventivos',
+  'emergencia': '/categorias/miscelaneos',
+  'regalos': '/categorias',
+}
 
 // Keyword-optimized SEO metadata for priority categories (from Ahrefs research 2026-04-06)
 const CATEGORY_SEO: Record<string, { title: string; description: (count: number) => string; h1: string }> = {
@@ -108,6 +126,7 @@ export async function generateMetadata({
   searchParams: Promise<{ page?: string; brand?: string; supplier?: string; in_stock?: string; sort?: string }>
 }): Promise<Metadata> {
   const { slug } = await params
+  if (SLUG_REDIRECTS[slug]) return {}
   const sp = await searchParams
   const pageNum = parseInt(sp.page || '1')
   const hasFilters = Boolean(sp.brand || sp.supplier || sp.in_stock || sp.sort)
@@ -168,6 +187,7 @@ export default async function CategoryPage({
   }>
 }) {
   const { slug } = await params
+  if (SLUG_REDIRECTS[slug]) redirect(SLUG_REDIRECTS[slug])
   const sp = await searchParams
   const page = parseInt(sp.page || '1')
   const brandFilter = sp.brand ? sp.brand.split(',') : []
