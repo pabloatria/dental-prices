@@ -27,27 +27,167 @@ const SLUG_REDIRECTS: Record<string, string> = {
   'regalos': '/categorias',
 }
 
-// Keyword-optimized SEO metadata for priority categories (from Ahrefs research 2026-04-06)
+// Keyword-optimized SEO metadata for all categories
 const CATEGORY_SEO: Record<string, { title: string; description: (count: number) => string; h1: string }> = {
-  'resinas-compuestas': {
-    title: 'Resinas Compuestas — Precios y Comparativa en Chile 2026',
-    description: (count) => `Compara precios de resinas dentales en Chile. ${count} composites de 3M Filtek, Ivoclar, Kerr y más entre +70 proveedores. Encuentra el precio más bajo.`,
-    h1: 'Resinas Dentales: Compara Precios en Chile',
+  'acabado-pulido': {
+    title: 'Acabado y Pulido Dental — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de acabado y pulido dental en Chile. Discos Sof-Lex, copas de silicona, pastas de pulir de Shofu, 3M y Kerr entre +70 proveedores.`,
+    h1: 'Acabado y Pulido Dental: Compara Precios en Chile',
   },
   'anestesia': {
     title: 'Anestesia Dental — Precios de Anestésicos en Chile 2026',
     description: (count) => `Precios de anestesia dental en Chile. Lidocaína, articaína y ${count} anestésicos más comparados entre +70 proveedores dentales.`,
     h1: 'Anestesia Dental: Precios y Proveedores en Chile',
   },
+  'cad-cam': {
+    title: 'CAD CAM Dental — Precios de Bloques y Discos en Chile 2026',
+    description: (count) => `Compara precios de ${count} materiales CAD/CAM en Chile. Bloques de disilicato, discos de zirconia, PMMA de Ivoclar, VITA y Sirona entre +70 proveedores.`,
+    h1: 'CAD/CAM Dental: Compara Precios en Chile',
+  },
   'cementos-adhesivos': {
     title: 'Adhesivos y Cementos Dentales — Precios en Chile 2026',
     description: (count) => `Compara precios de adhesivos dentales y cementos en Chile. ${count} productos de RelyX, Variolink, FGM y más al mejor precio.`,
     h1: 'Adhesivos y Cementos Dentales: Compara Precios',
   },
+  'ceras': {
+    title: 'Ceras Dentales — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} ceras dentales en Chile. Ceras de modelar, mordida, utility y colado de Yeti Dental, Renfert y Lysanda entre +70 proveedores.`,
+    h1: 'Ceras Dentales: Compara Precios en Chile',
+  },
+  'cirugia': {
+    title: 'Cirugía Dental — Precios de Instrumental y Materiales Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de cirugía oral en Chile. Fórceps, suturas, membranas de colágeno de Hu-Friedy, Geistlich y más entre +70 proveedores.`,
+    h1: 'Cirugía Dental: Compara Precios en Chile',
+  },
+  'control-infecciones-clinico': {
+    title: 'Control de Infecciones Clínico — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de bioseguridad clínica en Chile. Desinfectantes, esterilizadores, indicadores biológicos de 3M, Zeta y Crosstex entre +70 proveedores.`,
+    h1: 'Control de Infecciones Clínico: Compara Precios en Chile',
+  },
+  'control-infecciones-personal': {
+    title: 'EPP Dental — Guantes, Mascarillas y Protección Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de protección personal dental en Chile. Guantes de nitrilo, mascarillas, protectores faciales de Cranberry, Supermax y Medicom.`,
+    h1: 'Equipos de Protección Personal Dental: Compara Precios',
+  },
+  'coronas-cofias': {
+    title: 'Coronas Dentales Preformadas — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} coronas y cofias dentales en Chile. Coronas de acero, celuloide y estéticas pediátricas de 3M, NuSmile y TDV entre +70 proveedores.`,
+    h1: 'Coronas y Cofias Dentales: Compara Precios en Chile',
+  },
+  'desechables': {
+    title: 'Desechables Dentales — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} desechables dentales en Chile. Eyectores, baberos, vasos, rollos de algodón y puntas de jeringa triple entre +70 proveedores.`,
+    h1: 'Desechables Dentales: Compara Precios en Chile',
+  },
+  'endodoncia': {
+    title: 'Endodoncia — Precios de Limas e Insumos en Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de endodoncia en Chile. Limas rotatorias, conos de gutapercha, selladores de Dentsply, VDW y Meta Biomed entre +70 proveedores.`,
+    h1: 'Endodoncia: Compara Precios de Insumos en Chile',
+  },
+  'equipamiento': {
+    title: 'Equipamiento Dental — Precios de Sillones y Equipos Chile 2026',
+    description: (count) => `Compara precios de ${count} equipos odontológicos en Chile. Sillones, autoclaves, lámparas de fotocurado, ultrasonido de NSK, KaVo y Gnatus entre +70 proveedores.`,
+    h1: 'Equipamiento Dental: Compara Precios en Chile',
+  },
+  'estetica': {
+    title: 'Estética Dental — Precios de Blanqueamiento y Más Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de estética dental en Chile. Blanqueamiento, carillas de composite, sistemas de color de Ultradent, FGM e Ivoclar entre +70 proveedores.`,
+    h1: 'Estética Dental: Compara Precios en Chile',
+  },
+  'evacuacion': {
+    title: 'Evacuación y Aspiración Dental — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de evacuación dental en Chile. Cánulas de succión, eyectores quirúrgicos y adaptadores entre +70 proveedores.`,
+    h1: 'Evacuación Dental: Compara Precios en Chile',
+  },
   'fresas-diamantes': {
     title: 'Fresas Dentales — Precios y Tipos en Chile 2026',
     description: (count) => `Precios de fresas dentales en Chile. ${count} fresas de diamante y carburo de Komet, Microdont, Edenta y SS White entre +70 proveedores.`,
     h1: 'Fresas Dentales: Compara Precios en Chile',
+  },
+  'goma-dique': {
+    title: 'Goma Dique y Aislamiento — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de aislamiento dental en Chile. Goma dique, clamps, arcos de Young de Coltene, Hu-Friedy y Sanctuary entre +70 proveedores.`,
+    h1: 'Goma Dique y Aislamiento: Compara Precios en Chile',
+  },
+  'implantes': {
+    title: 'Implantes Dentales — Precios de Sistemas en Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de implantología en Chile. Implantes, pilares y componentes de Straumann, Neodent, MIS y Bionnovation entre +70 proveedores.`,
+    h1: 'Implantes Dentales: Compara Precios en Chile',
+  },
+  'instrumental': {
+    title: 'Instrumental Dental — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} instrumentos odontológicos en Chile. Espejos, sondas, curetas, espátulas de Hu-Friedy, Medesy y YDM entre +70 proveedores.`,
+    h1: 'Instrumental Dental: Compara Precios en Chile',
+  },
+  'jeringas-agujas': {
+    title: 'Jeringas y Agujas Dentales — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} jeringas y agujas dentales en Chile. Jeringas carpule, agujas cortas y largas de Septodont, DFL y Nipro entre +70 proveedores.`,
+    h1: 'Jeringas y Agujas Dentales: Compara Precios en Chile',
+  },
+  'laboratorio': {
+    title: 'Materiales de Laboratorio Dental — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} materiales de laboratorio dental en Chile. Yesos, revestimientos, siliconas de duplicar de Zhermack, Renfert y GC entre +70 proveedores.`,
+    h1: 'Laboratorio Dental: Compara Precios en Chile',
+  },
+  'lupas-lamparas': {
+    title: 'Lupas y Lámparas Dentales — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} lupas y lámparas dentales en Chile. Lupas binoculares, LED frontales de Zumax, Univet y Orascoptic entre +70 proveedores.`,
+    h1: 'Lupas y Lámparas Dentales: Compara Precios en Chile',
+  },
+  'materiales-impresion': {
+    title: 'Materiales de Impresión Dental — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} materiales de impresión en Chile. Alginatos, siliconas de adición, poliéteres de Zhermack, 3M y Coltene entre +70 proveedores.`,
+    h1: 'Materiales de Impresión Dental: Compara Precios en Chile',
+  },
+  'materiales-retraccion': {
+    title: 'Retracción Gingival — Precios de Hilos y Pastas Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de retracción gingival en Chile. Hilos retractores, pastas hemostáticas de Ultradent, 3M y Roeko entre +70 proveedores.`,
+    h1: 'Retracción Gingival: Compara Precios en Chile',
+  },
+  'matrices-cunas': {
+    title: 'Matrices y Cuñas Dentales — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} matrices y cuñas en Chile. Matrices seccionales, circunferenciales, cuñas de TDV Unimatrix, Palodent y Garrison entre +70 proveedores.`,
+    h1: 'Matrices y Cuñas Dentales: Compara Precios en Chile',
+  },
+  'miscelaneos': {
+    title: 'Insumos Dentales Varios — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} insumos dentales varios en Chile. Micro-aplicadores, papel de articular, bloques de mezcla y más entre +70 proveedores.`,
+    h1: 'Insumos Dentales Varios: Compara Precios en Chile',
+  },
+  'ortodoncia': {
+    title: 'Ortodoncia — Precios de Brackets e Insumos Chile 2026',
+    description: (count) => `Compara precios de ${count} productos de ortodoncia en Chile. Brackets, alambres NiTi, elásticos de 3M Unitek, Morelli y Ormco entre +70 proveedores.`,
+    h1: 'Ortodoncia: Compara Precios de Insumos en Chile',
+  },
+  'pernos-postes': {
+    title: 'Postes de Fibra de Vidrio — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} postes y pernos dentales en Chile. Postes de fibra de vidrio, titanio y sistemas de muñón de Angelus, FGM y 3M entre +70 proveedores.`,
+    h1: 'Postes y Pernos Dentales: Compara Precios en Chile',
+  },
+  'piezas-de-mano': {
+    title: 'Piezas de Mano Dentales — Precios de Turbinas Chile 2026',
+    description: (count) => `Compara precios de ${count} piezas de mano en Chile. Turbinas, contraángulos, micromotores de NSK, KaVo, W&H y Bien Air entre +70 proveedores.`,
+    h1: 'Piezas de Mano Dentales: Compara Precios en Chile',
+  },
+  'preventivos': {
+    title: 'Productos Preventivos Dentales — Precios en Chile 2026',
+    description: (count) => `Compara precios de ${count} productos preventivos dentales en Chile. Flúor barniz, sellantes, pastas profilácticas de Colgate, 3M Clinpro e Ivoclar entre +70 proveedores.`,
+    h1: 'Preventivos Dentales: Compara Precios en Chile',
+  },
+  'radiologia': {
+    title: 'Radiología Dental — Precios de Insumos en Chile 2026',
+    description: (count) => `Compara precios de ${count} insumos de radiología dental en Chile. Películas, sensores digitales, líquidos reveladores de Carestream, Agfa y Fuji entre +70 proveedores.`,
+    h1: 'Radiología Dental: Compara Precios en Chile',
+  },
+  'resinas-compuestas': {
+    title: 'Resinas Compuestas — Precios y Comparativa en Chile 2026',
+    description: (count) => `Compara precios de resinas dentales en Chile. ${count} composites de 3M Filtek, Ivoclar, Kerr y más entre +70 proveedores. Encuentra el precio más bajo.`,
+    h1: 'Resinas Dentales: Compara Precios en Chile',
+  },
+  'sillones-dentales': {
+    title: 'Sillones Dentales — Precios y Marcas en Chile 2026',
+    description: (count) => `Compara precios de ${count} sillones dentales en Chile. Unidades completas, sillones portátiles de Gnatus, KaVo, A-dec y Fengdan entre +70 proveedores.`,
+    h1: 'Sillones Dentales: Compara Precios en Chile',
   },
 }
 
