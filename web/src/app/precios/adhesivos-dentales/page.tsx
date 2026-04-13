@@ -313,6 +313,12 @@ export default async function AdhesivosPreciosPage({
             Los 10 adhesivos más usados en Chile →
           </Link>
           <Link
+            href="/blog/panavia-v5-vs-variolink-esthetic-2026"
+            className="text-sm text-primary hover:underline"
+          >
+            Panavia V5 vs Variolink Esthetic →
+          </Link>
+          <Link
             href="/precios/resina-compuesta"
             className="text-sm text-primary hover:underline"
           >
