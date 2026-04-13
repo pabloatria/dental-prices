@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#38bdf8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="600" y="48" fill="#f8fafc" font-size="26" font-weight="800" text-anchor="middle" letter-spacing="-0.5">Top resinas dentales en Chile: comparativa</text>
+  <rect x="250" y="60" width="700" height="3" rx="1.5" fill="url(#accent)" opacity="0.6"/>
+
+  <!-- Column headers -->
+  <rect x="40" y="80" width="1120" height="40" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="190" y="106" fill="#64748b" font-size="12" font-weight="700" text-anchor="middle">CRITERIO</text>
+  <text x="410" y="106" fill="#38bdf8" font-size="13" font-weight="800" text-anchor="middle">Filtek Z350 XT</text>
+  <text x="620" y="106" fill="#22c55e" font-size="13" font-weight="800" text-anchor="middle">Tetric N-Ceram</text>
+  <text x="830" y="106" fill="#a855f7" font-size="13" font-weight="800" text-anchor="middle">Harmonize</text>
+  <text x="1040" y="106" fill="#f59e0b" font-size="13" font-weight="800" text-anchor="middle">Filtek Z250 XT</text>
+
+  <!-- Manufacturer row -->
+  <rect x="40" y="125" width="1120" height="34" rx="0" fill="#1e293b" opacity="0.5"/>
+  <text x="190" y="147" fill="#94a3b8" font-size="12" text-anchor="middle">Fabricante</text>
+  <text x="410" y="147" fill="#e2e8f0" font-size="12" text-anchor="middle">3M</text>
+  <text x="620" y="147" fill="#e2e8f0" font-size="12" text-anchor="middle">Ivoclar</text>
+  <text x="830" y="147" fill="#e2e8f0" font-size="12" text-anchor="middle">Kerr</text>
+  <text x="1040" y="147" fill="#e2e8f0" font-size="12" text-anchor="middle">3M</text>
+
+  <!-- Type row -->
+  <rect x="40" y="159" width="1120" height="34" rx="0" fill="#0f172a" opacity="0.3"/>
+  <text x="190" y="181" fill="#94a3b8" font-size="12" text-anchor="middle">Tipo</text>
+  <text x="410" y="181" fill="#e2e8f0" font-size="12" text-anchor="middle">Nanohíbrida</text>
+  <text x="620" y="181" fill="#e2e8f0" font-size="12" text-anchor="middle">Nanohíbrida</text>
+  <text x="830" y="181" fill="#e2e8f0" font-size="12" text-anchor="middle">Nanohíbrida</text>
+  <text x="1040" y="181" fill="#e2e8f0" font-size="12" text-anchor="middle">Microhíbrida</text>
+
+  <!-- Esthetics row -->
+  <rect x="40" y="193" width="1120" height="34" rx="0" fill="#1e293b" opacity="0.5"/>
+  <text x="190" y="215" fill="#94a3b8" font-size="12" text-anchor="middle">Estetica</text>
+  <text x="410" y="215" fill="#38bdf8" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9734;</text>
+  <text x="620" y="215" fill="#22c55e" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9734;</text>
+  <text x="830" y="215" fill="#a855f7" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9733;</text>
+  <text x="1040" y="215" fill="#f59e0b" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9734;&#9734;</text>
+
+  <!-- Handling row -->
+  <rect x="40" y="227" width="1120" height="34" rx="0" fill="#0f172a" opacity="0.3"/>
+  <text x="190" y="249" fill="#94a3b8" font-size="12" text-anchor="middle">Manejo / Esculpido</text>
+  <text x="410" y="249" fill="#38bdf8" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9734;&#9734;</text>
+  <text x="620" y="249" fill="#22c55e" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9733;</text>
+  <text x="830" y="249" fill="#a855f7" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9734;</text>
+  <text x="1040" y="249" fill="#f59e0b" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9734;</text>
+
+  <!-- Mechanical row -->
+  <rect x="40" y="261" width="1120" height="34" rx="0" fill="#1e293b" opacity="0.5"/>
+  <text x="190" y="283" fill="#94a3b8" font-size="12" text-anchor="middle">Mec. / Resistencia</text>
+  <text x="410" y="283" fill="#38bdf8" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9733;</text>
+  <text x="620" y="283" fill="#22c55e" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9734;</text>
+  <text x="830" y="283" fill="#a855f7" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9734;</text>
+  <text x="1040" y="283" fill="#f59e0b" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9733;</text>
+
+  <!-- Pulido row -->
+  <rect x="40" y="295" width="1120" height="34" rx="0" fill="#0f172a" opacity="0.3"/>
+  <text x="190" y="317" fill="#94a3b8" font-size="12" text-anchor="middle">Pulido</text>
+  <text x="410" y="317" fill="#38bdf8" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9733;</text>
+  <text x="620" y="317" fill="#22c55e" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9734;</text>
+  <text x="830" y="317" fill="#a855f7" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9733;&#9734;</text>
+  <text x="1040" y="317" fill="#f59e0b" font-size="14" text-anchor="middle">&#9733;&#9733;&#9733;&#9734;&#9734;</text>
+
+  <!-- Chameleon row -->
+  <rect x="40" y="329" width="1120" height="34" rx="0" fill="#1e293b" opacity="0.5"/>
+  <text x="190" y="351" fill="#94a3b8" font-size="12" text-anchor="middle">Efecto camaleon</text>
+  <text x="410" y="351" fill="#64748b" font-size="12" text-anchor="middle">Moderado</text>
+  <text x="620" y="351" fill="#64748b" font-size="12" text-anchor="middle">Moderado</text>
+  <text x="830" y="351" fill="#a855f7" font-size="12" font-weight="700" text-anchor="middle">Superior (APC)</text>
+  <text x="1040" y="351" fill="#64748b" font-size="12" text-anchor="middle">Bajo</text>
+
+  <!-- Price row -->
+  <rect x="40" y="363" width="1120" height="38" rx="0" fill="#0f172a" opacity="0.5"/>
+  <text x="190" y="387" fill="#94a3b8" font-size="12" text-anchor="middle">Precio/jeringa (rango)</text>
+  <text x="410" y="387" fill="#e2e8f0" font-size="13" font-weight="700" text-anchor="middle">$15.000 - $32.000</text>
+  <text x="620" y="387" fill="#e2e8f0" font-size="13" font-weight="700" text-anchor="middle">$18.000 - $30.000</text>
+  <text x="830" y="387" fill="#e2e8f0" font-size="13" font-weight="700" text-anchor="middle">$16.000 - $28.000</text>
+  <text x="1040" y="387" fill="#e2e8f0" font-size="13" font-weight="700" text-anchor="middle">$12.000 - $22.000</text>
+
+  <!-- Best for row -->
+  <rect x="40" y="401" width="1120" height="42" rx="0" fill="#1e293b" opacity="0.5"/>
+  <text x="190" y="427" fill="#94a3b8" font-size="12" text-anchor="middle">Mejor para</text>
+  <text x="410" y="427" fill="#e2e8f0" font-size="11" text-anchor="middle">Uso universal, posterior</text>
+  <text x="620" y="427" fill="#e2e8f0" font-size="11" text-anchor="middle">Esculpido, ant. y post.</text>
+  <text x="830" y="427" fill="#e2e8f0" font-size="11" text-anchor="middle">Anterior estetico</text>
+  <text x="1040" y="427" fill="#e2e8f0" font-size="11" text-anchor="middle">Posterior, costo-efectivo</text>
+
+  <!-- Additional resins mention -->
+  <rect x="40" y="455" width="1120" height="45" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="60" y="477" fill="#94a3b8" font-size="12">Tambien en Chile:</text>
+  <text x="190" y="477" fill="#e2e8f0" font-size="12" font-weight="600">Empress Direct (Ivoclar)</text>
+  <text x="400" y="477" fill="#64748b" font-size="12">·</text>
+  <text x="420" y="477" fill="#e2e8f0" font-size="12" font-weight="600">Brilliant EverGlow (Coltene)</text>
+  <text x="660" y="477" fill="#64748b" font-size="12">·</text>
+  <text x="680" y="477" fill="#e2e8f0" font-size="12" font-weight="600">Grandio SO (VOCO)</text>
+  <text x="855" y="490" fill="#64748b" font-size="11" text-anchor="end"/>
+
+  <!-- Savings callout -->
+  <rect x="40" y="510" width="1120" height="60" rx="10" fill="#0f2a1a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="600" y="536" fill="#22c55e" font-size="16" font-weight="800" text-anchor="middle">Varianza de $15.000+ por jeringa entre 17 proveedores</text>
+  <text x="600" y="558" fill="#94a3b8" font-size="13" text-anchor="middle">100 jeringas/ano x $15.000 diferencia = $1.500.000+ de ahorro anual solo comparando precios</text>
+
+  <!-- Footer branding -->
+  <rect x="0" y="590" width="1200" height="110" rx="0" fill="#0f172a" opacity="0.5"/>
+  <rect x="40" y="615" width="36" height="36" rx="8" fill="#0ea5e9"/>
+  <text x="58" y="641" fill="#fff" font-size="20" font-weight="800" text-anchor="middle">D</text>
+  <text x="90" y="639" fill="#e2e8f0" font-size="18" font-weight="700">dentalprecios.cl</text>
+  <text x="290" y="639" fill="#64748b" font-size="13">Precios actualizados Abril 2026</text>
+  <text x="1160" y="639" fill="#475569" font-size="11" text-anchor="end">Fuentes: Fabricantes · dentalprecios.cl · Leinfelder &amp; Suzuki 1999</text>
+
+  <!-- Key insight callout -->
+  <rect x="40" y="660" width="1120" height="28" rx="4" fill="#0ea5e9" opacity="0.08"/>
+  <text x="600" y="679" fill="#94a3b8" font-size="12" text-anchor="middle">No existe la mejor resina universal. La eleccion depende del caso clinico: estetica anterior, resistencia posterior, o eficiencia clinica.</text>
+</svg>

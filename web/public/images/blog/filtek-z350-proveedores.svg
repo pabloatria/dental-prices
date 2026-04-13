@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="priceBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="50%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#ef4444"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="600" y="48" fill="#f8fafc" font-size="25" font-weight="800" text-anchor="middle" letter-spacing="-0.5">Filtek Z350 XT: varianza de precios entre proveedores</text>
+  <rect x="200" y="60" width="800" height="3" rx="1.5" fill="url(#accent)" opacity="0.6"/>
+
+  <!-- Product Spec Card -->
+  <rect x="60" y="85" width="1080" height="100" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Product icon -->
+  <rect x="80" y="100" width="70" height="70" rx="10" fill="#0ea5e9" opacity="0.15" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="115" y="130" fill="#38bdf8" font-size="11" font-weight="700" text-anchor="middle">3M</text>
+  <text x="115" y="150" fill="#38bdf8" font-size="9" text-anchor="middle">ESPE</text>
+
+  <text x="170" y="112" fill="#f8fafc" font-size="18" font-weight="800">Filtek Z350 XT — 3M</text>
+  <text x="170" y="134" fill="#94a3b8" font-size="13">Tipo: Nanohibrida | Particulas: Silice + Zirconio (20nm) | Nanocluster 0.6-1.4um</text>
+  <text x="170" y="154" fill="#94a3b8" font-size="13">Indicaciones: Anterior + Posterior | Jeringa 4g | La resina mas usada en Chile</text>
+  <text x="170" y="174" fill="#64748b" font-size="12">Excelente pulido, resistencia al desgaste, amplia gama de colores — el estandar de referencia</text>
+
+  <!-- Price Range Section -->
+  <text x="60" y="220" fill="#f59e0b" font-size="15" font-weight="700">RANGO DE PRECIOS POR JERINGA (MISMO PRODUCTO)</text>
+
+  <!-- Price bar background -->
+  <rect x="60" y="240" width="1080" height="50" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+
+  <!-- Gradient price bar -->
+  <rect x="80" y="250" width="1040" height="30" rx="6" fill="url(#priceBar)" opacity="0.3"/>
+
+  <!-- Cheapest marker -->
+  <rect x="80" y="248" width="3" height="34" fill="#22c55e"/>
+  <text x="80" y="310" fill="#22c55e" font-size="18" font-weight="800">$28.000</text>
+  <text x="80" y="328" fill="#64748b" font-size="12">Proveedor mas barato</text>
+
+  <!-- Mid marker -->
+  <rect x="580" y="248" width="3" height="34" fill="#f59e0b"/>
+  <text x="580" y="310" fill="#f59e0b" font-size="15" font-weight="700" text-anchor="middle">~$35.000</text>
+  <text x="580" y="328" fill="#64748b" font-size="12" text-anchor="middle">Precio promedio</text>
+
+  <!-- Most expensive marker -->
+  <rect x="1117" y="248" width="3" height="34" fill="#ef4444"/>
+  <text x="1120" y="310" fill="#ef4444" font-size="18" font-weight="800" text-anchor="end">$43.000</text>
+  <text x="1120" y="328" fill="#64748b" font-size="12" text-anchor="end">Proveedor mas caro</text>
+
+  <!-- Spread callout -->
+  <rect x="350" y="345" width="500" height="50" rx="25" fill="#ef4444" opacity="0.1" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="600" y="377" fill="#ef4444" font-size="20" font-weight="800" text-anchor="middle">DIFERENCIA: $15.000 por jeringa</text>
+
+  <!-- Monthly waste calculation -->
+  <rect x="60" y="420" width="520" height="120" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="80" y="448" fill="#f59e0b" font-size="14" font-weight="700">IMPACTO MENSUAL</text>
+
+  <text x="80" y="478" fill="#94a3b8" font-size="13">Consumo tipico:</text>
+  <text x="230" y="478" fill="#e2e8f0" font-size="14" font-weight="700">8-10 jeringas/mes</text>
+
+  <text x="80" y="503" fill="#94a3b8" font-size="13">Comprando al mas caro:</text>
+  <text x="280" y="503" fill="#ef4444" font-size="14" font-weight="700">$120.000 - $150.000 extra/mes</text>
+
+  <text x="80" y="528" fill="#94a3b8" font-size="13">Desperdicio anual:</text>
+  <text x="250" y="528" fill="#ef4444" font-size="16" font-weight="800">$1.440.000 - $1.800.000</text>
+
+  <!-- Action box -->
+  <rect x="620" y="420" width="520" height="120" rx="12" fill="#0ea5e9" opacity="0.08" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="640" y="448" fill="#38bdf8" font-size="14" font-weight="700">POR QUE COMPARAR</text>
+
+  <text x="640" y="478" fill="#e2e8f0" font-size="13">Mismo producto 3M Filtek Z350 XT</text>
+  <text x="640" y="498" fill="#e2e8f0" font-size="13">Misma jeringa de 4g, misma fecha de vencimiento</text>
+  <text x="640" y="518" fill="#e2e8f0" font-size="13">La unica diferencia es el proveedor y su margen</text>
+
+  <rect x="640" y="525" width="480" height="2" rx="1" fill="#334155" opacity="0.5"/>
+
+  <!-- Footer branding -->
+  <rect x="0" y="580" width="1200" height="120" rx="0" fill="#0f172a" opacity="0.5"/>
+  <rect x="40" y="610" width="36" height="36" rx="8" fill="#0ea5e9"/>
+  <text x="58" y="636" fill="#fff" font-size="20" font-weight="800" text-anchor="middle">D</text>
+  <text x="90" y="634" fill="#e2e8f0" font-size="18" font-weight="700">dentalprecios.cl</text>
+  <text x="290" y="634" fill="#64748b" font-size="13">Precios actualizados Abril 2026</text>
+  <text x="1160" y="634" fill="#475569" font-size="11" text-anchor="end">Fuentes: Proveedores dentales Chile · dentalprecios.cl</text>
+
+  <!-- Key insight callout -->
+  <rect x="40" y="655" width="1120" height="30" rx="4" fill="#0ea5e9" opacity="0.08"/>
+  <text x="600" y="675" fill="#94a3b8" font-size="12" text-anchor="middle">Filtek Z350 XT es la misma resina sin importar donde la compres — la diferencia esta en cuanto pagas por ella</text>
+</svg>

@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#38bdf8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="600" y="45" fill="#f8fafc" font-size="24" font-weight="800" text-anchor="middle" letter-spacing="-0.5">Implantes Dentales: desglose de costos por componente</text>
+  <rect x="200" y="57" width="800" height="3" rx="1.5" fill="url(#accent)" opacity="0.6"/>
+  <text x="600" y="78" fill="#94a3b8" font-size="13" text-anchor="middle">13 marcas en 3 segmentos — Precio por componente en Chile (CLP)</text>
+
+  <!-- COMPONENT 1: IMPLANT (fixture) -->
+  <rect x="40" y="95" width="350" height="165" rx="12" fill="#1e293b" stroke="#a855f7" stroke-width="2"/>
+  <rect x="40" y="95" width="350" height="38" rx="12" fill="#a855f7" opacity="0.15"/>
+  <text x="215" y="120" fill="#c084fc" font-size="15" font-weight="800" text-anchor="middle">1. IMPLANTE (fixture)</text>
+
+  <!-- Implant icon -->
+  <rect x="60" y="148" width="16" height="55" rx="3" fill="#a855f7" opacity="0.3" stroke="#a855f7" stroke-width="1"/>
+  <line x1="60" y1="155" x2="76" y2="155" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+  <line x1="60" y1="165" x2="76" y2="165" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+  <line x1="60" y1="175" x2="76" y2="175" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+  <line x1="60" y1="185" x2="76" y2="185" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+  <line x1="60" y1="195" x2="76" y2="195" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+
+  <text x="95" y="152" fill="#f59e0b" font-size="11" font-weight="700">PREMIUM</text>
+  <text x="95" y="168" fill="#e2e8f0" font-size="12">$180.000 – $350.000</text>
+  <text x="95" y="183" fill="#64748b" font-size="10">Straumann · Nobel Biocare · Neodent</text>
+
+  <text x="95" y="202" fill="#38bdf8" font-size="11" font-weight="700">GAMA MEDIA</text>
+  <text x="95" y="218" fill="#e2e8f0" font-size="12">$70.000 – $160.000</text>
+  <text x="95" y="233" fill="#64748b" font-size="10">MIS · Osstem · Bego · BioHorizons</text>
+
+  <text x="250" y="152" fill="#22c55e" font-size="11" font-weight="700">ECONOMICO</text>
+  <text x="250" y="168" fill="#e2e8f0" font-size="12">$40.000 – $90.000</text>
+  <text x="250" y="183" fill="#64748b" font-size="10">SIN · DSP · Adin</text>
+
+  <!-- Connector line 1→2 -->
+  <line x1="215" y1="260" x2="215" y2="275" stroke="#334155" stroke-width="2"/>
+  <polygon points="209,272 221,272 215,280" fill="#334155"/>
+
+  <!-- COMPONENT 2: ABUTMENT (pilar) -->
+  <rect x="40" y="285" width="350" height="130" rx="12" fill="#1e293b" stroke="#0ea5e9" stroke-width="2"/>
+  <rect x="40" y="285" width="350" height="38" rx="12" fill="#0ea5e9" opacity="0.15"/>
+  <text x="215" y="310" fill="#38bdf8" font-size="15" font-weight="800" text-anchor="middle">2. PILAR (abutment)</text>
+
+  <!-- Abutment icon -->
+  <rect x="60" y="340" width="16" height="30" rx="2" fill="#0ea5e9" opacity="0.3" stroke="#0ea5e9" stroke-width="1"/>
+  <rect x="55" y="335" width="26" height="10" rx="2" fill="#0ea5e9" opacity="0.2"/>
+
+  <text x="95" y="348" fill="#f59e0b" font-size="11" font-weight="700">TITANIO PREFABRICADO</text>
+  <text x="95" y="364" fill="#e2e8f0" font-size="12">$15.000 – $80.000</text>
+
+  <text x="95" y="386" fill="#38bdf8" font-size="11" font-weight="700">PERSONALIZADO / ZIRCONIA</text>
+  <text x="95" y="402" fill="#e2e8f0" font-size="12">$60.000 – $180.000</text>
+
+  <!-- Connector line 2→3 -->
+  <line x1="215" y1="415" x2="215" y2="430" stroke="#334155" stroke-width="2"/>
+  <polygon points="209,427 221,427 215,435" fill="#334155"/>
+
+  <!-- COMPONENT 3: CROWN -->
+  <rect x="40" y="440" width="350" height="130" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="40" y="440" width="350" height="38" rx="12" fill="#f59e0b" opacity="0.15"/>
+  <text x="215" y="465" fill="#f59e0b" font-size="15" font-weight="800" text-anchor="middle">3. CORONA (protesis)</text>
+
+  <!-- Crown icon -->
+  <path d="M58,505 L62,490 L68,500 L74,488 L80,500 L86,490 L90,505 Z" fill="#f59e0b" opacity="0.3" stroke="#f59e0b" stroke-width="1"/>
+
+  <text x="100" y="498" fill="#e2e8f0" font-size="11" font-weight="600">Zirconia monolitica</text>
+  <text x="250" y="498" fill="#e2e8f0" font-size="12">$35.000 – $90.000</text>
+
+  <text x="100" y="518" fill="#e2e8f0" font-size="11" font-weight="600">Disilicato de litio</text>
+  <text x="250" y="518" fill="#e2e8f0" font-size="12">$43.000 – $120.000</text>
+
+  <text x="100" y="538" fill="#e2e8f0" font-size="11" font-weight="600">Metal-ceramica</text>
+  <text x="250" y="538" fill="#e2e8f0" font-size="12">$43.000 – $70.000</text>
+
+  <text x="100" y="558" fill="#64748b" font-size="10">Precio incluye laboratorio — varia segun tecnico y material</text>
+
+  <!-- RIGHT SIDE: Total case cost -->
+  <rect x="440" y="95" width="720" height="475" rx="16" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+
+  <text x="800" y="128" fill="#f8fafc" font-size="18" font-weight="800" text-anchor="middle">COSTO TOTAL POR CASO</text>
+  <text x="800" y="150" fill="#94a3b8" font-size="12" text-anchor="middle">Implante + Pilar + Corona = caso completo unitario</text>
+
+  <!-- Premium tier -->
+  <rect x="470" y="170" width="660" height="90" rx="10" fill="#1e293b" stroke="#a855f7" stroke-width="1"/>
+  <text x="490" y="195" fill="#c084fc" font-size="14" font-weight="800">SEGMENTO PREMIUM</text>
+  <text x="490" y="215" fill="#94a3b8" font-size="12">Straumann BLX + pilar original + corona zirconia</text>
+
+  <!-- Premium price bar -->
+  <rect x="490" y="228" width="620" height="22" rx="4" fill="#a855f7" opacity="0.1"/>
+  <rect x="490" y="228" width="620" height="22" rx="4" fill="#a855f7" opacity="0.2"/>
+  <text x="800" y="244" fill="#c084fc" font-size="16" font-weight="800" text-anchor="middle">$350.000 — $520.000+</text>
+
+  <!-- Mid tier -->
+  <rect x="470" y="280" width="660" height="90" rx="10" fill="#1e293b" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="490" y="305" fill="#38bdf8" font-size="14" font-weight="800">GAMA MEDIA</text>
+  <text x="490" y="325" fill="#94a3b8" font-size="12">Osstem / MIS + pilar titanio + corona disilicato</text>
+
+  <!-- Mid price bar -->
+  <rect x="490" y="338" width="440" height="22" rx="4" fill="#0ea5e9" opacity="0.15"/>
+  <text x="710" y="354" fill="#38bdf8" font-size="16" font-weight="800" text-anchor="middle">$200.000 — $380.000</text>
+
+  <!-- Economic tier -->
+  <rect x="470" y="390" width="660" height="90" rx="10" fill="#1e293b" stroke="#22c55e" stroke-width="1"/>
+  <text x="490" y="415" fill="#22c55e" font-size="14" font-weight="800">ECONOMICO</text>
+  <text x="490" y="435" fill="#94a3b8" font-size="12">SIN / DSP + pilar generico + corona metal-ceramica</text>
+
+  <!-- Economic price bar -->
+  <rect x="490" y="448" width="280" height="22" rx="4" fill="#22c55e" opacity="0.15"/>
+  <text x="630" y="464" fill="#22c55e" font-size="16" font-weight="800" text-anchor="middle">$150.000 — $250.000</text>
+
+  <!-- Spread label -->
+  <rect x="470" y="500" width="660" height="50" rx="8" fill="#ef4444" opacity="0.08" stroke="#ef4444" stroke-width="1"/>
+  <text x="800" y="524" fill="#ef4444" font-size="14" font-weight="700" text-anchor="middle">RANGO TOTAL: $150.000 a $520.000+ por caso — diferencia de 3.5x entre extremos</text>
+  <text x="800" y="542" fill="#64748b" font-size="11" text-anchor="middle">13 marcas disponibles en Chile · 3 segmentos de precio · Cada componente suma</text>
+
+  <!-- Footer branding -->
+  <rect x="0" y="600" width="1200" height="100" rx="0" fill="#0f172a" opacity="0.5"/>
+  <rect x="40" y="625" width="36" height="36" rx="8" fill="#0ea5e9"/>
+  <text x="58" y="651" fill="#fff" font-size="20" font-weight="800" text-anchor="middle">D</text>
+  <text x="90" y="649" fill="#e2e8f0" font-size="18" font-weight="700">dentalprecios.cl</text>
+  <text x="290" y="649" fill="#64748b" font-size="13">Precios actualizados Abril 2026</text>
+  <text x="1160" y="649" fill="#475569" font-size="11" text-anchor="end">Fuentes: Proveedores e importadores Chile · dentalprecios.cl</text>
+
+  <!-- Key insight callout -->
+  <rect x="40" y="670" width="1120" height="24" rx="4" fill="#0ea5e9" opacity="0.08"/>
+  <text x="600" y="687" fill="#94a3b8" font-size="12" text-anchor="middle">El implante es solo el 40-60% del costo total — pilar y corona definen el precio final del caso</text>
+</svg>

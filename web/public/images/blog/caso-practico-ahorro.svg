@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="green-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="100%" style="stop-color:#16a34a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="600" y="48" fill="#f8fafc" font-size="26" font-weight="800" text-anchor="middle" letter-spacing="-0.5">Caso Practico: Optimizacion Multi-Proveedor</text>
+  <rect x="250" y="60" width="700" height="3" rx="1.5" fill="url(#accent)" opacity="0.6"/>
+
+  <!-- Subtitle -->
+  <text x="600" y="88" fill="#94a3b8" font-size="14" text-anchor="middle">Ningun proveedor tiene el mejor precio en todas las categorias</text>
+
+  <!-- Provider circles -->
+  <!-- MayorDent -->
+  <circle cx="220" cy="230" r="85" fill="#1e293b" stroke="#0ea5e9" stroke-width="2"/>
+  <circle cx="220" cy="230" r="85" fill="#0ea5e9" opacity="0.06"/>
+  <text x="220" y="210" fill="#38bdf8" font-size="18" font-weight="800" text-anchor="middle">MayorDent</text>
+  <line x1="180" y1="220" x2="260" y2="220" stroke="#334155" stroke-width="1"/>
+  <text x="220" y="240" fill="#e2e8f0" font-size="12" font-weight="600" text-anchor="middle">Mejor precio en</text>
+  <text x="220" y="258" fill="#f59e0b" font-size="14" font-weight="700" text-anchor="middle">Anestesicos</text>
+
+  <!-- Clandent -->
+  <circle cx="600" cy="180" r="85" fill="#1e293b" stroke="#a855f7" stroke-width="2"/>
+  <circle cx="600" cy="180" r="85" fill="#a855f7" opacity="0.06"/>
+  <text x="600" y="160" fill="#a855f7" font-size="18" font-weight="800" text-anchor="middle">Clandent</text>
+  <line x1="560" y1="170" x2="640" y2="170" stroke="#334155" stroke-width="1"/>
+  <text x="600" y="190" fill="#e2e8f0" font-size="12" font-weight="600" text-anchor="middle">Mejor precio en</text>
+  <text x="600" y="208" fill="#f59e0b" font-size="14" font-weight="700" text-anchor="middle">Adhesivos</text>
+
+  <!-- ExpressDent -->
+  <circle cx="980" cy="230" r="85" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+  <circle cx="980" cy="230" r="85" fill="#f59e0b" opacity="0.06"/>
+  <text x="980" y="210" fill="#f59e0b" font-size="18" font-weight="800" text-anchor="middle">ExpressDent</text>
+  <line x1="940" y1="220" x2="1020" y2="220" stroke="#334155" stroke-width="1"/>
+  <text x="980" y="240" fill="#e2e8f0" font-size="12" font-weight="600" text-anchor="middle">Mejor precio en</text>
+  <text x="980" y="258" fill="#f59e0b" font-size="14" font-weight="700" text-anchor="middle">Guantes e Insumos</text>
+
+  <!-- Connection lines to center -->
+  <line x1="305" y1="270" x2="510" y2="370" stroke="#334155" stroke-width="2" stroke-dasharray="8"/>
+  <line x1="600" y1="265" x2="600" y2="355" stroke="#334155" stroke-width="2" stroke-dasharray="8"/>
+  <line x1="895" y1="270" x2="690" y2="370" stroke="#334155" stroke-width="2" stroke-dasharray="8"/>
+
+  <!-- Central optimization node -->
+  <rect x="460" y="355" width="280" height="100" rx="16" fill="#0f2a1a" stroke="#22c55e" stroke-width="2.5"/>
+  <rect x="460" y="355" width="280" height="100" rx="16" fill="#22c55e" opacity="0.05"/>
+  <text x="600" y="385" fill="#22c55e" font-size="13" font-weight="700" text-anchor="middle">OPTIMIZACION MULTI-PROVEEDOR</text>
+  <text x="600" y="418" fill="#22c55e" font-size="32" font-weight="900" text-anchor="middle">$20.000+</text>
+  <text x="600" y="442" fill="#94a3b8" font-size="13" font-weight="600" text-anchor="middle">ahorro mensual estimado</text>
+
+  <!-- Arrow down to details -->
+  <line x1="600" y1="455" x2="600" y2="480" stroke="#22c55e" stroke-width="2"/>
+  <polygon points="592,480 608,480 600,492" fill="#22c55e"/>
+
+  <!-- Detail boxes -->
+  <rect x="55" y="500" width="340" height="80" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="75" y="525" fill="#ef4444" font-size="13" font-weight="700">COMPRAR TODO EN UN PROVEEDOR</text>
+  <text x="75" y="548" fill="#e2e8f0" font-size="14" font-weight="600">Comodo pero costoso</text>
+  <text x="75" y="568" fill="#64748b" font-size="11">Se paga precio premium en multiples categorias</text>
+
+  <rect x="430" y="500" width="340" height="80" rx="10" fill="#0f2a1a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="450" y="525" fill="#22c55e" font-size="13" font-weight="700">COMPARAR CON DENTALPRECIOS</text>
+  <text x="450" y="548" fill="#e2e8f0" font-size="14" font-weight="600">Identificar el mejor precio por producto</text>
+  <text x="450" y="568" fill="#64748b" font-size="11">3-4 proveedores cubren el 90% del ahorro posible</text>
+
+  <rect x="805" y="500" width="340" height="80" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="825" y="525" fill="#38bdf8" font-size="13" font-weight="700">ESTRATEGIA RECOMENDADA</text>
+  <text x="825" y="548" fill="#e2e8f0" font-size="14" font-weight="600">Consolidar en 2-3 proveedores</text>
+  <text x="825" y="568" fill="#64748b" font-size="11">Maximiza ahorro sin fragmentar logistica</text>
+
+  <!-- Footer branding -->
+  <rect x="0" y="600" width="1200" height="100" rx="0" fill="#0f172a" opacity="0.5"/>
+  <rect x="40" y="622" width="36" height="36" rx="8" fill="#0ea5e9"/>
+  <text x="58" y="648" fill="#fff" font-size="20" font-weight="800" text-anchor="middle">D</text>
+  <text x="90" y="646" fill="#e2e8f0" font-size="18" font-weight="700">dentalprecios.cl</text>
+  <text x="290" y="646" fill="#64748b" font-size="13">Precios actualizados Abril 2026</text>
+  <text x="1160" y="646" fill="#475569" font-size="11" text-anchor="end">Fuentes: Proveedores dentales Chile · dentalprecios.cl</text>
+
+  <rect x="40" y="667" width="1120" height="28" rx="4" fill="#0ea5e9" opacity="0.08"/>
+  <text x="600" y="686" fill="#94a3b8" font-size="12" text-anchor="middle">Compara precios en dentalprecios.cl antes de cada pedido · El ahorro acumulado financia insumos adicionales</text>
+</svg>

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#38bdf8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="600" y="48" fill="#f8fafc" font-size="25" font-weight="800" text-anchor="middle" letter-spacing="-0.5">Resina Compuesta: el costo por restauracion es lo que importa</text>
+  <rect x="200" y="60" width="800" height="3" rx="1.5" fill="url(#accent)" opacity="0.6"/>
+
+  <!-- Subtitle -->
+  <text x="600" y="88" fill="#94a3b8" font-size="14" text-anchor="middle">Una jeringa mas barata no siempre significa menor gasto mensual</text>
+
+  <!-- PATH A: Resina A -->
+  <rect x="60" y="115" width="510" height="60" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+  <text x="80" y="140" fill="#ef4444" font-size="13" font-weight="700">CAMINO A</text>
+  <text x="80" y="160" fill="#f8fafc" font-size="18" font-weight="800">Resina A — $22.000 /jeringa</text>
+  <text x="430" y="155" fill="#64748b" font-size="12" text-anchor="end">~8 restauraciones por jeringa</text>
+
+  <!-- PATH B: Resina B -->
+  <rect x="630" y="115" width="510" height="60" rx="10" fill="#1e293b" stroke="#22c55e" stroke-width="2"/>
+  <text x="650" y="140" fill="#22c55e" font-size="13" font-weight="700">CAMINO B</text>
+  <text x="650" y="160" fill="#f8fafc" font-size="18" font-weight="800">Resina B — $38.000 /jeringa</text>
+  <text x="1000" y="155" fill="#64748b" font-size="12" text-anchor="end">~15 restauraciones por jeringa</text>
+
+  <!-- Arrow down A -->
+  <line x1="315" y1="175" x2="315" y2="205" stroke="#334155" stroke-width="2"/>
+  <polygon points="309,200 321,200 315,210" fill="#334155"/>
+
+  <!-- Arrow down B -->
+  <line x1="885" y1="175" x2="885" y2="205" stroke="#334155" stroke-width="2"/>
+  <polygon points="879,200 891,200 885,210" fill="#334155"/>
+
+  <!-- Cost per restoration A -->
+  <rect x="60" y="215" width="510" height="50" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="80" y="240" fill="#94a3b8" font-size="13">Costo por restauracion:</text>
+  <text x="280" y="240" fill="#ef4444" font-size="18" font-weight="800">$2.750</text>
+  <text x="380" y="240" fill="#64748b" font-size="12">($22.000 / 8 rest.)</text>
+
+  <!-- Cost per restoration B -->
+  <rect x="630" y="215" width="510" height="50" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5"/>
+  <text x="650" y="240" fill="#94a3b8" font-size="13">Costo por restauracion:</text>
+  <text x="850" y="240" fill="#22c55e" font-size="18" font-weight="800">$2.533</text>
+  <text x="950" y="240" fill="#64748b" font-size="12">($38.000 / 15 rest.)</text>
+
+  <!-- Arrow down A -->
+  <line x1="315" y1="265" x2="315" y2="295" stroke="#334155" stroke-width="1.5"/>
+  <polygon points="309,290 321,290 315,300" fill="#334155"/>
+
+  <!-- Arrow down B -->
+  <line x1="885" y1="265" x2="885" y2="295" stroke="#334155" stroke-width="1.5"/>
+  <polygon points="879,290 891,290 885,300" fill="#334155"/>
+
+  <!-- Monthly calc A -->
+  <rect x="60" y="305" width="510" height="80" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="80" y="330" fill="#f59e0b" font-size="13" font-weight="700">GASTO MENSUAL (5 rest/dia x 20 dias = 100 rest.)</text>
+  <text x="80" y="358" fill="#f8fafc" font-size="22" font-weight="800">$275.000 /mes</text>
+  <text x="80" y="378" fill="#64748b" font-size="12">12.5 jeringas/mes = $275.000</text>
+
+  <!-- Monthly calc B -->
+  <rect x="630" y="305" width="510" height="80" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="650" y="330" fill="#f59e0b" font-size="13" font-weight="700">GASTO MENSUAL (5 rest/dia x 20 dias = 100 rest.)</text>
+  <text x="650" y="358" fill="#f8fafc" font-size="22" font-weight="800">$253.333 /mes</text>
+  <text x="650" y="378" fill="#64748b" font-size="12">6.7 jeringas/mes = $253.333</text>
+
+  <!-- VS divider -->
+  <rect x="580" y="115" width="40" height="280" rx="20" fill="#0ea5e9" opacity="0.08"/>
+  <text x="600" y="265" fill="#0ea5e9" font-size="18" font-weight="800" text-anchor="middle">VS</text>
+
+  <!-- Annual savings callout -->
+  <rect x="60" y="415" width="1080" height="70" rx="12" fill="#0ea5e9" opacity="0.1" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="600" y="443" fill="#38bdf8" font-size="16" font-weight="700" text-anchor="middle">AHORRO ANUAL: Resina B ahorra $260.000/ano vs Resina A — con 10 restauraciones/dia, el ahorro sube a $520.000</text>
+  <text x="600" y="467" fill="#94a3b8" font-size="13" text-anchor="middle">La jeringa "cara" resulta mas economica. El precio por jeringa es enganoso — calcula siempre el costo por restauracion.</text>
+
+  <!-- Bulk fill note -->
+  <rect x="60" y="510" width="520" height="60" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="80" y="535" fill="#f59e0b" font-size="13" font-weight="700">BULK FILL: mayor rendimiento por jeringa</text>
+  <text x="80" y="555" fill="#94a3b8" font-size="12">Incrementos de 4-5mm vs 2mm convencional = menos material por restauracion</text>
+
+  <!-- Conventional note -->
+  <rect x="620" y="510" width="520" height="60" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="640" y="535" fill="#f59e0b" font-size="13" font-weight="700">CONVENCIONAL: mayor control estetico</text>
+  <text x="640" y="555" fill="#94a3b8" font-size="12">Tecnica incremental, mejor para anterior — pero consume mas resina por pieza</text>
+
+  <!-- Footer branding -->
+  <rect x="0" y="600" width="1200" height="100" rx="0" fill="#0f172a" opacity="0.5"/>
+  <rect x="40" y="625" width="36" height="36" rx="8" fill="#0ea5e9"/>
+  <text x="58" y="651" fill="#fff" font-size="20" font-weight="800" text-anchor="middle">D</text>
+  <text x="90" y="649" fill="#e2e8f0" font-size="18" font-weight="700">dentalprecios.cl</text>
+  <text x="290" y="649" fill="#64748b" font-size="13">Precios actualizados Abril 2026</text>
+
+  <!-- Key insight callout -->
+  <rect x="40" y="670" width="1120" height="24" rx="4" fill="#0ea5e9" opacity="0.08"/>
+  <text x="600" y="687" fill="#94a3b8" font-size="12" text-anchor="middle">Compara precios de resinas compuestas en dentalprecios.cl — precio por jeringa, rendimiento y costo real por restauracion</text>
+</svg>

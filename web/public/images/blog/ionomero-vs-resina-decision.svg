@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9"/>
+      <stop offset="100%" style="stop-color:#38bdf8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg)" rx="16"/>
+
+  <!-- Title -->
+  <text x="600" y="48" fill="#f8fafc" font-size="26" font-weight="800" text-anchor="middle" letter-spacing="-0.5">¿Ionómero de vidrio o resina compuesta?</text>
+  <rect x="250" y="60" width="700" height="3" rx="1.5" fill="url(#accent)" opacity="0.6"/>
+
+  <!-- Central question node -->
+  <rect x="400" y="80" width="400" height="48" rx="24" fill="#0ea5e9" opacity="0.15" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="600" y="110" fill="#38bdf8" font-size="16" font-weight="700" text-anchor="middle">¿Qué material restaurador necesito?</text>
+
+  <!-- Branch lines -->
+  <line x1="480" y1="128" x2="250" y2="170" stroke="#334155" stroke-width="2"/>
+  <line x1="720" y1="128" x2="950" y2="170" stroke="#334155" stroke-width="2"/>
+
+  <!-- Left header: GIC -->
+  <rect x="40" y="170" width="420" height="38" rx="8" fill="#0f2a1a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="250" y="195" fill="#22c55e" font-size="16" font-weight="800" text-anchor="middle">IONOMERO DE VIDRIO (GIC)</text>
+
+  <!-- Right header: Composite -->
+  <rect x="740" y="170" width="420" height="38" rx="8" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="950" y="195" fill="#38bdf8" font-size="16" font-weight="800" text-anchor="middle">RESINA COMPUESTA</text>
+
+  <!-- GIC indications -->
+  <rect x="40" y="220" width="420" height="220" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="60" y="246" fill="#22c55e" font-size="13" font-weight="700">INDICACIONES PREFERENTES</text>
+
+  <circle cx="68" cy="270" r="4" fill="#22c55e"/>
+  <text x="82" y="275" fill="#e2e8f0" font-size="13">Cavidades Clase V cervicales</text>
+
+  <circle cx="68" cy="296" r="4" fill="#22c55e"/>
+  <text x="82" y="301" fill="#e2e8f0" font-size="13">Pacientes alto riesgo cariogénico</text>
+
+  <circle cx="68" cy="322" r="4" fill="#22c55e"/>
+  <text x="82" y="327" fill="#e2e8f0" font-size="13">Odontopediatría / técnica ART</text>
+
+  <circle cx="68" cy="348" r="4" fill="#22c55e"/>
+  <text x="82" y="353" fill="#e2e8f0" font-size="13">Sin control de humedad adecuado</text>
+
+  <circle cx="68" cy="374" r="4" fill="#22c55e"/>
+  <text x="82" y="379" fill="#e2e8f0" font-size="13">Base cavitaria bajo composite</text>
+
+  <circle cx="68" cy="400" r="4" fill="#22c55e"/>
+  <text x="82" y="405" fill="#e2e8f0" font-size="13">Liberación de flúor terapéutica</text>
+
+  <text x="60" y="430" fill="#64748b" font-size="11" font-style="italic">Longevidad promedio: 3-5 años</text>
+
+  <!-- Composite indications -->
+  <rect x="740" y="220" width="420" height="220" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="760" y="246" fill="#38bdf8" font-size="13" font-weight="700">INDICACIONES PREFERENTES</text>
+
+  <circle cx="768" cy="270" r="4" fill="#0ea5e9"/>
+  <text x="782" y="275" fill="#e2e8f0" font-size="13">Restauraciones anteriores estéticas</text>
+
+  <circle cx="768" cy="296" r="4" fill="#0ea5e9"/>
+  <text x="782" y="301" fill="#e2e8f0" font-size="13">Posteriores con carga oclusal</text>
+
+  <circle cx="768" cy="322" r="4" fill="#0ea5e9"/>
+  <text x="782" y="327" fill="#e2e8f0" font-size="13">Prioridad en longevidad (&gt;10 años)</text>
+
+  <circle cx="768" cy="348" r="4" fill="#0ea5e9"/>
+  <text x="782" y="353" fill="#e2e8f0" font-size="13">Control de humedad garantizado</text>
+
+  <circle cx="768" cy="374" r="4" fill="#0ea5e9"/>
+  <text x="782" y="379" fill="#e2e8f0" font-size="13">Exigencia estética alta del paciente</text>
+
+  <circle cx="768" cy="400" r="4" fill="#0ea5e9"/>
+  <text x="782" y="405" fill="#e2e8f0" font-size="13">Restauraciones de gran extensión</text>
+
+  <text x="760" y="430" fill="#64748b" font-size="11" font-style="italic">Longevidad promedio: 8-15 años</text>
+
+  <!-- Center decision helpers -->
+  <rect x="480" y="240" width="240" height="180" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="600" y="266" fill="#f59e0b" font-size="13" font-weight="700" text-anchor="middle">CRITERIOS DE DECISIÓN</text>
+
+  <text x="500" y="290" fill="#94a3b8" font-size="12">Estética requerida?</text>
+  <text x="700" y="290" fill="#38bdf8" font-size="12" text-anchor="end">Resina</text>
+
+  <text x="500" y="312" fill="#94a3b8" font-size="12">Alto riesgo caries?</text>
+  <text x="700" y="312" fill="#22c55e" font-size="12" text-anchor="end">GIC</text>
+
+  <text x="500" y="334" fill="#94a3b8" font-size="12">Zona de carga?</text>
+  <text x="700" y="334" fill="#38bdf8" font-size="12" text-anchor="end">Resina</text>
+
+  <text x="500" y="356" fill="#94a3b8" font-size="12">Sin aislamiento?</text>
+  <text x="700" y="356" fill="#22c55e" font-size="12" text-anchor="end">GIC</text>
+
+  <text x="500" y="378" fill="#94a3b8" font-size="12">Paciente pediátrico?</text>
+  <text x="700" y="378" fill="#22c55e" font-size="12" text-anchor="end">GIC</text>
+
+  <text x="500" y="400" fill="#94a3b8" font-size="12">Longevidad crítica?</text>
+  <text x="700" y="400" fill="#38bdf8" font-size="12" text-anchor="end">Resina</text>
+
+  <!-- Bottom: Cost per restoration callout -->
+  <rect x="40" y="460" width="1120" height="100" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="600" y="488" fill="#f59e0b" font-size="15" font-weight="800" text-anchor="middle">COSTO POR RESTAURACION: lo que realmente importa</text>
+
+  <text x="200" y="516" fill="#22c55e" font-size="14" font-weight="700" text-anchor="middle">GIC</text>
+  <text x="200" y="536" fill="#94a3b8" font-size="12" text-anchor="middle">$2.500 - $5.000 / jeringa</text>
+  <text x="200" y="552" fill="#64748b" font-size="11" text-anchor="middle">Vida util: 3-5 anos = mas recambios</text>
+
+  <text x="600" y="516" fill="#f59e0b" font-size="14" font-weight="700" text-anchor="middle">VS</text>
+  <text x="600" y="540" fill="#94a3b8" font-size="12" text-anchor="middle">El costo por jeringa no es el costo real.</text>
+  <text x="600" y="555" fill="#64748b" font-size="11" text-anchor="middle">Calcular: costo material + tiempo clinico + recambios futuros</text>
+
+  <text x="1000" y="516" fill="#38bdf8" font-size="14" font-weight="700" text-anchor="middle">Resina</text>
+  <text x="1000" y="536" fill="#94a3b8" font-size="12" text-anchor="middle">$8.000 - $25.000 / jeringa</text>
+  <text x="1000" y="552" fill="#64748b" font-size="11" text-anchor="middle">Vida util: 8-15 anos = menor costo/ano</text>
+
+  <!-- Footer branding -->
+  <rect x="0" y="580" width="1200" height="120" rx="0" fill="#0f172a" opacity="0.5"/>
+  <rect x="40" y="610" width="36" height="36" rx="8" fill="#0ea5e9"/>
+  <text x="58" y="636" fill="#fff" font-size="20" font-weight="800" text-anchor="middle">D</text>
+  <text x="90" y="634" fill="#e2e8f0" font-size="18" font-weight="700">dentalprecios.cl</text>
+  <text x="290" y="634" fill="#64748b" font-size="13">Precios actualizados Abril 2026</text>
+  <text x="1160" y="634" fill="#475569" font-size="11" text-anchor="end">Fuentes: Sidhu &amp; Nicholson 2016 · Yip et al. 2004 · Demarco et al. 2012</text>
+
+  <!-- Key insight callout -->
+  <rect x="40" y="655" width="1120" height="30" rx="4" fill="#0ea5e9" opacity="0.08"/>
+  <text x="600" y="675" fill="#94a3b8" font-size="12" text-anchor="middle">GIC mas barato por unidad, pero resina gana en costo por restauracion a largo plazo. Evaluar caso a caso, no solo el precio del material.</text>
+</svg>
