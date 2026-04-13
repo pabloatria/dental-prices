@@ -12,17 +12,18 @@ export default function robots(): MetadataRoute.Robots {
       // Must repeat disallow rules — Google ignores the * group when a Googlebot group exists
       { userAgent: 'Googlebot', allow: ['/', '/_next/'], disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
       { userAgent: 'Bingbot', allow: ['/', '/_next/'], disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
-      // Block AI training bots
-      { userAgent: 'GPTBot', disallow: '/' },
-      { userAgent: 'ChatGPT-User', disallow: '/' },
-      { userAgent: 'ClaudeBot', disallow: '/' },
+      // Allow AI retrieval/citation bots (GEO — appear in AI-generated answers)
+      { userAgent: 'GPTBot', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
+      { userAgent: 'ChatGPT-User', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
+      { userAgent: 'ClaudeBot', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
+      { userAgent: 'PerplexityBot', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
+      { userAgent: 'Google-Extended', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
+      { userAgent: 'Applebot-Extended', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
+      // Block pure training/scraping bots (low citation value)
       { userAgent: 'anthropic-ai', disallow: '/' },
-      { userAgent: 'PerplexityBot', disallow: '/' },
-      { userAgent: 'Google-Extended', disallow: '/' },
       { userAgent: 'CCBot', disallow: '/' },
       { userAgent: 'Bytespider', disallow: '/' },
       { userAgent: 'Amazonbot', disallow: '/' },
-      { userAgent: 'Applebot-Extended', disallow: '/' },
       { userAgent: 'meta-externalagent', disallow: '/' },
       // Block known scraper frameworks
       { userAgent: 'Scrapy', disallow: '/' },
