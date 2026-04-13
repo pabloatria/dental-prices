@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { data: category } = await supabase
     .from('categories')
     .select('id')
-    .eq('slug', 'resinas-compuestas')
+    .eq('slug', 'cementos-adhesivos')
     .single()
 
   const { count } = await supabase
@@ -24,17 +24,25 @@ export async function generateMetadata(): Promise<Metadata> {
     .eq('category_id', category?.id || '')
 
   const productCount = count || 0
-  const title = 'Resina Dental Precio Chile — Compara 70 Proveedores'
-  const description = `¿Cuánto cuesta la resina dental en Chile? Filtek Z350, Charisma Diamond, Tetric y más. Precios actualizados entre 70 proveedores dentales.`
+  const title = 'Adhesivo Dental Precio Chile — Compara 70 Proveedores'
+  const description = `¿Cuánto cuesta el adhesivo dental en Chile? Single Bond, Clearfil, Ambar, RelyX y ${productCount} productos más. Precios actualizados entre 70 proveedores dentales.`
 
   return {
     title,
     description,
-    alternates: { canonical: `${BASE_URL}/precios/resina-compuesta` },
+    keywords: [
+      'adhesivo dental',
+      'cemento dental',
+      'adhesivo dental precio chile',
+      'bonding dental chile',
+      'Single Bond Universal precio',
+      'Clearfil SE Bond precio',
+    ],
+    alternates: { canonical: `${BASE_URL}/precios/adhesivos-dentales` },
     openGraph: {
       title,
       description,
-      url: `${BASE_URL}/precios/resina-compuesta`,
+      url: `${BASE_URL}/precios/adhesivos-dentales`,
       siteName: 'DentalPrecios',
       locale: 'es_CL',
       type: 'website',
@@ -43,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default async function ResinaPreciosPage({
+export default async function AdhesivosPreciosPage({
   searchParams,
 }: {
   searchParams: Promise<{ sort?: string }>
@@ -51,23 +59,20 @@ export default async function ResinaPreciosPage({
   const { sort = 'price_asc' } = await searchParams
   const supabase = await createClient()
 
-  // Get resinas-compuestas category
   const { data: category } = await supabase
     .from('categories')
     .select('*')
-    .eq('slug', 'resinas-compuestas')
+    .eq('slug', 'cementos-adhesivos')
     .single()
 
   if (!category) return null
 
-  // Fetch all products in category
   const { data: products } = await supabase
     .from('products')
     .select('*')
     .eq('category_id', category.id)
     .order('name')
 
-  // Fetch latest prices with supplier info
   const productIds = (products || []).map((p) => p.id)
   const { data: allPrices } = await supabase
     .from('prices')
@@ -80,7 +85,6 @@ export default async function ResinaPreciosPage({
   let productsWithPrices = buildProductsWithPrices(products || [], latestPrices)
     .filter((p) => p.lowest_price > 0)
 
-  // Get unique supplier count
   const supplierIds = new Set<string>()
   for (const p of productsWithPrices) {
     for (const price of p.prices) {
@@ -88,7 +92,6 @@ export default async function ResinaPreciosPage({
     }
   }
 
-  // Sort
   switch (sort) {
     case 'price_asc':
       productsWithPrices.sort((a, b) => a.lowest_price - b.lowest_price)
@@ -113,15 +116,14 @@ export default async function ResinaPreciosPage({
     : 0
   const totalOffers = productsWithPrices.reduce((sum, p) => sum + p.store_count, 0)
 
-  // Top-level Product schema with flat Offer list — optimized for AI Overview
-  // (Google SGE, Perplexity, ChatGPT) which prefer a primary Product entity
+  // Product + AggregateOffer schema — server-rendered trusted content only
   const productSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Resinas Dentales — Composites para restauraciones',
-    description: `Comparativa de precios de ${productsWithPrices.length} resinas compuestas dentales en Chile entre +70 proveedores. Filtek, Tetric, Herculite, Vittra y más.`,
-    category: 'Resinas compuestas dentales',
-    brand: { '@type': 'Brand', name: '3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM Vittra, Tokuyama Estelite' },
+    name: 'Adhesivos Dentales y Cementos en Chile',
+    description: `Comparativa de precios de ${productsWithPrices.length} adhesivos dentales y cementos en Chile entre +70 proveedores. Single Bond, Clearfil, Ambar, RelyX, Variolink y más.`,
+    category: 'Adhesivos dentales y cementos',
+    brand: { '@type': 'Brand', name: '3M, Kuraray, Ivoclar Vivadent, FGM, Kerr' },
     offers: {
       '@type': 'AggregateOffer',
       priceCurrency: 'CLP',
@@ -148,12 +150,11 @@ export default async function ResinaPreciosPage({
     },
   })
 
-  // JSON-LD structured data (server-rendered, trusted content only)
   const itemListSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Precios de Resinas Dentales en Chile',
-    description: `Comparativa de precios de ${productsWithPrices.length} resinas compuestas entre proveedores dentales en Chile.`,
+    name: 'Precios de Adhesivos Dentales y Cementos en Chile',
+    description: `Comparativa de precios de ${productsWithPrices.length} adhesivos y cementos entre proveedores dentales en Chile.`,
     numberOfItems: productsWithPrices.length,
     itemListElement: productsWithPrices.slice(0, 20).map((p, i) => ({
       '@type': 'ListItem',
@@ -180,34 +181,34 @@ export default async function ResinaPreciosPage({
     mainEntity: [
       {
         '@type': 'Question',
-        name: '¿Cuánto cuesta la resina dental en Chile?',
+        name: '¿Cuánto cuesta un adhesivo dental en Chile?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `El precio de una resina compuesta en Chile varía entre ${formatCLP(lowestOverall)} y ${formatCLP(highestOverall)} CLP dependiendo del proveedor y la marca. DentalPrecios compara ${productsWithPrices.length} resinas de ${supplierIds.size} proveedores y actualiza los precios diariamente.`,
+          text: `El precio de adhesivos dentales en Chile varía entre ${formatCLP(lowestOverall)} y ${formatCLP(highestOverall)} CLP dependiendo del producto, la marca y el proveedor. DentalPrecios compara ${productsWithPrices.length} adhesivos y cementos de ${supplierIds.size} proveedores con precios actualizados diariamente.`,
         },
       },
       {
         '@type': 'Question',
-        name: '¿Qué proveedor tiene el precio más bajo en resina compuesta en Chile?',
+        name: '¿Cuál es el mejor adhesivo dental calidad-precio en Chile?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `El precio más bajo depende del producto específico y del momento de compra. DentalPrecios compara precios en tiempo real entre ${supplierIds.size} proveedores chilenos para que identifiques el precio más bajo sin contactar a cada proveedor por separado.`,
+          text: 'Los adhesivos más usados en Chile son Single Bond Universal (3M), Clearfil SE Bond (Kuraray) y Ambar Universal (FGM). La diferencia de precio entre proveedores para el mismo producto puede superar el 40%, por lo que comparar antes de comprar tiene más impacto que elegir entre marcas.',
         },
       },
       {
         '@type': 'Question',
-        name: '¿Vale la pena comparar precios de insumos dentales en Chile?',
+        name: '¿Qué diferencia hay entre un adhesivo universal y un cemento de resina?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `Sí. Los mismos insumos dentales pueden costar hasta un 65% más dependiendo del proveedor. DentalPrecios muestra precios actualizados de ${supplierIds.size} proveedores en un solo lugar, sin necesidad de cotizar individualmente.`,
+          text: 'El adhesivo dental (bonding) se usa en restauraciones directas para unir la resina compuesta al diente. El cemento de resina se usa para cementar restauraciones indirectas como coronas, carillas e inlays. Algunos sistemas como RelyX Universal combinan ambas funciones. En esta comparativa incluimos ambos para que compares precios del sistema completo.',
         },
       },
       {
         '@type': 'Question',
-        name: '¿Qué resina compuesta recomiendan los dentistas en Chile?',
+        name: '¿Dónde comprar adhesivo dental al mejor precio en Chile?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Las resinas más usadas en Chile son Filtek Z350 XT (3M), Charisma Diamond (Kulzer) y Tetric EvoFlow (Ivoclar Vivadent). La elección depende de la indicación clínica: Z350 XT destaca por su pulido en sectores anteriores, Charisma Diamond por su naturalidad en estratificación, Tetric EvoFlow como fluida de alta resistencia.',
+          text: `DentalPrecios compara ${productsWithPrices.length} adhesivos y cementos dentales de ${supplierIds.size} proveedores chilenos en un solo lugar. Los precios se actualizan diariamente con enlace directo a cada tienda, sin necesidad de cotizar proveedor por proveedor.`,
         },
       },
     ],
@@ -219,12 +220,13 @@ export default async function ResinaPreciosPage({
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL },
       { '@type': 'ListItem', position: 2, name: 'Precios', item: `${BASE_URL}/precios` },
-      { '@type': 'ListItem', position: 3, name: 'Resinas Compuestas', item: `${BASE_URL}/precios/resina-compuesta` },
+      { '@type': 'ListItem', position: 3, name: 'Adhesivos Dentales', item: `${BASE_URL}/precios/adhesivos-dentales` },
     ],
   })
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
+      {/* JSON-LD — server-rendered trusted content only */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: itemListSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqSchema }} />
@@ -236,7 +238,7 @@ export default async function ResinaPreciosPage({
         <span className="mx-2">/</span>
         <Link href="/categorias" className="hover:text-foreground">Categorías</Link>
         <span className="mx-2">/</span>
-        <Link href="/categorias/resinas-compuestas" className="hover:text-foreground">Resinas Compuestas</Link>
+        <Link href="/categorias/cementos-adhesivos" className="hover:text-foreground">Cementos y Adhesivos</Link>
         <span className="mx-2">/</span>
         <span className="text-foreground">Precios</span>
       </nav>
@@ -246,10 +248,10 @@ export default async function ResinaPreciosPage({
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
-              Precios de Resinas Dentales en Chile
+              Precios de Adhesivos Dentales y Cementos en Chile
             </h1>
             <p className="text-muted-foreground mt-2">
-              {productsWithPrices.length} resinas compuestas comparadas entre {supplierIds.size} proveedores
+              {productsWithPrices.length} adhesivos y cementos comparados entre {supplierIds.size} proveedores
               {lowestOverall > 0 && (
                 <span className="text-price font-medium"> — desde {formatCLP(lowestOverall)}</span>
               )}
@@ -268,54 +270,56 @@ export default async function ResinaPreciosPage({
         </div>
       ) : (
         <div className="text-center py-12 text-muted-foreground">
-          No hay resinas con precio disponible en este momento.
+          No hay adhesivos con precio disponible en este momento.
         </div>
       )}
 
       {/* SEO Content Block */}
       <section className="bg-card rounded-xl border border-border p-6 mt-8">
         <h2 className="text-lg font-semibold text-foreground mb-3">
-          Resinas compuestas: guía de precios en Chile
+          Adhesivos dentales y cementos: guía de precios en Chile
         </h2>
         <div className="text-sm text-muted-foreground leading-relaxed space-y-3 max-w-3xl">
           <p>
-            Las resinas dentales son el material restaurador directo más utilizado en odontología moderna.
-            En Chile, los precios de composites varían significativamente entre proveedores — una misma
-            jeringa de resina compuesta puede costar hasta un 40% más dependiendo de dónde se compre.
+            El adhesivo dental es el producto donde más plata se pierde por no comparar.
+            Un frasco de Single Bond Universal puede costar hasta un 40% más en un proveedor
+            que en otro — y cuando multiplicas eso por el consumo mensual de un consultorio
+            activo, la diferencia es significativa.
           </p>
           <p>
-            DentalPrecios compara diariamente los precios de resinas de marcas como 3M Filtek (Z350 XT,
-            Z250, Easy Match), Ivoclar Tetric (N-Ceram, PowerFill), Kerr Herculite, FGM Vittra y
-            Tokuyama Estelite entre más de 70 proveedores dentales en Chile. Cada precio incluye
-            disponibilidad de stock y enlace directo al proveedor.
+            <strong>Sistemas adhesivos:</strong> los adhesivos universales (7ma generación)
+            como Single Bond Universal, Clearfil Universal Bond Quick y Ambar Universal
+            dominan el mercado por su versatilidad — funcionan con grabado total, selectivo
+            o autograbante. Los autograbantes puros como Clearfil SE Bond siguen siendo
+            referencia en dentina por su menor sensibilidad postoperatoria.
           </p>
           <p>
-            Ya sea que busques composites nanohíbridos para restauraciones estéticas, resinas bulk fill
-            para cavidades clase II o composites fluidos para sellado de fisuras, esta comparativa te
-            permite encontrar el mejor precio sin necesidad de cotizar tienda por tienda.
+            <strong>Cementos de resina:</strong> los autoadhesivos como RelyX U200 simplifican
+            el protocolo clínico. Los duales como Variolink Esthetic y Panavia V5 ofrecen mejor
+            adhesión en restauraciones con acceso limitado de luz. Los fotopolimerizables como
+            Variolink Esthetic LC son ideales para carillas finas donde el color importa.
+          </p>
+          <p>
+            DentalPrecios compara diariamente los precios de adhesivos y cementos de 3M, Kuraray,
+            Ivoclar, FGM, Kerr y más entre {supplierIds.size} proveedores dentales en Chile.
+            Cada precio incluye disponibilidad de stock y enlace directo al proveedor.
           </p>
         </div>
         <div className="mt-4 flex flex-col sm:flex-row gap-3">
           <Link
-            href="/comparar/filtek-z350-xt-vs-charisma-diamond"
+            href="/blog/adhesivos-dentales-chile-2026"
             className="text-sm text-primary hover:underline"
           >
-            Filtek Z350 XT vs Charisma Diamond →
+            Los 10 adhesivos más usados en Chile →
           </Link>
           <Link
-            href="/precios/adhesivos-dentales"
+            href="/precios/resina-compuesta"
             className="text-sm text-primary hover:underline"
           >
-            Precios de adhesivos dentales →
+            Precios de resinas compuestas →
           </Link>
           <Link
-            href="/blog/ionomero-vs-resina-precio-chile"
-            className="text-sm text-primary hover:underline"
-          >
-            ¿Ionómero o resina? Guía clínica →
-          </Link>
-          <Link
-            href="/categorias/resinas-compuestas"
+            href="/categorias/cementos-adhesivos"
             className="text-sm text-primary hover:underline"
           >
             Ver catálogo completo →
