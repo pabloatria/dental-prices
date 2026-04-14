@@ -191,6 +191,25 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
   },
 }
 
+// Long-form editorial content for high-priority categories (300–400 words, H2-structured)
+// Boosts dwell time and topical depth for pages already ranking in GSC.
+const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }>> = {
+  'lupas-lamparas': [
+    {
+      heading: 'Qué lupa dental elegir según el procedimiento',
+      body: 'La decisión clínica depende del tipo de trabajo. Para operatoria general, endodoncia convencional y prótesis fija, una lupa de 2.5x a 3.5x ofrece el equilibrio correcto entre campo visual y detalle — suficiente para ver márgenes, ajuste interno y anatomía dentinaria sin perder contexto. Para microendodoncia, cirugía periapical e implantología guiada, los sistemas de 4.5x a 6x permiten identificar istmos, conductos MB2 y desajustes subgingivales que a 2.5x pasan inadvertidos. Las lupas tipo TTL (Through-The-Lens) son más ergonómicas y livianas pero no se ajustan entre usuarios; los sistemas flip-up son más versátiles y permiten compartir el equipo entre clínicos.',
+    },
+    {
+      heading: 'Magnificación, distancia de trabajo y profundidad de campo',
+      body: 'Los tres parámetros se comprometen mutuamente. A mayor magnificación, menor profundidad de campo y menor campo visual — un 6x exige postura y estabilidad mucho mayores que un 3x. La distancia de trabajo (típicamente 340–500 mm) se calibra a la estatura del clínico para mantener columna y cervical alineadas: una lupa mal medida es la principal causa de fatiga visual y dolor cervical a largo plazo. Las lámparas frontales LED complementan la lupa proyectando luz coaxial al eje visual, eliminando sombras que la lámpara del sillón no alcanza — especialmente críticas en cuadrantes posteriores y aislamiento con goma dique.',
+    },
+    {
+      heading: 'Marcas disponibles en Chile y rango de precios',
+      body: 'En Chile se distribuyen lupas Zumax (gama media, alta relación calidad/precio), Univet (italianas, sistema óptico refinado), Orascoptic (premium, mayor inversión), ExamVision y Designs for Vision. Los precios de lupas binoculares parten cerca de los $450.000 CLP en configuraciones 2.5x básicas y superan los $2.500.000 CLP en sistemas 4.5x–6x con headlight integrado. Las lámparas LED frontales independientes oscilan entre $180.000 y $900.000 según intensidad (5.000–60.000 lux), autonomía de batería y temperatura de color. En DentalPrecios comparamos las configuraciones disponibles entre los principales proveedores dentales chilenos para que encuentres el equipo que se ajusta a tu flujo clínico y presupuesto.',
+    },
+  ],
+}
+
 const CATEGORY_INTROS: Record<string, string> = {
   'acabado-pulido':
     'Encuentra discos de pulido, copas, puntas de silicona, tiras de acabado y pastas de pulir de marcas como Shofu, 3M, Kerr y TDV. Compara precios de sistemas de acabado y pulido para resinas y cerámicas entre más de 70 proveedores dentales en Chile. En DentalPrecios reunimos todo lo que necesitas para lograr restauraciones con brillo y lisura superficial óptima, desde kits de contorneado hasta compuestos diamantados para el pulido final.',
@@ -491,6 +510,21 @@ export default async function CategoryPage({
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {CATEGORY_INTROS[slug]}
               </p>
+            </section>
+          )}
+
+          {CATEGORY_EDITORIAL[slug] && (
+            <section className="mb-10 max-w-3xl space-y-6">
+              {CATEGORY_EDITORIAL[slug].map((block) => (
+                <div key={block.heading}>
+                  <h2 className="text-lg font-semibold text-foreground mb-2">
+                    {block.heading}
+                  </h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {block.body}
+                  </p>
+                </div>
+              ))}
             </section>
           )}
 
