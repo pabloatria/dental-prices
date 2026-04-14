@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { formatCLP, aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
+import { OFFER_SHIPPING_DETAILS_CL, MERCHANT_RETURN_POLICY_CL } from '@/lib/schema-offer-policies'
 import ProductCard from '@/components/ProductCard'
 import SortSelect from '@/components/filters/SortSelect'
 
@@ -134,6 +135,8 @@ export default async function AnestesiaPreciosPage({
             availability: 'https://schema.org/InStock',
             url: `${BASE_URL}/producto/${p.id}`,
             seller: { '@type': 'Organization', name: pr.supplier?.name },
+            shippingDetails: OFFER_SHIPPING_DETAILS_CL,
+            hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY_CL,
           }))
       ),
     },

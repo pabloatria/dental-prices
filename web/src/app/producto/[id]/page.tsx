@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { formatCLP, aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
+import { OFFER_SHIPPING_DETAILS_CL, MERCHANT_RETURN_POLICY_CL } from '@/lib/schema-offer-policies'
 import ProductImage from '@/components/ProductImage'
 import PriceChart from '@/components/PriceChart'
 import EnhancedPriceTable from '@/components/product/EnhancedPriceTable'
@@ -168,11 +169,12 @@ export default async function ProductPage({
     : 0
 
   // JSON-LD: Product schema
+  const fallbackDescription = `${product.name}${product.brand ? ` (${product.brand})` : ''}: compara precios entre proveedores dentales en Chile. Datos actualizados de stock y precio.`
   const productSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.name,
-    ...(product.description && { description: product.description }),
+    description: product.description || fallbackDescription,
     ...(product.brand && { brand: { '@type': 'Brand', name: product.brand } }),
     ...(product.image_url && { image: product.image_url }),
     ...(category && { category: category.name }),
@@ -210,6 +212,8 @@ export default async function ProductPage({
             name: p.supplier?.name,
           },
           url: p.product_url,
+          shippingDetails: OFFER_SHIPPING_DETAILS_CL,
+          hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY_CL,
         })),
     }
   } else {
@@ -218,6 +222,8 @@ export default async function ProductPage({
       priceCurrency: 'CLP',
       availability: 'https://schema.org/OutOfStock',
       price: 0,
+      shippingDetails: OFFER_SHIPPING_DETAILS_CL,
+      hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY_CL,
     }
   }
 
