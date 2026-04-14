@@ -18,6 +18,7 @@ class OrthomedicalScraper(BaseScraper):
     name = "Orthomedical"
     base_url = "https://orthomedical.cl"
     website_url = "https://orthomedical.cl"
+    use_playwright_stealth = True
 
     # WC Store API endpoint
     api_url = "https://orthomedical.cl/wp-json/wc/store/v1/products"

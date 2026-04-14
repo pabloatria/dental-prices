@@ -819,10 +819,18 @@ def main():
             if not scraper.test():
                 logger.warning(f"[{scraper.name}] Connection test FAILED - skipping")
                 total_skipped += 1
+                try:
+                    scraper.close()
+                except Exception:
+                    pass
                 continue
         except Exception as e:
             logger.error(f"[{scraper.name}] Connection test crashed: {e} - skipping")
             total_skipped += 1
+            try:
+                scraper.close()
+            except Exception:
+                pass
             continue
 
         try:
@@ -883,6 +891,12 @@ def main():
         except Exception as e:
             logger.error(f"[{scraper.name}] Scraper failed: {e}")
             total_errors += 1
+        finally:
+            # Release Playwright/browser resources if this scraper used them
+            try:
+                scraper.close()
+            except Exception as _close_err:
+                logger.warning(f"[{scraper.name}] close() raised: {_close_err}")
 
     logger.info(f"=== DONE ===")
     logger.info(f"  Prices inserted: {total_prices}")

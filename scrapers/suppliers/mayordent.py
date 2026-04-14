@@ -19,6 +19,7 @@ class MayordentScraper(BaseScraper):
     base_url = "https://www.mayordent.cl"
     website_url = "https://www.mayordent.cl"
     use_cloudscraper = True
+    use_playwright_stealth = True
 
     api_url = "https://www.mayordent.cl/wp-json/wc/store/v1/products"
     page_size = 100

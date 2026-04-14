@@ -14,3 +14,4 @@ class EksaDentalScraper(ShopifyGenericScraper):
     base_url = "https://eksadental.cl"
     website_url = "https://eksadental.cl"
     vendor_is_brand = False  # Shopify vendor is the store name, not the product brand
+    use_playwright_stealth = True

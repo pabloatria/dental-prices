@@ -19,6 +19,7 @@ class SiromaxScraper(BaseScraper):
     base_url = "https://siromax.cl"
     website_url = "https://siromax.cl"
     use_cloudscraper = True
+    use_playwright_stealth = True
 
     api_url = "https://siromax.cl/wp-json/wc/store/v1/products"
     page_size = 100

@@ -15,6 +15,7 @@ class DentalMacayaScraper(BaseScraper):
     name = "Dental Macaya"
     base_url = "https://dentalmacaya.cl"
     website_url = "https://dentalmacaya.cl"
+    use_playwright_stealth = True
 
     def scrape(self) -> List[Dict]:
         """Scrape all products from Dental Macaya store."""

@@ -14,6 +14,7 @@ class DentalamericaScraper(WooGenericScraper):
     name = "Dental America"
     base_url = "https://dentalamerica.cl"
     website_url = "https://dentalamerica.cl"
+    use_playwright_stealth = True
 
     # Flat shop pagination
     categories = []

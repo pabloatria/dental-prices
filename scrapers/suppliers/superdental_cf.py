@@ -20,6 +20,7 @@ class SuperDentalCFScraper(BaseScraper):
     base_url = "https://www.superdental.cl"
     website_url = "https://www.superdental.cl"
     use_cloudscraper = True
+    use_playwright_stealth = True
 
     api_url = "https://www.superdental.cl/wp-json/wc/store/v1/products"
     page_size = 100

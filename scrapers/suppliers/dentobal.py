@@ -19,3 +19,4 @@ class DentobalScraper(ShopifyGenericScraper):
     base_url = "https://dentobal.cl"
     website_url = "https://dentobal.cl"
     use_cloudscraper = True
+    use_playwright_stealth = True

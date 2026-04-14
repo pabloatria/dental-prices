@@ -14,6 +14,7 @@ class AfchilespaScraper(WooGenericScraper):
     name = "AF Chile SPA"
     base_url = "https://afchilespa.cl"
     website_url = "https://afchilespa.cl"
+    use_playwright_stealth = True
 
     # Flat shop pagination
     categories = []

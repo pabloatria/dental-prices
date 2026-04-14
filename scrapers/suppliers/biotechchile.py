@@ -15,6 +15,7 @@ class BiotechChileScraper(BaseScraper):
     name = "Biotech Chile"
     base_url = "https://www.biotechchile.cl"
     website_url = "https://www.biotechchile.cl"
+    use_playwright_stealth = True
 
     max_pages = 50  # Safety limit
 

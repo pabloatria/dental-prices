@@ -14,6 +14,7 @@ class TechdentScraper(WooGenericScraper):
     name = "Techdent"
     base_url = "https://techdent.cl"
     website_url = "https://techdent.cl"
+    use_playwright_stealth = True
 
     categories = [
         "accesorios-para-clinica-dental",

@@ -13,3 +13,4 @@ class SpDentalScraper(ShopifyGenericScraper):
     name = "SP Dental"
     base_url = "https://spdental.shop"
     website_url = "https://spdental.shop"
+    use_playwright_stealth = True
