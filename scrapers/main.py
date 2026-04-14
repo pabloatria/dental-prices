@@ -905,4 +905,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    finally:
+        try:
+            from base_scraper import shutdown_shared_browser
+            shutdown_shared_browser()
+        except Exception:
+            pass

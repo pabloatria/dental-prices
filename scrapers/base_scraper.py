@@ -52,11 +52,39 @@ class _PlaywrightResponse:
             )
 
 
+_PW_SINGLETON = None
+_PW_BROWSER = None
+
+
+def _get_shared_browser():
+    """Lazy-initialize a single Playwright + Chromium for the whole process.
+
+    Playwright's sync API uses an internal greenlet+asyncio loop that can only
+    be started once per process. Calling sync_playwright().start() a second
+    time raises "Sync API inside the asyncio loop." So we share one browser
+    across every PlaywrightStealthSession and give each session its own
+    BrowserContext (cheap, isolated cookies/storage).
+    """
+    global _PW_SINGLETON, _PW_BROWSER
+    if _PW_BROWSER is not None:
+        return _PW_BROWSER
+    from playwright.sync_api import sync_playwright
+    _PW_SINGLETON = sync_playwright().start()
+    launch_args = [
+        "--disable-blink-features=AutomationControlled",
+        "--disable-features=IsolateOrigins,site-per-process",
+    ]
+    _PW_BROWSER = _PW_SINGLETON.chromium.launch(headless=True, args=launch_args)
+    return _PW_BROWSER
+
+
 class PlaywrightStealthSession:
     """requests.Session drop-in backed by Playwright+stealth for anti-bot sites.
 
-    - Launches a single headless Chromium with stealth patches applied
-    - First request to a host warms the browser context (triggers CF challenge,
+    - Shares one headless Chromium across all sessions (Playwright sync API
+      can only be started once per process)
+    - Each session owns an isolated BrowserContext (own cookies, own UA)
+    - First request to a host warms the context (triggers CF challenge,
       collects cf_clearance cookies) before hitting the target URL
     - Subsequent requests reuse the context so API/JSON calls inherit cookies
     """
@@ -64,7 +92,6 @@ class PlaywrightStealthSession:
     _warmed_hosts: set
 
     def __init__(self, name: str = "PW"):
-        from playwright.sync_api import sync_playwright
         self._stealth = None
         self._stealth_sync = None
         try:
@@ -83,12 +110,7 @@ class PlaywrightStealthSession:
         self.headers: Dict[str, str] = {}
         self.proxies = None
 
-        self._pw = sync_playwright().start()
-        launch_args = [
-            "--disable-blink-features=AutomationControlled",
-            "--disable-features=IsolateOrigins,site-per-process",
-        ]
-        self._browser = self._pw.chromium.launch(headless=True, args=launch_args)
+        self._browser = _get_shared_browser()
         self._context = self._browser.new_context(
             user_agent=random.choice(USER_AGENTS),
             locale="es-CL",
@@ -176,18 +198,30 @@ class PlaywrightStealthSession:
             return _PlaywrightResponse(599, "", url)
 
     def close(self):
+        # Only close the per-session context — the browser + Playwright are
+        # shared across all scrapers and torn down once at process exit
+        # via shutdown_shared_browser().
         try:
             self._context.close()
         except Exception:
             pass
+
+
+def shutdown_shared_browser():
+    """Tear down the shared Playwright instance. Call once at process exit."""
+    global _PW_SINGLETON, _PW_BROWSER
+    if _PW_BROWSER is not None:
         try:
-            self._browser.close()
+            _PW_BROWSER.close()
         except Exception:
             pass
+        _PW_BROWSER = None
+    if _PW_SINGLETON is not None:
         try:
-            self._pw.stop()
+            _PW_SINGLETON.stop()
         except Exception:
             pass
+        _PW_SINGLETON = None
 
 
 class BaseScraper:
