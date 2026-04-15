@@ -156,7 +156,12 @@ SCRAPERS = [
     BiotechChileScraper(),         # Odoo 18
 
     # Previously blocked (now using cloudscraper)
-    SuperDentalCFScraper(),         # WC Store API + cloudscraper
+    # SuperDentalCFScraper(),       # DISABLED 2026-04-15: superdental.cl homepage
+    #                               # returns 403, /wp-json/ 404, only /?rest_route=
+    #                               # serves Indonesian gambling spam. Domain looks
+    #                               # hijacked or taken down. Re-enable only after
+    #                               # manual confirmation that the real dental site
+    #                               # is back.
     MayordentScraper(),             # WC Store API + cloudscraper
     DentobalScraper(),              # Shopify JSON API + cloudscraper
     SiromaxScraper(),               # WC Store API + cloudscraper

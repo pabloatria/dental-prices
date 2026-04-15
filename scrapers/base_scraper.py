@@ -134,16 +134,63 @@ class PlaywrightStealthSession:
             except Exception as e:
                 logger.warning(f"[{self._name}] stealth_sync failed: {e}")
 
+    def _has_cf_clearance(self, host: str) -> bool:
+        try:
+            for c in self._context.cookies():
+                if c.get("name") == "cf_clearance" and host.endswith(c.get("domain", "").lstrip(".")):
+                    return True
+        except Exception:
+            pass
+        return False
+
+    def _is_cf_challenge_page(self) -> bool:
+        """Heuristic: CF interstitial has a recognizable title or body marker."""
+        try:
+            title = (self._page.title() or "").lower()
+            if "just a moment" in title or "attention required" in title:
+                return True
+            # Fallback: body contains the CF challenge script marker
+            html = self._page.content()[:4000].lower()
+            return ("challenge-platform" in html or "cf-browser-verification" in html)
+        except Exception:
+            return False
+
     def _warm_host(self, url: str):
+        """Visit homepage and linger until CF challenge clears + cf_clearance cookie is set.
+
+        Tiers of stubborn:
+        1. No CF: homepage loads fast, no challenge → done in ~3s
+        2. Basic CF: interstitial auto-redirects within 5-10s → wait it out
+        3. "Under attack" CF: needs extra reload or category-page visit → fallback
+        """
         host = urlparse(url).netloc
         if not host or host in self._warmed_hosts:
             return
         try:
             self._page.goto(f"https://{host}/", wait_until="domcontentloaded", timeout=45000)
-            # Small wait so CF JS finishes and drops cookies
-            self._page.wait_for_timeout(2500)
+            # Poll up to 20s for cf_clearance cookie + challenge to clear
+            deadline = time.time() + 20
+            while time.time() < deadline:
+                if self._has_cf_clearance(host) and not self._is_cf_challenge_page():
+                    break
+                self._page.wait_for_timeout(750)
+
+            # If still on challenge page, try one reload — sometimes the token
+            # only drops after a second request.
+            if self._is_cf_challenge_page():
+                logger.info(f"[{self._name}] CF challenge still visible on {host}, reloading")
+                try:
+                    self._page.reload(wait_until="domcontentloaded", timeout=30000)
+                    self._page.wait_for_timeout(4000)
+                except Exception:
+                    pass
+
+            got_cookie = self._has_cf_clearance(host)
+            logger.info(
+                f"[{self._name}] Warmed host {host} "
+                f"(cf_clearance={'yes' if got_cookie else 'no'})"
+            )
             self._warmed_hosts.add(host)
-            logger.info(f"[{self._name}] Warmed host {host}")
         except Exception as e:
             logger.warning(f"[{self._name}] Warm-up failed for {host}: {e}")
 
@@ -155,33 +202,63 @@ class PlaywrightStealthSession:
         self._warm_host(url)
 
         # Decide between API request (JSON/XHR path) and full navigation.
-        is_api = ("/wp-json/" in url) or url.endswith(".json") or "/api/" in url
+        # Strip query string before checking .json so /products.json?limit=2 matches.
+        path_only = url.split("?", 1)[0]
+        is_api = (
+            "/wp-json/" in url
+            or path_only.endswith(".json")
+            or "/api/" in url
+        )
         try:
             if is_api:
                 # Run the request FROM the already-authenticated page context via
                 # window.fetch — Cloudflare treats this as a legitimate XHR from
                 # the origin and inherits cf_clearance cookies. context.request.get()
                 # bypasses the page and often gets 403'd on CF-protected APIs.
-                result = self._page.evaluate(
-                    """async (u) => {
-                        try {
-                            const r = await fetch(u, {
-                                credentials: 'include',
-                                headers: { 'Accept': 'application/json, text/plain, */*' },
-                            });
-                            const text = await r.text();
-                            return { status: r.status, body: text };
-                        } catch (e) {
-                            return { status: 599, body: String(e) };
-                        }
-                    }""",
-                    url,
-                )
-                return _PlaywrightResponse(
-                    int(result.get("status", 599)),
-                    result.get("body", ""),
-                    url,
-                )
+                fetch_js = """async (u) => {
+                    try {
+                        const r = await fetch(u, {
+                            credentials: 'include',
+                            headers: { 'Accept': 'application/json, text/plain, */*' },
+                        });
+                        const text = await r.text();
+                        return { status: r.status, body: text };
+                    } catch (e) {
+                        return { status: 599, body: String(e) };
+                    }
+                }"""
+
+                def _looks_like_challenge(status: int, body: str) -> bool:
+                    if status in (202, 403, 503):
+                        return True
+                    if body and body.lstrip().lower().startswith("<!doctype html"):
+                        return True
+                    return False
+
+                result = self._page.evaluate(fetch_js, url)
+                status = int(result.get("status", 599))
+                body = result.get("body", "")
+
+                # If CF is serving a challenge on the API endpoint, re-warm
+                # (reload page → wait → retry) up to twice.
+                attempts = 0
+                while _looks_like_challenge(status, body) and attempts < 2:
+                    attempts += 1
+                    host = urlparse(url).netloc
+                    logger.info(
+                        f"[{self._name}] API challenge (status={status}), re-warming {host} "
+                        f"attempt {attempts}/2"
+                    )
+                    try:
+                        self._page.reload(wait_until="domcontentloaded", timeout=30000)
+                        self._page.wait_for_timeout(4000 + attempts * 2000)
+                    except Exception:
+                        pass
+                    result = self._page.evaluate(fetch_js, url)
+                    status = int(result.get("status", 599))
+                    body = result.get("body", "")
+
+                return _PlaywrightResponse(status, body, url)
             else:
                 response = self._page.goto(url, wait_until="domcontentloaded", timeout=timeout * 1000)
                 # Some sites serve CF challenge first; a short extra wait lets the
