@@ -29,18 +29,16 @@ export default async function CategoriesPage() {
     .is('parent_id', null)
     .order('name')
 
-  // Get product counts per category — single grouped query (not N+1)
+  // Get product counts per category via server-side RPC.
+  // PostgREST caps responses at 1000 rows regardless of .limit(), so a direct
+  // `select('category_id').in(...)` would silently undercount on a 16k-product
+  // table. The RPC does COUNT(*) GROUP BY in Postgres and returns one row per
+  // category.
   const counts = new Map<string, number>()
-  if (categories && categories.length > 0) {
-    const { data: countData } = await supabase
-      .from('products')
-      .select('category_id')
-      .in('category_id', categories.map((c) => c.id))
-
-    for (const row of countData || []) {
-      if (row.category_id) {
-        counts.set(row.category_id, (counts.get(row.category_id) || 0) + 1)
-      }
+  const { data: countData } = await supabase.rpc('get_category_product_counts')
+  for (const row of countData || []) {
+    if (row.category_id) {
+      counts.set(row.category_id, Number(row.product_count) || 0)
     }
   }
 
