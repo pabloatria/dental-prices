@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
       { source: '/categorias/coronas-y-cofias', destination: '/categorias/coronas-cofias', permanent: true },
       { source: '/categorias/jeringas-y-agujas', destination: '/categorias/jeringas-agujas', permanent: true },
       { source: '/categorias/lupas-y-lamparas', destination: '/categorias/lupas-lamparas', permanent: true },
+      // /precios has no index page — Google inferred it from subcategory URLs
+      { source: '/precios', destination: '/categorias', permanent: true },
       { source: '/categorias/matrices-y-cunas', destination: '/categorias/matrices-cunas', permanent: true },
       { source: '/categorias/pernos-y-postes', destination: '/categorias/pernos-postes', permanent: true },
     ]
