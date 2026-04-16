@@ -22,39 +22,23 @@ sb = create_client(url, key)
 
 now = datetime.now(timezone.utc)
 
-suppliers = sb.table("suppliers").select("id,name").execute().data or []
-if not suppliers:
-    print("ERROR: no suppliers found in DB")
+# Use server-side GROUP BY via Postgres function — avoids PostgREST 1000-row cap
+# and N+1 timeout issues.  Function: get_supplier_freshness() → (supplier_id, supplier_name, last_scraped)
+freshness = sb.rpc("get_supplier_freshness", {}).execute().data or []
+if not freshness:
+    print("ERROR: get_supplier_freshness() returned no rows — check DB function exists")
     sys.exit(2)
 
-# Single fetch: recent prices ordered by scraped_at DESC, aggregate in Python.
-# Avoids the N+1 per-supplier query pattern that times out on Supabase free tier.
-# 10k most-recent rows is enough to capture every active supplier's latest scrape.
-price_res = (
-    sb.table("prices")
-    .select("supplier_id,scraped_at")
-    .order("scraped_at", desc=True)
-    .limit(10000)
-    .execute()
-)
-latest_map: dict[str, str] = {}
-for row in price_res.data or []:
-    sid = row["supplier_id"]
-    if sid not in latest_map:
-        latest_map[sid] = row["scraped_at"]
-
-supplier_names = {s["id"]: s["name"] for s in suppliers}
-
 rows = []
-for sid, name in supplier_names.items():
-    last_str = latest_map.get(sid)
+for r in freshness:
+    last_str = r.get("last_scraped")
     if last_str:
         last_dt = datetime.fromisoformat(last_str.replace("Z", "+00:00"))
         age_h = (now - last_dt).total_seconds() / 3600
     else:
         last_dt = None
         age_h = float("inf")
-    rows.append({"name": name, "last": last_dt, "age_h": age_h})
+    rows.append({"name": r["supplier_name"], "last": last_dt, "age_h": age_h})
 
 rows.sort(key=lambda r: r["age_h"], reverse=True)
 
