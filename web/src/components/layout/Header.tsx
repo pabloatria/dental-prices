@@ -14,7 +14,7 @@ export default function Header({ categories }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
       {/* Top bar */}
-      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3 flex items-center gap-2 sm:gap-4">
         {/* Mobile hamburger */}
         <MobileNav categories={categories} />
 
@@ -25,13 +25,13 @@ export default function Header({ categories }: HeaderProps) {
             alt="DentalPrecios"
             width={165}
             height={50}
-            className="h-10 w-auto"
+            className="h-8 sm:h-10 w-auto"
             priority
           />
         </Link>
 
         {/* Search bar */}
-        <div className="flex-1 max-w-2xl">
+        <div className="flex-1 min-w-0 max-w-2xl">
           <SearchWithAutocomplete />
         </div>
 

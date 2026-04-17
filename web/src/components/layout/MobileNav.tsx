@@ -26,7 +26,7 @@ export default function MobileNav({ categories }: { categories: Category[] }) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </SheetTrigger>
-        <SheetContent side="left" className="w-80">
+        <SheetContent side="left" className="w-[min(320px,88vw)] overflow-y-auto">
           <SheetHeader>
             <SheetTitle className="text-left">
               <span className="text-primary font-bold">DentalPrecios</span>
@@ -75,6 +75,17 @@ export default function MobileNav({ categories }: { categories: Category[] }) {
             })}
 
             <div className="border-t border-border my-4" />
+
+            <Link
+              href="/blog"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg hover:bg-accent transition-colors"
+            >
+              <svg aria-hidden="true" className="w-5 h-5 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5" />
+              </svg>
+              Blog
+            </Link>
 
             <Link
               href="/suscripcion"

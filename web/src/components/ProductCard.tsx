@@ -58,7 +58,7 @@ export default function ProductCard({ product, view = 'grid' }: ProductCardProps
   return (
     <Link
       href={`/producto/${product.id}`}
-      className="group flex flex-col bg-card rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/20 transition-all"
+      className="group flex flex-col bg-card rounded-xl border border-border p-4 hover:shadow-md hover:border-primary/20 transition-all min-h-[220px]"
     >
       <div className="flex justify-center mb-3">
         <ProductImage

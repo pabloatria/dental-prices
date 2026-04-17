@@ -5,6 +5,7 @@ import { notFound, redirect } from 'next/navigation'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import ProductCard from '@/components/ProductCard'
 import FilterPanel from '@/components/filters/FilterPanel'
+import MobileFilterSheet from '@/components/filters/MobileFilterSheet'
 import SortSelect from '@/components/filters/SortSelect'
 
 const BASE_URL = 'https://www.dentalprecios.cl'
@@ -464,12 +465,12 @@ export default async function CategoryPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {/* Breadcrumb */}
-      <nav className="text-sm text-muted-foreground mb-4">
-        <Link href="/" className="hover:text-foreground">Inicio</Link>
-        <span className="mx-2">/</span>
-        <Link href="/categorias" className="hover:text-foreground">Categor&iacute;as</Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground">{category.name}</span>
+      <nav className="text-sm text-muted-foreground mb-4 flex items-center gap-1 overflow-hidden">
+        <Link href="/" className="hover:text-foreground shrink-0">Inicio</Link>
+        <span className="shrink-0">/</span>
+        <Link href="/categorias" className="hover:text-foreground shrink-0">Categor&iacute;as</Link>
+        <span className="shrink-0">/</span>
+        <span className="text-foreground truncate">{category.name}</span>
       </nav>
 
       <div className="flex gap-8">
@@ -550,11 +551,24 @@ export default async function CategoryPage({
             </section>
           )}
 
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
             <h2 className="text-lg font-semibold text-foreground">
               Productos disponibles
             </h2>
-            <SortSelect />
+            <div className="flex items-center gap-2">
+              <MobileFilterSheet
+                brands={availableBrands}
+                suppliers={availableSuppliers}
+                activeFilters={{
+                  brands: brandFilter,
+                  suppliers: supplierFilter,
+                  inStock: inStockOnly,
+                  sort,
+                }}
+                basePath={`/categorias/${slug}`}
+              />
+              <SortSelect />
+            </div>
           </div>
 
           {productsWithPrices.length > 0 ? (

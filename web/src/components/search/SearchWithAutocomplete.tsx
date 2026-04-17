@@ -96,13 +96,17 @@ export default function SearchWithAutocomplete() {
             onChange={(e) => handleChange(e.target.value)}
             onFocus={() => suggestions.length > 0 && setOpen(true)}
             placeholder="Buscar productos dentales..."
-            className="w-full pl-10 pr-20 py-2.5 bg-secondary border border-border rounded-lg text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+            className="w-full pl-10 pr-14 sm:pr-20 h-11 bg-secondary border border-border rounded-lg text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
           />
           <button
             type="submit"
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-primary text-primary-foreground px-4 py-1.5 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+            aria-label="Buscar"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors h-8 w-10 sm:w-auto sm:px-4 flex items-center justify-center"
           >
-            Buscar
+            <svg className="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-5.2-5.2M10.5 17a6.5 6.5 0 100-13 6.5 6.5 0 000 13z" />
+            </svg>
+            <span className="hidden sm:inline">Buscar</span>
           </button>
         </div>
       </form>

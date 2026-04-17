@@ -13,6 +13,7 @@ import FavoriteButton from '@/components/product/FavoriteButton'
 import PriceAlertButton from '@/components/product/PriceAlertButton'
 import SimilarProducts from '@/components/product/SimilarProducts'
 import ProductSpecs from '@/components/product/ProductSpecs'
+import StickyMobilePriceCTA from '@/components/product/StickyMobilePriceCTA'
 import TrackProductView from '@/components/analytics/TrackProductView'
 import StarRating from '@/components/product/StarRating'
 import { Badge } from '@/components/ui/badge'
@@ -260,7 +261,7 @@ export default async function ProductPage({
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto px-4 py-6 pb-28 lg:pb-6">
       <TrackProductView productId={product.id} productName={product.name} brand={product.brand || undefined} />
       <script
         type="application/ld+json"
@@ -271,18 +272,18 @@ export default async function ProductPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {/* Breadcrumb */}
-      <nav className="text-sm text-muted-foreground mb-6">
-        <Link href="/" className="hover:text-foreground">Inicio</Link>
-        <span className="mx-2">/</span>
+      <nav className="text-sm text-muted-foreground mb-6 flex items-center gap-1 min-w-0">
+        <Link href="/" className="hover:text-foreground shrink-0">Inicio</Link>
+        <span className="shrink-0">/</span>
         {category ? (
           <>
-            <Link href={`/categorias/${category.slug}`} className="hover:text-foreground">
+            <Link href={`/categorias/${category.slug}`} className="hover:text-foreground shrink-0 truncate max-w-[40%]">
               {category.name}
             </Link>
-            <span className="mx-2">/</span>
+            <span className="shrink-0">/</span>
           </>
         ) : null}
-        <span className="text-foreground line-clamp-1">{product.name}</span>
+        <span className="text-foreground truncate">{product.name}</span>
       </nav>
 
       {/* Product Header */}
@@ -378,7 +379,7 @@ export default async function ProductPage({
       {specData && <ProductSpecs spec={specData} />}
 
       {/* Price comparison table */}
-      <div className="bg-card rounded-xl border border-border p-6 mb-8">
+      <div id="comparar-precios" className="bg-card rounded-xl border border-border p-6 mb-8 scroll-mt-24">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-foreground">
             {isCatalogOnly
@@ -473,6 +474,9 @@ export default async function ProductPage({
       <div className="mb-8">
         <SimilarProducts products={similarProducts} />
       </div>
+
+      {/* Mobile sticky price CTA — desktop already shows prices in the hero grid */}
+      <StickyMobilePriceCTA lowestPrice={lowestPrice} storeCount={currentPrices.length} />
     </div>
   )
 }
