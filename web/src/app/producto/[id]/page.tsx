@@ -399,6 +399,76 @@ export default async function ProductPage({
         </div>
       )}
 
+      {/* Brand-specific editorial — implant brands
+          Targets commercial long-tail: "precio implante dental straumann chile distribuidor"
+          (GSC pos 4.5), "precio pilar protesico implante dental chile" and similar. */}
+      {(() => {
+        const brandLower = (product.brand || '').toLowerCase()
+        const isImplantBrand =
+          brandLower.includes('straumann') ||
+          brandLower.includes('nobel biocare') ||
+          brandLower.includes('nobel bio') ||
+          brandLower.includes('neodent')
+        if (!isImplantBrand) return null
+
+        const brandName = product.brand || ''
+        const brandLabel = brandLower.includes('straumann')
+          ? 'Straumann'
+          : brandLower.includes('neodent')
+            ? 'Neodent'
+            : 'Nobel Biocare'
+
+        return (
+          <section className="bg-card rounded-xl border border-border p-6 mb-8">
+            <h2 className="text-lg font-semibold text-foreground mb-3">
+              Distribuidores de {brandLabel} en Chile — comparar precios
+            </h2>
+            <div className="text-sm text-muted-foreground leading-relaxed space-y-3 max-w-3xl">
+              <p>
+                {brandLabel} es una de las marcas de implantología oral con mayor penetración en
+                Chile y ofrece su catálogo a través de múltiples distribuidores autorizados. El
+                precio final del mismo código de referencia —implante, pilar, aditamento protésico
+                o instrumental— puede variar de forma significativa según el proveedor, la
+                presentación (unitaria o caja) y los descuentos vigentes.
+              </p>
+              <p>
+                En DentalPrecios consolidamos los precios actualizados de {brandName || brandLabel}{' '}
+                entre distribuidores activos en Chile, con datos verificados diariamente. Esto te
+                permite identificar el proveedor con mejor precio para una referencia específica
+                sin cotizar uno por uno. Para cirugías programadas donde se requiere confirmar
+                stock de varias referencias al mismo tiempo, la comparativa aquí es el punto de
+                partida antes de emitir la orden de compra.
+              </p>
+              <p>
+                Si estás evaluando {brandLabel} frente a otras marcas del sistema (Nobel Biocare,
+                Straumann, Neodent, BioHorizons, Dentium), revisa nuestra{' '}
+                <Link
+                  href="/blog/implantes-dentales-precio-chile-2026"
+                  className="text-primary hover:underline"
+                >
+                  guía de precios de implantes dentales en Chile 2026
+                </Link>
+                , con comparativas entre sistemas y rangos de precio por tipo de aditamento.
+              </p>
+            </div>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                href="/categorias/implantes"
+                className="text-sm text-primary hover:underline"
+              >
+                Ver catálogo completo de implantes →
+              </Link>
+              <Link
+                href="/blog/implantes-dentales-precio-chile-2026"
+                className="text-sm text-primary hover:underline"
+              >
+                Guía: precios de implantes en Chile 2026 →
+              </Link>
+            </div>
+          </section>
+        )
+      })()}
+
       {/* Similar products */}
       <div className="mb-8">
         <SimilarProducts products={similarProducts} />

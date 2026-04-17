@@ -502,6 +502,28 @@ export default async function CategoryPage({
             </p>
           </div>
 
+          {/* Dedicated pricing page CTA — strong internal link signal so Google
+              serves /precios/resina-compuesta for "resina dental precio chile"
+              instead of the category URL. */}
+          {slug === 'resinas-compuestas' && (
+            <Link
+              href="/precios/resina-compuesta"
+              className="block mb-6 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 hover:border-primary/50 transition-colors px-4 py-3"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground">
+                    Resina dental precio Chile — comparativa dedicada
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Ver todos los precios de resinas compuestas entre +70 proveedores chilenos, ordenados por precio con filtros por marca.
+                  </p>
+                </div>
+                <span className="text-sm text-primary font-medium shrink-0">Ver precios →</span>
+              </div>
+            </Link>
+          )}
+
           {CATEGORY_INTROS[slug] && (
             <section className="mb-6 max-w-3xl">
               <h2 className="text-base font-semibold text-foreground mb-2">
