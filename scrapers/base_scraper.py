@@ -327,7 +327,11 @@ class BaseScraper:
                 "User-Agent": random.choice(USER_AGENTS),
                 "Accept-Language": "es-CL,es;q=0.9,en;q=0.5",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "Accept-Encoding": "gzip, deflate, br",
+                # Only advertise encodings requests can decode natively. Advertising "br"
+                # without the brotli package installed made Shopify's CDN serve brotli-
+                # encoded /products.json that requests returned as raw bytes, breaking
+                # .json() across every Shopify scraper on 2026-03-20.
+                "Accept-Encoding": "gzip, deflate",
                 "DNT": "1",
                 "Connection": "keep-alive",
                 "Upgrade-Insecure-Requests": "1",
