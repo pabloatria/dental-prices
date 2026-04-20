@@ -7,6 +7,8 @@ const REVALIDATE_PATHS = [
   '/comparar',
   '/categorias',
   '/precios/resina-compuesta',
+  '/precios/implantes-dentales',
+  '/precios/limas-endodoncia',
 ]
 
 export async function POST(request: NextRequest) {

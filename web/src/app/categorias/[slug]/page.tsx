@@ -209,6 +209,20 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
       body: 'En Chile se distribuyen lupas Zumax (gama media, alta relación calidad/precio), Univet (italianas, sistema óptico refinado), Orascoptic (premium, mayor inversión), ExamVision y Designs for Vision. Los precios de lupas binoculares parten cerca de los $450.000 CLP en configuraciones 2.5x básicas y superan los $2.500.000 CLP en sistemas 4.5x–6x con headlight integrado. Las lámparas LED frontales independientes oscilan entre $180.000 y $900.000 según intensidad (5.000–60.000 lux), autonomía de batería y temperatura de color. En DentalPrecios comparamos las configuraciones disponibles entre los principales proveedores dentales chilenos para que encuentres el equipo que se ajusta a tu flujo clínico y presupuesto.',
     },
   ],
+  'endodoncia': [
+    {
+      heading: 'Limas, irrigantes, conos y obturación: la estructura de costo en endodoncia',
+      body: 'La endodoncia es la especialidad con mayor frecuencia de reposición de insumos por tratamiento. Cada caso consume un set de limas (manuales y rotatorias), irrigantes (hipoclorito y EDTA), puntas de papel, conos de gutapercha y sellador. A precios promedio de Chile, el costo material directo de una endodoncia unitaria en molar se mueve entre $8.000 y $25.000 CLP dependiendo del sistema rotatorio usado y del proveedor. Multiplicado por el volumen de casos al año, elegir un distribuidor vs. otro para el mismo sistema (ProTaper Gold, WaveOne Gold, Reciproc Blue, RaCe EVO) puede significar una diferencia anual superior a $1.500.000 CLP en una clínica activa.',
+    },
+    {
+      heading: 'Atacador de gutapercha: manual vs automatizado',
+      body: 'El atacador de gutapercha es una pieza clave en el protocolo de obturación. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación vertical en onda continua o técnica de McSpadden, con control táctil completo — la elección estándar para técnicas mixtas y operadores con volumen moderado. Los sistemas automatizados (Calamus Dual, Elements IC, Beefill 2in1, Fast Pack Pro) aceleran la fase de obturación y estandarizan la temperatura del plugger downpack, críticos en clínicas con flujo alto. La decisión entre manual y automatizado depende del volumen: sobre 10–15 endodoncias semanales, el retorno del sistema automatizado empieza a justificar la inversión. En Chile los atacadores manuales se distribuyen desde $15.000 CLP la unidad, y los sistemas completos de obturación termoplastificada parten sobre $350.000 CLP.',
+    },
+    {
+      heading: 'Gutapercha, selladores y puntas de papel: consumibles de alto turnover',
+      body: 'Los conos de gutapercha (Dentsply Protaper, VDW Reciproc, Meta Biomed) y los selladores endodónticos (AH Plus, MTA Fillapex, BC Sealer, Sealapex) son consumibles que se pedidos mensualmente en clínicas activas. Los precios unitarios parecen bajos, pero el consumo acumulado los convierte en una línea presupuestaria relevante. Las puntas de papel estériles absorbentes se consumen al ritmo del volumen de casos y tienen variación significativa de precio entre distribuidores — el mismo producto puede costar 30–40% más en uno u otro. Comparar antes de pedir es la diferencia entre gastar con intención y gastar por inercia.',
+    },
+  ],
 }
 
 const CATEGORY_INTROS: Record<string, string> = {
