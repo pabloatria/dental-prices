@@ -55,8 +55,10 @@ jobs:
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
+          # Custom UA required — middleware blocks bare curl/* in BLOCKED_BOTS list.
           HTTP_CODE=$(curl -s -o /tmp/revalidate.json -w '%{http_code}' \
             -X POST "https://www.dentalprecios.cl/api/revalidate" \
+            -A "DentalPrecios-GHActions/1.0 (+ops@dentalprecios.cl)" \
             -H "Authorization: Bearer ${CRON_SECRET}")
           BODY=$(cat /tmp/revalidate.json)
           echo "Revalidation response: HTTP ${HTTP_CODE} — ${BODY}"
@@ -68,6 +70,7 @@ jobs:
         if: always()
         run: |
           curl -s -X POST https://www.dentalprecios.cl/api/indexnow \
+            -A "DentalPrecios-GHActions/1.0 (+ops@dentalprecios.cl)" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             -H "Content-Type: application/json" \
             || echo "IndexNow notification failed (non-critical)"
