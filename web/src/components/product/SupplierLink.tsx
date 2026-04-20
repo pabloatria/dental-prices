@@ -29,7 +29,13 @@ export default function SupplierLink({
     <a
       href={redirectUrl}
       target="_blank"
-      rel="noopener noreferrer"
+      // nofollow: /api/redirect is already noindex+nofollow via x-robots-tag,
+      // but the links are followed by Googlebot until they hit that header.
+      // rel=nofollow here prevents Google from crawling the redirect endpoint
+      // at all — saves crawl budget that would be wasted on 1000+ unique
+      // /api/redirect?product=X&supplier=Y URLs per product page.
+      // sponsored: these are affiliate-style outbound clicks to suppliers.
+      rel="noopener noreferrer nofollow sponsored"
       className={className}
       onClick={() => {
         trackSupplierClick(productId, supplierId, supplierName, price)
