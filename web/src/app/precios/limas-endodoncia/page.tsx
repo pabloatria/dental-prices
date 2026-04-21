@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { formatCLP, aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import { OFFER_SHIPPING_DETAILS_CL, MERCHANT_RETURN_POLICY_CL } from '@/lib/schema-offer-policies'
 import ProductCard from '@/components/ProductCard'
@@ -100,7 +100,7 @@ export default async function LimasEndodonciaPage({
   searchParams: Promise<{ sort?: string; sistema?: string }>
 }) {
   const { sort = 'price_asc', sistema } = await searchParams
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data: category } = await supabase
     .from('categories')

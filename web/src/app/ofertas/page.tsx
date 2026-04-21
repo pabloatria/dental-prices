@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { fetchActiveOffers } from '@/lib/queries/offers'
 import OfferCard from '@/components/product/OfferCard'
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export const revalidate = 900 // 15 min — offers change frequently, stale cache = 0 offers shown
 
 export default async function OfertasPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const offers = await fetchActiveOffers(supabase, 500)
 
   return (

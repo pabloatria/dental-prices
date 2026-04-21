@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import Link from 'next/link'
 import { getCategoryIcon } from '@/components/icons/CategoryIllustrations'
 
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 }
 
 export default async function CategoriesPage() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data: categories } = await supabase
     .from('categories')

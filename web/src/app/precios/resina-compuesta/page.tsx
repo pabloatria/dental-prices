@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { formatCLP, aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import { OFFER_SHIPPING_DETAILS_CL, MERCHANT_RETURN_POLICY_CL } from '@/lib/schema-offer-policies'
 import ProductCard from '@/components/ProductCard'
@@ -11,7 +11,7 @@ const BASE_URL = 'https://www.dentalprecios.cl'
 export const revalidate = 3600
 
 export async function generateMetadata(): Promise<Metadata> {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data: category } = await supabase
     .from('categories')
@@ -50,7 +50,7 @@ export default async function ResinaPreciosPage({
   searchParams: Promise<{ sort?: string }>
 }) {
   const { sort = 'price_asc' } = await searchParams
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   // Get resinas-compuestas category
   const { data: category } = await supabase

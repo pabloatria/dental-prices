@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import ProductCard from '@/components/ProductCard'
 import FilterPanel from '@/components/filters/FilterPanel'
@@ -69,7 +69,7 @@ export default async function SearchPage({
   const limit = 24
   const offset = (page - 1) * limit
 
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   let productQuery = supabase
     .from('products')

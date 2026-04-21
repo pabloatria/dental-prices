@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { notFound, redirect } from 'next/navigation'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import ProductCard from '@/components/ProductCard'
@@ -306,7 +306,7 @@ export async function generateMetadata({
   const hasFilters = Boolean(sp.brand || sp.supplier || sp.in_stock || sp.sort)
   const isPaginated = pageNum > 1
 
-  const supabase = await createClient()
+  const supabase = createPublicClient()
   const { data: category } = await supabase
     .from('categories')
     .select('id, name, slug')
@@ -371,7 +371,7 @@ export default async function CategoryPage({
   const limit = 24
   const offset = (page - 1) * limit
 
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data: category } = await supabase
     .from('categories')

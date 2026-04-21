@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/public'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
 import { fetchActiveOffers } from '@/lib/queries/offers'
 import HeroSection from '@/components/home/HeroSection'
@@ -123,7 +123,7 @@ const faqSchema = {
 }
 
 export default async function Home() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   // Fetch counts
   const [
