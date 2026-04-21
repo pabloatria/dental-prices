@@ -92,7 +92,29 @@ export async function middleware(request: NextRequest) {
     )
   }
 
-  // --- Supabase auth (existing logic) ---
+  // --- Supabase auth — ONLY for paths that need a user session ---
+  // Running auth.getUser() on every request sets cookies, which forces Vercel
+  // to serve the response with `cache-control: private, no-store` — that
+  // disables ISR across the entire site. Most pages (/, /categorias,
+  // /producto/*, /precios/*, /blog/*, etc.) are public and don't need a
+  // session check, so we skip the auth roundtrip on them and let ISR work.
+  const needsAuth =
+    pathname.startsWith('/mi-cuenta') ||
+    pathname.startsWith('/mi-carrito') ||
+    pathname.startsWith('/ingresar') ||
+    pathname.startsWith('/suscripcion') ||
+    pathname.startsWith('/api/alerts') ||
+    pathname.startsWith('/api/favorites') ||
+    pathname.startsWith('/api/stock-alerts') ||
+    pathname.startsWith('/api/subscription') ||
+    pathname.startsWith('/api/ratings') ||
+    pathname.startsWith('/api/auth') ||
+    pathname.startsWith('/auth/')
+
+  if (!needsAuth) {
+    return NextResponse.next({ request })
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
