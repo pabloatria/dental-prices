@@ -5,6 +5,13 @@ export interface Product {
   category_id: string | null
   description: string | null
   image_url: string | null
+  /**
+   * Explicit pack count parsed from the product name (e.g. "2 Jeringas" → 2).
+   * NULL when the name doesn't specify — do NOT assume 1. Used to keep
+   * same-SKU-different-pack-size listings from being treated as duplicates,
+   * and to display "$41,000 · pack de 2" on product cards.
+   */
+  pack_size?: number | null
 }
 
 export interface Supplier {

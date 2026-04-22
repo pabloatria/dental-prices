@@ -214,6 +214,79 @@ def _has_packaging_keyword(name: str) -> bool:
     return bool(re.search(r'\b(kit|set|pack|combo|surtido|estuche|sistema|system)\b', lowered))
 
 
+# Unit containers that define a pack's countable unit.
+# When a number appears adjacent to one of these, it's the pack size.
+_PACK_UNIT_PATTERN = (
+    r'jeringas?|syringes?|'
+    r'tubos?|tubes?|'
+    r'capsulas?|capsules?|caps?|'
+    r'ampolla(?:s)?|ampoule(?:s)?|'
+    r'viales?|vials?|'
+    r'frasco(?:s)?|bottle(?:s)?|'
+    r'unidades?|units?|'
+    r'cartuchos?|cartridges?|carpulas?|'
+    r'sachets?|'
+    r'envases?|'
+    r'paquetes?|packages?'
+)
+
+
+def extract_pack_count(name: str) -> int | None:
+    """Extract an explicit pack count from a product name.
+
+    Looks for patterns where an integer is adjacent to a countable unit
+    (jeringa, tubo, ampolla, vial, frasco, cápsula, unidad, cartucho…).
+    Returns None when no reliable pack count is found — do NOT guess.
+
+    Examples that return 2:
+      "2 Jeringas Restaurador Fluido Filtek Z350 Flow"
+      "Filtek Z350 XT Flow Tono A1 (2 Jeringas)"
+      "Pack de 2 tubos de ionómero"
+      "Cementos x 3 cápsulas"
+      "Composite Z250 – 3 jeringas"
+
+    Examples that return None (ambiguous / no unit):
+      "Filtek Z350 XT Flow"                 — no count/unit
+      "Filtek Bulk Fill Flow"                — no count/unit
+      "Lima Hedström 25mm"                   — size, not pack
+      "Ionómero al 30%"                      — concentration, not pack
+      "Pack económico"                       — word but no number
+    """
+    if not name:
+        return None
+
+    # Work on a light pre-normalization: lowercase, strip accents, collapse ws.
+    n = _strip_accents(html.unescape(name).lower())
+    n = re.sub(r'[™®©]', '', n)
+    # Convert punctuation that can abut numbers/units to spaces while keeping
+    # digits + letters + spaces intact.
+    n = re.sub(r'[^a-z0-9\s]', ' ', n)
+    n = re.sub(r'\s+', ' ', n).strip()
+
+    patterns = [
+        # "2 jeringas", "3 tubos", "1 vial"
+        rf'\b(\d{{1,3}})\s+(?:{_PACK_UNIT_PATTERN})\b',
+        # "jeringas x 2", "tubos x 3"
+        rf'\b(?:{_PACK_UNIT_PATTERN})\s*x\s*(\d{{1,3}})\b',
+        # "x 2 jeringas", "x2 jeringas" (x-prefixed quantity)
+        rf'\bx\s*(\d{{1,3}})\s+(?:{_PACK_UNIT_PATTERN})\b',
+        # "pack de 2 jeringas", "caja de 3 tubos", "set de 4 capsulas"
+        rf'\b(?:pack|caja|set|estuche)\s+de?\s+(\d{{1,3}})\s+(?:{_PACK_UNIT_PATTERN})\b',
+    ]
+    for pat in patterns:
+        m = re.search(pat, n)
+        if m:
+            try:
+                count = int(m.group(1))
+            except (IndexError, ValueError):
+                continue
+            # Sanity: ignore absurd counts that are almost certainly something
+            # else (model numbers, catalog codes).
+            if 1 <= count <= 100:
+                return count
+    return None
+
+
 def are_same_product(name_a: str, name_b: str, threshold: float = 0.70) -> bool:
     """Determine if two product names refer to the same product.
 
@@ -236,6 +309,14 @@ def are_same_product(name_a: str, name_b: str, threshold: float = 0.70) -> bool:
     pkg_a = _has_packaging_keyword(name_a)
     pkg_b = _has_packaging_keyword(name_b)
     if pkg_a != pkg_b:
+        return False
+
+    # Pack-size mismatch: "2 jeringas" is NOT the same SKU as "1 jeringa".
+    # Only fires when both names have an extractable pack count — avoids
+    # false-splitting names that simply omit pack info.
+    pack_a = extract_pack_count(name_a)
+    pack_b = extract_pack_count(name_b)
+    if pack_a is not None and pack_b is not None and pack_a != pack_b:
         return False
 
     # Extract specification numbers

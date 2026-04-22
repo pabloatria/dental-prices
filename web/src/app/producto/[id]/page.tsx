@@ -170,7 +170,8 @@ export default async function ProductPage({
     : 0
 
   // JSON-LD: Product schema
-  const fallbackDescription = `${product.name}${product.brand ? ` (${product.brand})` : ''}: compara precios entre proveedores dentales en Chile. Datos actualizados de stock y precio.`
+  const packSuffix = product.pack_size && product.pack_size > 1 ? ` (pack de ${product.pack_size})` : ''
+  const fallbackDescription = `${product.name}${product.brand ? ` (${product.brand})` : ''}${packSuffix}: compara precios entre proveedores dentales en Chile. Datos actualizados de stock y precio.`
   const productSchema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -179,6 +180,16 @@ export default async function ProductPage({
     ...(product.brand && { brand: { '@type': 'Brand', name: product.brand } }),
     ...(product.image_url && { image: product.image_url }),
     ...(category && { category: category.name }),
+    ...(product.pack_size && product.pack_size > 1 && {
+      additionalProperty: [
+        {
+          '@type': 'PropertyValue',
+          name: 'Pack size',
+          value: product.pack_size,
+          unitText: 'unidades',
+        },
+      ],
+    }),
     url: `${BASE_URL}/producto/${product.id}`,
   }
 
@@ -298,11 +309,18 @@ export default async function ProductPage({
               size="lg"
             />
             <div className="flex-1 min-w-0">
-              {product.brand && (
-                <Badge variant="secondary" className="mb-2">
-                  {product.brand}
-                </Badge>
-              )}
+              <div className="flex flex-wrap gap-2 mb-2">
+                {product.brand && (
+                  <Badge variant="secondary">
+                    {product.brand}
+                  </Badge>
+                )}
+                {product.pack_size && product.pack_size > 1 && (
+                  <Badge variant="outline" className="border-primary/40 text-primary">
+                    Pack de {product.pack_size}
+                  </Badge>
+                )}
+              </div>
               <h1 className="text-xl lg:text-2xl font-bold text-foreground mb-2">
                 {product.name}
               </h1>

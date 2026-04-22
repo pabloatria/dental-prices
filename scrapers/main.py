@@ -411,6 +411,17 @@ def ensure_product(supabase, name: str, category_slug: str = None,
     if brand:
         product_data["brand"] = brand
 
+    # Persist pack_size when the name makes it explicit (e.g. "2 Jeringas").
+    # NULL when unknown — never guess. Enables pack-aware comparison in UI
+    # and prevents the 1-pack vs 2-pack price-spread bug from recurring.
+    try:
+        from matchers import extract_pack_count
+        pack_size = extract_pack_count(name)
+        if pack_size is not None:
+            product_data["pack_size"] = pack_size
+    except Exception as e:
+        logger.warning(f"pack_size extraction failed for '{name}': {e}")
+
     # Try to link to a category
     if category_slug:
         cat_result = supabase.table("categories").select("id").eq("slug", category_slug).execute()

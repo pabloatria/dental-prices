@@ -75,6 +75,9 @@ export default function ProductCard({ product, view = 'grid' }: ProductCardProps
       <h3 className="text-sm font-medium text-foreground line-clamp-2 group-hover:text-primary transition-colors">
         {product.name}
       </h3>
+      {product.pack_size && product.pack_size > 1 && (
+        <p className="text-xs text-muted-foreground mt-1">Pack de {product.pack_size}</p>
+      )}
       <div className="mt-auto pt-3 flex items-baseline gap-2">
         {product.lowest_price > 0 ? (
           <>
