@@ -25,8 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
     .eq('category_id', category?.id || '')
 
   const productCount = count || 0
-  const title = 'Resina Dental Precio Chile — Compara 70 Proveedores'
-  const description = `¿Cuánto cuesta la resina dental en Chile? Filtek Z350, Charisma Diamond, Tetric y más. Precios actualizados entre 70 proveedores dentales.`
+  const title = 'Resina Compuesta: Precios en Chile 2026 | Dentalprecios'
+  const description = 'Compara precios de resina compuesta en Chile entre +70 proveedores. Actualizado en tiempo real. ¿Cuánto cuesta una resina dental en 2026?'
 
   return {
     title,
@@ -249,7 +249,7 @@ export default async function ResinaPreciosPage({
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
-              Precios de Resinas Dentales en Chile
+              Precios de Resina Compuesta en Chile
             </h1>
             <p className="text-muted-foreground mt-2">
               {productsWithPrices.length} resinas compuestas comparadas entre {supplierIds.size} proveedores

@@ -41,9 +41,9 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
     h1: 'Anestesia Dental: Precios y Proveedores en Chile',
   },
   'cad-cam': {
-    title: 'CAD CAM Dental — Precios de Bloques y Discos en Chile 2026',
-    description: (count) => `Compara precios de ${count} materiales CAD/CAM en Chile. Bloques de disilicato, discos de zirconia, PMMA de Ivoclar, VITA y Sirona entre +70 proveedores.`,
-    h1: 'CAD/CAM Dental: Compara Precios en Chile',
+    title: 'Materiales CAD CAM: Zirconio y Bloques Dentales Chile 2026',
+    description: (count) => `Compara bloques de zirconio, PMMA y materiales CAD CAM para fresado dental en Chile. ${count}+ productos de distribuidores activos, actualizado 2026.`,
+    h1: 'Materiales CAD CAM en Chile: Zirconio, PMMA y Bloques para Fresado',
   },
   'cementos-adhesivos': {
     title: 'Adhesivos y Cementos Dentales — Precios en Chile 2026',
@@ -81,9 +81,9 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
     h1: 'Desechables Dentales: Compara Precios en Chile',
   },
   'endodoncia': {
-    title: 'Endodoncia — Precios de Limas e Insumos en Chile 2026',
-    description: (count) => `Compara precios de ${count} productos de endodoncia en Chile. Limas rotatorias, conos de gutapercha, selladores de Dentsply, VDW y Meta Biomed entre +70 proveedores.`,
-    h1: 'Endodoncia: Compara Precios de Insumos en Chile',
+    title: 'Insumos de Endodoncia: Precios Chile 2026 | Dentalprecios',
+    description: (count) => `Limas, conos de gutapercha, atacadores y más: compara precios endodónticos entre distribuidores de Chile. ${count}+ productos en tiempo real.`,
+    h1: 'Insumos de Endodoncia: Precios en Chile',
   },
   'equipamiento': {
     title: 'Equipamiento Dental — Precios de Sillones y Equipos Chile 2026',
@@ -192,6 +192,40 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
   },
 }
 
+// Category-specific FAQ schemas — AI Overview triggers for the category's
+// primary informational queries. Add entries here as new AI-Overview terms
+// are confirmed in keyword research reports.
+const CATEGORY_FAQS: Record<string, Array<{ q: string; a: string }>> = {
+  'cad-cam': [
+    {
+      q: '¿Qué es el zirconio dental y para qué se usa?',
+      a: 'El zirconio dental (dióxido de zirconio, ZrO₂) es un material cerámico de alta resistencia usado en odontología restauradora para fabricar coronas, puentes y estructuras protésicas por fresado CAD/CAM. Combina resistencia mecánica superior (>900 MPa en zirconio monolítico de alta translucidez), biocompatibilidad y estética, siendo la alternativa libre de metal más consolidada en la clínica actual.',
+    },
+    {
+      q: '¿Cuánto cuesta un bloque de zirconio dental en Chile?',
+      a: 'Los bloques de zirconio para fresado dental en Chile tienen precios que varían según el tamaño (A1, B40, B45, B55 según sistema), la translucidez (HT, ST, UT) y el distribuidor. En DentalPrecios puedes comparar precios de bloques de zirconio entre los principales distribuidores chilenos con datos actualizados en tiempo real.',
+    },
+    {
+      q: '¿Qué diferencia hay entre zirconio y disilicato de litio?',
+      a: 'El zirconio (ZrO₂) ofrece mayor resistencia mecánica (900–1.200 MPa) y es la elección estándar para coronas posteriores, puentes de múltiples unidades y estructuras sobre implantes. El disilicato de litio (IPS e.max) tiene resistencia menor (360–400 MPa) pero superior translucidez y estética, lo que lo convierte en la opción preferida para carillas, incrustaciones y coronas anteriores unitarias.',
+    },
+  ],
+  'endodoncia': [
+    {
+      q: '¿Cuánto cuesta un set de limas de endodoncia en Chile?',
+      a: 'Un set de limas rotatorias en Chile cuesta entre $10.600 y $83.000 CLP dependiendo del sistema (WaveOne Gold, ProTaper Next, Reciproc Blue, HyFlex EDM) y del distribuidor. Las limas manuales K-file y Hedström están entre $4.000 y $15.000 por set de 6. DentalPrecios compara precios entre 27 distribuidores endodónticos activos en Chile, con actualización diaria.',
+    },
+    {
+      q: '¿Qué diferencia hay entre sistema rotatorio y reciprocante?',
+      a: 'Los sistemas rotatorios (ProTaper Next, HyFlex) usan varias limas secuenciales con rotación continua. Los reciprocantes (WaveOne Gold, Reciproc Blue) usan una sola lima con rotación alternada que reduce la acumulación de estrés cíclico. La evidencia clínica muestra menor tasa de fractura con reciprocantes Gold en conductos curvos. La elección depende del volumen de casos y del tipo de anatomía tratada.',
+    },
+    {
+      q: '¿Qué es un atacador de gutapercha y cuándo usarlo?',
+      a: 'El atacador de gutapercha es el instrumento usado para la condensación vertical de los conos de gutapercha durante la obturación endodóntica. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación con control táctil — el estándar para técnicas mixtas y volumen moderado. Los sistemas automatizados (Calamus, Elements IC, Beefill, Fast Pack Pro) estandarizan la temperatura del plugger downpack y aceleran el flujo en clínicas con alto volumen de casos.',
+    },
+  ],
+}
+
 // Long-form editorial content for high-priority categories (300–400 words, H2-structured)
 // Boosts dwell time and topical depth for pages already ranking in GSC.
 const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }>> = {
@@ -207,6 +241,16 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
     {
       heading: 'Marcas disponibles en Chile y rango de precios',
       body: 'En Chile se distribuyen lupas Zumax (gama media, alta relación calidad/precio), Univet (italianas, sistema óptico refinado), Orascoptic (premium, mayor inversión), ExamVision y Designs for Vision. Los precios de lupas binoculares parten cerca de los $450.000 CLP en configuraciones 2.5x básicas y superan los $2.500.000 CLP en sistemas 4.5x–6x con headlight integrado. Las lámparas LED frontales independientes oscilan entre $180.000 y $900.000 según intensidad (5.000–60.000 lux), autonomía de batería y temperatura de color. En DentalPrecios comparamos las configuraciones disponibles entre los principales proveedores dentales chilenos para que encuentres el equipo que se ajusta a tu flujo clínico y presupuesto.',
+    },
+  ],
+  'cad-cam': [
+    {
+      heading: '¿Qué es el zirconio dental y cuándo se indica?',
+      body: 'El zirconio dental (dióxido de zirconio, ZrO₂) es un material cerámico de alta resistencia usado en odontología restauradora para fabricar coronas, puentes y estructuras protésicas por fresado CAD/CAM. Su resistencia mecánica (>900 MPa en zirconio monolítico de alta translucidez) lo convierte en la opción estándar para coronas posteriores, puentes de múltiples unidades y restauraciones sobre implantes. Frente al disilicato de litio (IPS e.max), el zirconio ofrece mayor resistencia pero menor translucidez — por eso el disilicato sigue siendo preferido para carillas, incrustaciones y coronas anteriores donde la estética prima sobre la carga funcional.',
+    },
+    {
+      heading: 'Bloques de zirconio, PMMA y materiales CAD/CAM disponibles en Chile',
+      body: 'El catálogo CAD/CAM en Chile incluye bloques de zirconio en múltiples translucideces (HT, ST, UT), bloques de disilicato de litio IPS e.max, bloques de PMMA para provisionales y coronas de uso corto, y discos de cera para fresado y diseño. Las marcas de referencia son Ivoclar (IPS e.max, e.max ZirCAD, Telio CAD), VITA (YZ, Enamic, Mark II), Dentsply Sirona (CEREC Blocs) y Amann Girrbach (Ceramill). El precio varía significativamente por marca, translucidez y distribuidor — comparar antes de pedir es la diferencia entre pagar precio de catálogo o precio negociado.',
     },
   ],
   'endodoncia': [
@@ -472,12 +516,33 @@ export default async function CategoryPage({
     ],
   }
 
+  // Category-specific FAQ schemas — AI Overview triggers for the category's
+  // primary informational queries. Server-built from hardcoded content.
+  const faqEntries = CATEGORY_FAQS[slug]
+  const faqSchema = faqEntries
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqEntries.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }
+    : null
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       {/* Breadcrumb */}
       <nav className="text-sm text-muted-foreground mb-4 flex items-center gap-1 overflow-hidden">
         <Link href="/" className="hover:text-foreground shrink-0">Inicio</Link>
