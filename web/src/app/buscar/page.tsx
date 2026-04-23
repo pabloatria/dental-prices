@@ -18,7 +18,7 @@ export async function generateMetadata({
   const category = params.category
 
   if (query) {
-    const title = `${query} — Comparar precios en Chile`
+    const title = `${query}, Comparar precios en Chile`
     const description = `Compara precios de ${query} entre múltiples proveedores dentales en Chile. Encuentra el precio más bajo de ${query} en DentalPrecios.`
     return {
       title,
@@ -138,7 +138,7 @@ export default async function SearchPage({
     )
   }
 
-  // Sort — catalog-only products (lowest_price=0, catalog_only=true) go to the end for price sorts
+  // Sort, catalog-only products (lowest_price=0, catalog_only=true) go to the end for price sorts
   if (sort === 'price_asc') {
     productsWithPrices.sort((a, b) => {
       if (a.catalog_only && !b.catalog_only) return 1

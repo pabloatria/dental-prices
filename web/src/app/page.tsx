@@ -15,12 +15,12 @@ import OfertasSection from '@/components/home/OfertasSection'
 const BASE_URL = 'https://www.dentalprecios.cl'
 
 export const metadata: Metadata = {
-  title: 'Dentalprecios — Compara Precios de Insumos Dentales Chile',
+  title: 'Dentalprecios: Compara Precios de Insumos Dentales Chile',
   description:
     'Compara precios de resinas, anestésicos, fresas y más entre 70 proveedores dentales en Chile. Datos reales, actualizados. Sin cotizar a cada uno.',
   alternates: { canonical: BASE_URL },
   openGraph: {
-    title: 'Dentalprecios — Compara Precios de Insumos Dentales Chile',
+    title: 'Dentalprecios: Compara Precios de Insumos Dentales Chile',
     description:
       'Compara precios de resinas, anestésicos, fresas y más entre 70 proveedores dentales en Chile. Datos reales, actualizados. Sin cotizar a cada uno.',
     url: BASE_URL,
@@ -45,7 +45,7 @@ const orgWebsiteSchema = {
       '@type': 'WebSite',
       '@id': 'https://www.dentalprecios.cl/#website',
       url: 'https://www.dentalprecios.cl',
-      name: 'DentalPrecios — Comparador de Precios Dentales Chile',
+      name: 'DentalPrecios: Comparador de Precios Dentales Chile',
       publisher: { '@id': 'https://www.dentalprecios.cl/#organization' },
       potentialAction: {
         '@type': 'SearchAction',

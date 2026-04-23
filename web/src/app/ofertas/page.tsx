@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export const revalidate = 900 // 15 min — offers change frequently, stale cache = 0 offers shown
+export const revalidate = 900 // 15 min, offers change frequently, stale cache = 0 offers shown
 
 export default async function OfertasPage() {
   const supabase = createPublicClient()
@@ -28,7 +28,7 @@ export default async function OfertasPage() {
         <p className="text-muted-foreground">
           {offers.length > 0
             ? `${offers.length} descuento${offers.length !== 1 ? 's' : ''} activo${offers.length !== 1 ? 's' : ''} detectado${offers.length !== 1 ? 's' : ''} hoy`
-            : 'No hay ofertas activas en este momento. Vuelve mañana — los precios se actualizan diariamente.'}
+            : 'No hay ofertas activas en este momento. Vuelve mañana, los precios se actualizan diariamente.'}
         </p>
       </div>
 

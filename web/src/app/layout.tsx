@@ -69,7 +69,7 @@ export const metadata: Metadata = {
         url: `${BASE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'DentalPrecios — Comparador de precios de insumos dentales en Chile',
+        alt: 'DentalPrecios | Comparador de precios de insumos dentales en Chile',
       },
     ],
   },

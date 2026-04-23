@@ -38,7 +38,7 @@ const PROPERTY_INFO: Record<string, PropertyInfo> = {
   },
   modulo_elasticidad: {
     label: 'Módulo de elasticidad',
-    definition: 'Rigidez del material — cuánto se deforma bajo una carga dada. Se mide en gigapascales (GPa).',
+    definition: 'Rigidez del material: cuánto se deforma bajo una carga dada. Se mide en gigapascales (GPa).',
     relevance: 'Un módulo similar al de la dentina (~18 GPa) permite una distribución de tensiones más uniforme y reduce el riesgo de fractura del diente.',
   },
   dureza_vickers: {

@@ -6,12 +6,12 @@ import Link from 'next/link'
 const BASE_URL = 'https://www.dentalprecios.cl'
 
 export const metadata: Metadata = {
-  title: 'Blog — Guías y comparativas de insumos dentales en Chile',
+  title: 'Blog: Guías y comparativas de insumos dentales en Chile',
   description:
     'Guías de compra, comparativas de precios y consejos para comprar insumos dentales más baratos en Chile. Resinas, adhesivos, fresas, composites y más.',
   alternates: { canonical: `${BASE_URL}/blog` },
   openGraph: {
-    title: 'Blog — DentalPrecios',
+    title: 'Blog: DentalPrecios',
     description:
       'Guías de compra y comparativas de insumos dentales en Chile.',
     url: `${BASE_URL}/blog`,
@@ -36,7 +36,7 @@ export default function BlogPage() {
       </nav>
 
       <h1 className="text-3xl font-bold text-foreground mb-2">
-        Blog — Guías de compra e insumos dentales
+        Blog, Guías de compra e insumos dentales
       </h1>
       <p className="text-muted-foreground mb-8">
         Comparativas, consejos y todo lo que necesitas saber para comprar

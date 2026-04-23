@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Suscríbete gratis a DentalPrecios y recibe alertas de stock y precio de insumos dentales en Chile. Plan gratuito con favoritos ilimitados, historial de precios y comparador.',
   alternates: { canonical: `${BASE_URL}/suscripcion` },
   openGraph: {
-    title: 'Planes de suscripción — DentalPrecios',
+    title: 'Planes de suscripción: DentalPrecios',
     description:
       'Suscríbete gratis y recibe alertas de stock y precio de insumos dentales en Chile.',
     url: `${BASE_URL}/suscripcion`,

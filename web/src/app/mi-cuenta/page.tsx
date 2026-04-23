@@ -55,7 +55,7 @@ export default async function DashboardPage() {
         <span className="text-sm text-muted-foreground">{user.email}</span>
       </div>
 
-      {/* Complete profile banner — show if no subscription */}
+      {/* Complete profile banner, show if no subscription */}
       {!subscription && (
         <CompleteProfileBanner userEmail={user.email || ''} />
       )}

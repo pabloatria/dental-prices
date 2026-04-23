@@ -75,7 +75,7 @@ export default function EnhancedPriceTable({ prices, productId }: { prices: Pric
             <div className="mt-3 flex items-center justify-between gap-2">
               <span className="text-xs">
                 {price.isCatalog ? (
-                  <span className="text-muted-foreground">—</span>
+                  <span className="text-muted-foreground">-</span>
                 ) : price.in_stock ? (
                   <span className="text-success">Disponible</span>
                 ) : (
@@ -170,7 +170,7 @@ export default function EnhancedPriceTable({ prices, productId }: { prices: Pric
               </td>
               <td className="py-4 px-4 text-center">
                 {price.isCatalog ? (
-                  <span className="text-sm text-muted-foreground">—</span>
+                  <span className="text-sm text-muted-foreground">-</span>
                 ) : price.in_stock ? (
                   <span className="inline-flex items-center gap-1 text-sm text-success">
                     <svg aria-hidden="true" className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">

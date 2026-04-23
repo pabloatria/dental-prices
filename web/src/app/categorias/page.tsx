@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     '33 categorías de insumos odontológicos con precios comparados de 70 proveedores chilenos. Resinas, anestesia, fresas, cementos, implantes y más.',
   alternates: { canonical: `${BASE_URL}/categorias` },
   openGraph: {
-    title: 'Categorías de Insumos Dentales — DentalPrecios',
+    title: 'Categorías de Insumos Dentales: DentalPrecios',
     description:
       '33 categorías de insumos odontológicos con precios comparados de 70 proveedores chilenos. Resinas, anestesia, fresas, cementos, implantes y más.',
     url: `${BASE_URL}/categorias`,

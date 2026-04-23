@@ -58,7 +58,7 @@ export default async function CompararPage({
     .sort((a, b) => b.overlap - a.overlap)
     .slice(0, 3)
 
-  // JSON-LD — server-rendered trusted content only (MDX files, no user input)
+  // JSON-LD, server-rendered trusted content only (MDX files, no user input)
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',

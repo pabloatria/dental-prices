@@ -11,12 +11,12 @@ const BASE_URL = 'https://www.dentalprecios.cl'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Implantes Dentales: Precio en Chile 2026 — Compara Marcas',
+  title: 'Implantes Dentales: Precio en Chile 2026: Compara Marcas',
   description:
     '¿Cuánto cuesta un implante dental en Chile? Compara precios de implantes, pilares protésicos, kits quirúrgicos y biomateriales entre distribuidores chilenos. Actualizado abril 2026.',
   alternates: { canonical: `${BASE_URL}/precios/implantes-dentales` },
   openGraph: {
-    title: 'Implantes Dentales: Precio en Chile 2026 — Compara Marcas',
+    title: 'Implantes Dentales: Precio en Chile 2026: Compara Marcas',
     description:
       '¿Cuánto cuesta un implante dental en Chile? Compara precios de implantes, pilares, kits quirúrgicos y biomateriales entre distribuidores chilenos.',
     url: `${BASE_URL}/precios/implantes-dentales`,
@@ -54,7 +54,7 @@ const COMPONENT_GROUPS: ComponentGroup[] = [
     key: 'fixtures',
     label: 'Implantes (fixtures)',
     description:
-      'Cuerpos de implante quirúrgicos — titanio o titanio-zirconio, cónicos o cilíndricos, diferentes diámetros y longitudes.',
+      'Cuerpos de implante quirúrgicos, titanio o titanio-zirconio, cónicos o cilíndricos, diferentes diámetros y longitudes.',
     matches: (n) =>
       /implante/i.test(n) && /corto|largo|conic|cilindric|bone\s*level|tissue\s*level|fixture/i.test(n),
   },
@@ -192,11 +192,11 @@ export default async function ImplantesPreciosPage({
     : 0
   const totalOffers = productsWithPrices.reduce((sum, p) => sum + p.store_count, 0)
 
-  // JSON-LD structured data — server-built from trusted DB data, standard Next.js pattern
+  // JSON-LD structured data, server-built from trusted DB data, standard Next.js pattern
   const productSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Implantes Dentales — Sistemas e insumos de implantología',
+    name: 'Implantes Dentales: Sistemas e insumos de implantología',
     description: `Comparativa de precios de ${productsWithPrices.length} productos de implantología dental en Chile entre distribuidores activos: implantes, pilares protésicos, kits quirúrgicos, fresas, biomateriales y tornillos de fijación.`,
     category: 'Implantes dentales',
     brand: {
@@ -278,7 +278,7 @@ export default async function ImplantesPreciosPage({
         name: '¿Qué marcas de implantes dentales hay en Chile?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Las principales marcas disponibles en Chile son: Straumann (Suiza, premium), Nobel Biocare (Suecia/EE.UU., premium), Neodent (Brasil, grupo Straumann, gama media), Osstem (Corea, alto volumen), MegaGen (Corea, superficie SLA premium), MIS (Israel), BioHorizons (EE.UU.), BTI (España), S.I.N. (Brasil) y Adin (Israel). Cada una con distribuidores autorizados locales. Los precios varían significativamente entre sistemas — un implante premium puede costar 3-4 veces más que un sistema coreano o brasileño con literatura clínica comparable.',
+          text: 'Las principales marcas disponibles en Chile son: Straumann (Suiza, premium), Nobel Biocare (Suecia/EE.UU., premium), Neodent (Brasil, grupo Straumann, gama media), Osstem (Corea, alto volumen), MegaGen (Corea, superficie SLA premium), MIS (Israel), BioHorizons (EE.UU.), BTI (España), S.I.N. (Brasil) y Adin (Israel). Cada una con distribuidores autorizados locales. Los precios varían significativamente entre sistemas, un implante premium puede costar 3-4 veces más que un sistema coreano o brasileño con literatura clínica comparable.',
         },
       },
       {
@@ -338,14 +338,14 @@ export default async function ImplantesPreciosPage({
             <p className="text-muted-foreground mt-2">
               {productsWithPrices.length} productos de implantología comparados entre {supplierIds.size} distribuidores activos
               {lowestOverall > 0 && (
-                <span className="text-price font-medium"> — desde {formatCLP(lowestOverall)}</span>
+                <span className="text-price font-medium">, desde {formatCLP(lowestOverall)}</span>
               )}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Component summary table — hero of the page */}
+      {/* Component summary table, hero of the page */}
       {groupAggregates.length > 0 && (
         <section className="mb-10">
           <h2 className="text-lg font-semibold text-foreground mb-3">
@@ -370,7 +370,7 @@ export default async function ImplantesPreciosPage({
                     </td>
                     <td className="px-4 py-3 text-right text-muted-foreground tabular-nums">{g.count}</td>
                     <td className="px-4 py-3 text-right text-foreground tabular-nums font-medium">
-                      {formatCLP(g.lowest)} — {formatCLP(g.highest)}
+                      {formatCLP(g.lowest)}, {formatCLP(g.highest)}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <Link
@@ -421,21 +421,21 @@ export default async function ImplantesPreciosPage({
         </div>
       )}
 
-      {/* SEO editorial — targets the cluster */}
+      {/* SEO editorial, targets the cluster */}
       <section className="bg-card rounded-xl border border-border p-6 mt-8">
         <h2 className="text-lg font-semibold text-foreground mb-3">
           Implantes dentales: cómo entender los precios en Chile
         </h2>
         <div className="text-sm text-muted-foreground leading-relaxed space-y-3 max-w-3xl">
           <p>
-            Un tratamiento completo de implantología no es un producto único — es un sistema de
+            Un tratamiento completo de implantología no es un producto único, es un sistema de
             componentes que se facturan por separado. Entender la estructura de precios antes de
             cotizar es la diferencia entre presupuestar correctamente al paciente y descubrir
             sobrecostos a mitad del plan quirúrgico.
           </p>
           <p>
-            Los tres componentes centrales de todo implante — fixture (el tornillo de titanio que se
-            inserta en el hueso), pilar protésico (abutment) y corona — se compran a distribuidores
+            Los tres componentes centrales de todo implante, fixture (el tornillo de titanio que se
+            inserta en el hueso), pilar protésico (abutment) y corona, se compran a distribuidores
             diferentes o en pedidos separados. A estos se suman los consumibles quirúrgicos (fresas,
             tornillos de cicatrización, transferentes) y, en casos con defecto óseo, los
             biomateriales de regeneración (xenoinjertos, membranas reabsorbibles, matrices).

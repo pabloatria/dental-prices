@@ -20,7 +20,7 @@ export default async function OGImage({
   const { slug } = await params
   const comp = getComparacionBySlug(slug)
 
-  const title = comp?.title ?? 'Comparación — DentalPrecios'
+  const title = comp?.title ?? 'Comparación | DentalPrecios'
   const brands = comp?.brands ?? []
 
   return new ImageResponse(

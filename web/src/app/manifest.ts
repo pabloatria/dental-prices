@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'DentalPrecios — Comparador de precios dentales',
+    name: 'DentalPrecios | Comparador de precios dentales',
     short_name: 'DentalPrecios',
     description: 'Compara precios de productos dentales en Chile',
     start_url: '/',

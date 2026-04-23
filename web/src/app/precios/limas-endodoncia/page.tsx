@@ -11,12 +11,12 @@ const BASE_URL = 'https://www.dentalprecios.cl'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Limas de Endodoncia: Precio en Chile 2026 — Compara Sistemas',
+  title: 'Limas de Endodoncia: Precio en Chile 2026: Compara Sistemas',
   description:
     'Precios de limas de endodoncia en Chile: ProTaper, WaveOne, Reciproc, HyFlex, K-files, Hedstrom. Compara sistemas rotatorios, reciprocantes y manuales entre distribuidores.',
   alternates: { canonical: `${BASE_URL}/precios/limas-endodoncia` },
   openGraph: {
-    title: 'Limas de Endodoncia: Precio en Chile 2026 — Compara Sistemas',
+    title: 'Limas de Endodoncia: Precio en Chile 2026: Compara Sistemas',
     description:
       'Precios de limas rotatorias, reciprocantes y manuales en Chile. ProTaper, WaveOne, Reciproc, HyFlex, K-files, Hedstrom comparados entre distribuidores.',
     url: `${BASE_URL}/precios/limas-endodoncia`,
@@ -195,7 +195,7 @@ export default async function LimasEndodonciaPage({
   const productSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Limas de Endodoncia — Sistemas rotatorios, reciprocantes y manuales',
+    name: 'Limas de Endodoncia: Sistemas rotatorios, reciprocantes y manuales',
     description: `Comparativa de precios de ${productsWithPrices.length} limas de endodoncia en Chile entre distribuidores activos: ProTaper, WaveOne, Reciproc, HyFlex, RaCe EVO, K-files y Hedstrom.`,
     category: 'Limas de endodoncia',
     brand: {
@@ -328,12 +328,12 @@ export default async function LimasEndodonciaPage({
 
       <div className="mb-8">
         <h1 className="text-2xl lg:text-3xl font-bold text-foreground">
-          Limas de Endodoncia: Precio en Chile — Compara Sistemas
+          Limas de Endodoncia: Precio en Chile, Compara Sistemas
         </h1>
         <p className="text-muted-foreground mt-2">
           {productsWithPrices.length} limas comparadas entre {supplierIds.size} distribuidores
           {lowestOverall > 0 && (
-            <span className="text-price font-medium"> — desde {formatCLP(lowestOverall)}</span>
+            <span className="text-price font-medium">, desde {formatCLP(lowestOverall)}</span>
           )}
         </p>
       </div>
@@ -360,7 +360,7 @@ export default async function LimasEndodonciaPage({
                     </td>
                     <td className="px-4 py-3 text-right text-muted-foreground tabular-nums">{g.count}</td>
                     <td className="px-4 py-3 text-right text-foreground tabular-nums font-medium">
-                      {formatCLP(g.lowest)} — {formatCLP(g.highest)}
+                      {formatCLP(g.lowest)}, {formatCLP(g.highest)}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <Link
@@ -416,11 +416,11 @@ export default async function LimasEndodonciaPage({
             La elección de lima en endodoncia es una decisión clínica con consecuencias directas:
             riesgo de fractura intraconducto, calidad de la preparación apical, tiempo operatorio y
             costo por tratamiento. En Chile hay disponibilidad completa de los sistemas más usados a
-            nivel mundial — la decisión real es de preferencia clínica y volumen, no de acceso.
+            nivel mundial, la decisión real es de preferencia clínica y volumen, no de acceso.
           </p>
           <p>
             <strong className="text-foreground">Limas manuales</strong> (K-file, Hedström) no son
-            obsoletas — son imprescindibles para el cateterismo inicial, el glide path manual y el
+            obsoletas, son imprescindibles para el cateterismo inicial, el glide path manual y el
             manejo de conductos calcificados o con curvaturas severas donde la rigidez del rotatorio
             aumenta el riesgo. Todo set profesional parte por un buen stock de limas manuales.
           </p>

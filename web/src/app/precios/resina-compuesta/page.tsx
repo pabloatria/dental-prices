@@ -114,12 +114,12 @@ export default async function ResinaPreciosPage({
     : 0
   const totalOffers = productsWithPrices.reduce((sum, p) => sum + p.store_count, 0)
 
-  // Top-level Product schema with flat Offer list — optimized for AI Overview
+  // Top-level Product schema with flat Offer list, optimized for AI Overview
   // (Google SGE, Perplexity, ChatGPT) which prefer a primary Product entity
   const productSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Resinas Dentales — Composites para restauraciones',
+    name: 'Resinas Dentales: Composites para restauraciones',
     description: `Comparativa de precios de ${productsWithPrices.length} resinas compuestas dentales en Chile entre +70 proveedores. Filtek, Tetric, Herculite, Vittra y más.`,
     category: 'Resinas compuestas dentales',
     brand: { '@type': 'Brand', name: '3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM Vittra, Tokuyama Estelite' },
@@ -254,7 +254,7 @@ export default async function ResinaPreciosPage({
             <p className="text-muted-foreground mt-2">
               {productsWithPrices.length} resinas compuestas comparadas entre {supplierIds.size} proveedores
               {lowestOverall > 0 && (
-                <span className="text-price font-medium"> — desde {formatCLP(lowestOverall)}</span>
+                <span className="text-price font-medium">, desde {formatCLP(lowestOverall)}</span>
               )}
             </p>
           </div>
@@ -283,7 +283,7 @@ export default async function ResinaPreciosPage({
         <div className="text-sm text-muted-foreground leading-relaxed space-y-3 max-w-3xl">
           <p>
             Las resinas dentales son el material restaurador directo más utilizado en odontología moderna.
-            En Chile, los precios de composites varían significativamente entre proveedores — una misma
+            En Chile, los precios de composites varían significativamente entre proveedores, una misma
             jeringa de resina compuesta puede costar hasta un 40% más dependiendo de dónde se compre.
           </p>
           <p>

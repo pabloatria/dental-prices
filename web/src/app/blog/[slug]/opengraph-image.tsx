@@ -17,7 +17,7 @@ export default async function OGImage({
   const { slug } = await params
   const post = getPostBySlug(slug)
 
-  const title = post?.title ?? 'Blog — DentalPrecios'
+  const title = post?.title ?? 'Blog | DentalPrecios'
   const description = post?.description ?? ''
   const date = post
     ? new Date(post.date).toLocaleDateString('es-CL', {

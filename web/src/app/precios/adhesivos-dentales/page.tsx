@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     .eq('category_id', category?.id || '')
 
   const productCount = count || 0
-  const title = 'Adhesivo Dental Precio Chile — Compara 70 Proveedores'
+  const title = 'Adhesivo Dental Precio Chile, Compara 70 Proveedores'
   const description = `¿Cuánto cuesta el adhesivo dental en Chile? Single Bond, Clearfil, Ambar, RelyX y ${productCount} productos más. Precios actualizados entre 70 proveedores dentales.`
 
   return {
@@ -117,7 +117,7 @@ export default async function AdhesivosPreciosPage({
     : 0
   const totalOffers = productsWithPrices.reduce((sum, p) => sum + p.store_count, 0)
 
-  // Product + AggregateOffer schema — server-rendered trusted content only
+  // Product + AggregateOffer schema, server-rendered trusted content only
   const productSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -229,7 +229,7 @@ export default async function AdhesivosPreciosPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* JSON-LD — server-rendered trusted content only */}
+      {/* JSON-LD, server-rendered trusted content only */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: itemListSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqSchema }} />
@@ -256,7 +256,7 @@ export default async function AdhesivosPreciosPage({
             <p className="text-muted-foreground mt-2">
               {productsWithPrices.length} adhesivos y cementos comparados entre {supplierIds.size} proveedores
               {lowestOverall > 0 && (
-                <span className="text-price font-medium"> — desde {formatCLP(lowestOverall)}</span>
+                <span className="text-price font-medium">, desde {formatCLP(lowestOverall)}</span>
               )}
             </p>
           </div>
@@ -286,13 +286,13 @@ export default async function AdhesivosPreciosPage({
           <p>
             El adhesivo dental es el producto donde más plata se pierde por no comparar.
             Un frasco de Single Bond Universal puede costar hasta un 40% más en un proveedor
-            que en otro — y cuando multiplicas eso por el consumo mensual de un consultorio
+            que en otro, y cuando multiplicas eso por el consumo mensual de un consultorio
             activo, la diferencia es significativa.
           </p>
           <p>
             <strong>Sistemas adhesivos:</strong> los adhesivos universales (7ma generación)
             como Single Bond Universal, Clearfil Universal Bond Quick y Ambar Universal
-            dominan el mercado por su versatilidad — funcionan con grabado total, selectivo
+            dominan el mercado por su versatilidad, funcionan con grabado total, selectivo
             o autograbante. Los autograbantes puros como Clearfil SE Bond siguen siendo
             referencia en dentina por su menor sensibilidad postoperatoria.
           </p>

@@ -31,12 +31,12 @@ const SLUG_REDIRECTS: Record<string, string> = {
 // Keyword-optimized SEO metadata for all categories
 const CATEGORY_SEO: Record<string, { title: string; description: (count: number) => string; h1: string }> = {
   'acabado-pulido': {
-    title: 'Acabado y Pulido Dental — Precios en Chile 2026',
+    title: 'Acabado y Pulido Dental: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} productos de acabado y pulido dental en Chile. Discos Sof-Lex, copas de silicona, pastas de pulir de Shofu, 3M y Kerr entre +70 proveedores.`,
     h1: 'Acabado y Pulido Dental: Compara Precios en Chile',
   },
   'anestesia': {
-    title: 'Anestesia Dental — Precios de Anestésicos en Chile 2026',
+    title: 'Anestesia Dental: Precios de Anestésicos en Chile 2026',
     description: (count) => `Precios de anestesia dental en Chile. Lidocaína, articaína y ${count} anestésicos más comparados entre +70 proveedores dentales.`,
     h1: 'Anestesia Dental: Precios y Proveedores en Chile',
   },
@@ -46,37 +46,37 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
     h1: 'Materiales CAD CAM en Chile: Zirconio, PMMA y Bloques para Fresado',
   },
   'cementos-adhesivos': {
-    title: 'Adhesivos y Cementos Dentales — Precios en Chile 2026',
+    title: 'Adhesivos y Cementos Dentales: Precios en Chile 2026',
     description: (count) => `Compara precios de adhesivos dentales y cementos en Chile. ${count} productos de RelyX, Variolink, FGM y más al mejor precio.`,
     h1: 'Adhesivos y Cementos Dentales: Compara Precios',
   },
   'ceras': {
-    title: 'Ceras Dentales — Precios en Chile 2026',
+    title: 'Ceras Dentales: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} ceras dentales en Chile. Ceras de modelar, mordida, utility y colado de Yeti Dental, Renfert y Lysanda entre +70 proveedores.`,
     h1: 'Ceras Dentales: Compara Precios en Chile',
   },
   'cirugia': {
-    title: 'Cirugía Dental — Precios de Instrumental y Materiales Chile 2026',
+    title: 'Cirugía Dental: Precios de Instrumental y Materiales Chile 2026',
     description: (count) => `Compara precios de ${count} productos de cirugía oral en Chile. Fórceps, suturas, membranas de colágeno de Hu-Friedy, Geistlich y más entre +70 proveedores.`,
     h1: 'Cirugía Dental: Compara Precios en Chile',
   },
   'control-infecciones-clinico': {
-    title: 'Control de Infecciones Clínico — Precios en Chile 2026',
+    title: 'Control de Infecciones Clínico: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} productos de bioseguridad clínica en Chile. Desinfectantes, esterilizadores, indicadores biológicos de 3M, Zeta y Crosstex entre +70 proveedores.`,
     h1: 'Control de Infecciones Clínico: Compara Precios en Chile',
   },
   'control-infecciones-personal': {
-    title: 'EPP Dental — Guantes, Mascarillas y Protección Chile 2026',
+    title: 'EPP Dental: Guantes, Mascarillas y Protección Chile 2026',
     description: (count) => `Compara precios de ${count} productos de protección personal dental en Chile. Guantes de nitrilo, mascarillas, protectores faciales de Cranberry, Supermax y Medicom.`,
     h1: 'Equipos de Protección Personal Dental: Compara Precios',
   },
   'coronas-cofias': {
-    title: 'Coronas Dentales Preformadas — Precios en Chile 2026',
+    title: 'Coronas Dentales Preformadas: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} coronas y cofias dentales en Chile. Coronas de acero, celuloide y estéticas pediátricas de 3M, NuSmile y TDV entre +70 proveedores.`,
     h1: 'Coronas y Cofias Dentales: Compara Precios en Chile',
   },
   'desechables': {
-    title: 'Desechables Dentales — Precios en Chile 2026',
+    title: 'Desechables Dentales: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} desechables dentales en Chile. Eyectores, baberos, vasos, rollos de algodón y puntas de jeringa triple entre +70 proveedores.`,
     h1: 'Desechables Dentales: Compara Precios en Chile',
   },
@@ -86,113 +86,113 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
     h1: 'Insumos de Endodoncia: Precios en Chile',
   },
   'equipamiento': {
-    title: 'Equipamiento Dental — Precios de Sillones y Equipos Chile 2026',
+    title: 'Equipamiento Dental: Precios de Sillones y Equipos Chile 2026',
     description: (count) => `Compara precios de ${count} equipos odontológicos en Chile. Sillones, autoclaves, lámparas de fotocurado, ultrasonido de NSK, KaVo y Gnatus entre +70 proveedores.`,
     h1: 'Equipamiento Dental: Compara Precios en Chile',
   },
   'estetica': {
-    title: 'Estética Dental — Precios de Blanqueamiento y Más Chile 2026',
+    title: 'Estética Dental: Precios de Blanqueamiento y Más Chile 2026',
     description: (count) => `Compara precios de ${count} productos de estética dental en Chile. Blanqueamiento, carillas de composite, sistemas de color de Ultradent, FGM e Ivoclar entre +70 proveedores.`,
     h1: 'Estética Dental: Compara Precios en Chile',
   },
   'evacuacion': {
-    title: 'Evacuación y Aspiración Dental — Precios en Chile 2026',
+    title: 'Evacuación y Aspiración Dental: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} productos de evacuación dental en Chile. Cánulas de succión, eyectores quirúrgicos y adaptadores entre +70 proveedores.`,
     h1: 'Evacuación Dental: Compara Precios en Chile',
   },
   'fresas-diamantes': {
-    title: 'Fresas Dentales — Precios y Tipos en Chile 2026',
+    title: 'Fresas Dentales: Precios y Tipos en Chile 2026',
     description: (count) => `Precios de fresas dentales en Chile. ${count} fresas de diamante y carburo de Komet, Microdont, Edenta y SS White entre +70 proveedores.`,
     h1: 'Fresas Dentales: Compara Precios en Chile',
   },
   'goma-dique': {
-    title: 'Goma Dique y Aislamiento — Precios en Chile 2026',
+    title: 'Goma Dique y Aislamiento: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} productos de aislamiento dental en Chile. Goma dique, clamps, arcos de Young de Coltene, Hu-Friedy y Sanctuary entre +70 proveedores.`,
     h1: 'Goma Dique y Aislamiento: Compara Precios en Chile',
   },
   'implantes': {
-    title: 'Implantes Dentales — Precios de Sistemas en Chile 2026',
+    title: 'Implantes Dentales: Precios de Sistemas en Chile 2026',
     description: (count) => `Compara precios de ${count} productos de implantología en Chile. Implantes, pilares y componentes de Straumann, Neodent, MIS y Bionnovation entre +70 proveedores.`,
     h1: 'Implantes Dentales: Compara Precios en Chile',
   },
   'instrumental': {
-    title: 'Instrumental Dental — Precios en Chile 2026',
+    title: 'Instrumental Dental: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} instrumentos odontológicos en Chile. Espejos, sondas, curetas, espátulas de Hu-Friedy, Medesy y YDM entre +70 proveedores.`,
     h1: 'Instrumental Dental: Compara Precios en Chile',
   },
   'jeringas-agujas': {
-    title: 'Jeringas y Agujas Dentales — Precios en Chile 2026',
+    title: 'Jeringas y Agujas Dentales: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} jeringas y agujas dentales en Chile. Jeringas carpule, agujas cortas y largas de Septodont, DFL y Nipro entre +70 proveedores.`,
     h1: 'Jeringas y Agujas Dentales: Compara Precios en Chile',
   },
   'laboratorio': {
-    title: 'Materiales de Laboratorio Dental — Precios en Chile 2026',
+    title: 'Materiales de Laboratorio Dental: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} materiales de laboratorio dental en Chile. Yesos, revestimientos, siliconas de duplicar de Zhermack, Renfert y GC entre +70 proveedores.`,
     h1: 'Laboratorio Dental: Compara Precios en Chile',
   },
   'lupas-lamparas': {
-    title: 'Lupas y Lámparas Dentales — Precios en Chile 2026',
+    title: 'Lupas y Lámparas Dentales: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} lupas y lámparas dentales en Chile. Lupas binoculares, LED frontales de Zumax, Univet y Orascoptic entre +70 proveedores.`,
     h1: 'Lupas y Lámparas Dentales: Compara Precios en Chile',
   },
   'materiales-impresion': {
-    title: 'Materiales de Impresión Dental — Precios en Chile 2026',
+    title: 'Materiales de Impresión Dental: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} materiales de impresión en Chile. Alginatos, siliconas de adición, poliéteres de Zhermack, 3M y Coltene entre +70 proveedores.`,
     h1: 'Materiales de Impresión Dental: Compara Precios en Chile',
   },
   'materiales-retraccion': {
-    title: 'Retracción Gingival — Precios de Hilos y Pastas Chile 2026',
+    title: 'Retracción Gingival: Precios de Hilos y Pastas Chile 2026',
     description: (count) => `Compara precios de ${count} productos de retracción gingival en Chile. Hilos retractores, pastas hemostáticas de Ultradent, 3M y Roeko entre +70 proveedores.`,
     h1: 'Retracción Gingival: Compara Precios en Chile',
   },
   'matrices-cunas': {
-    title: 'Matrices y Cuñas Dentales — Precios en Chile 2026',
+    title: 'Matrices y Cuñas Dentales: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} matrices y cuñas en Chile. Matrices seccionales, circunferenciales, cuñas de TDV Unimatrix, Palodent y Garrison entre +70 proveedores.`,
     h1: 'Matrices y Cuñas Dentales: Compara Precios en Chile',
   },
   'miscelaneos': {
-    title: 'Insumos Dentales Varios — Precios en Chile 2026',
+    title: 'Insumos Dentales Varios: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} insumos dentales varios en Chile. Micro-aplicadores, papel de articular, bloques de mezcla y más entre +70 proveedores.`,
     h1: 'Insumos Dentales Varios: Compara Precios en Chile',
   },
   'ortodoncia': {
-    title: 'Ortodoncia — Precios de Brackets e Insumos Chile 2026',
+    title: 'Ortodoncia: Precios de Brackets e Insumos Chile 2026',
     description: (count) => `Compara precios de ${count} productos de ortodoncia en Chile. Brackets, alambres NiTi, elásticos de 3M Unitek, Morelli y Ormco entre +70 proveedores.`,
     h1: 'Ortodoncia: Compara Precios de Insumos en Chile',
   },
   'pernos-postes': {
-    title: 'Postes de Fibra de Vidrio — Precios en Chile 2026',
+    title: 'Postes de Fibra de Vidrio: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} postes y pernos dentales en Chile. Postes de fibra de vidrio, titanio y sistemas de muñón de Angelus, FGM y 3M entre +70 proveedores.`,
     h1: 'Postes y Pernos Dentales: Compara Precios en Chile',
   },
   'piezas-de-mano': {
-    title: 'Piezas de Mano Dentales — Precios de Turbinas Chile 2026',
+    title: 'Piezas de Mano Dentales: Precios de Turbinas Chile 2026',
     description: (count) => `Compara precios de ${count} piezas de mano en Chile. Turbinas, contraángulos, micromotores de NSK, KaVo, W&H y Bien Air entre +70 proveedores.`,
     h1: 'Piezas de Mano Dentales: Compara Precios en Chile',
   },
   'preventivos': {
-    title: 'Productos Preventivos Dentales — Precios en Chile 2026',
+    title: 'Productos Preventivos Dentales: Precios en Chile 2026',
     description: (count) => `Compara precios de ${count} productos preventivos dentales en Chile. Flúor barniz, sellantes, pastas profilácticas de Colgate, 3M Clinpro e Ivoclar entre +70 proveedores.`,
     h1: 'Preventivos Dentales: Compara Precios en Chile',
   },
   'radiologia': {
-    title: 'Radiología Dental — Precios de Insumos en Chile 2026',
+    title: 'Radiología Dental: Precios de Insumos en Chile 2026',
     description: (count) => `Compara precios de ${count} insumos de radiología dental en Chile. Películas, sensores digitales, líquidos reveladores de Carestream, Agfa y Fuji entre +70 proveedores.`,
     h1: 'Radiología Dental: Compara Precios en Chile',
   },
   'resinas-compuestas': {
-    title: 'Resinas Compuestas — Precios y Comparativa en Chile 2026',
+    title: 'Resinas Compuestas: Precios y Comparativa en Chile 2026',
     description: (count) => `Compara precios de resinas dentales en Chile. ${count} composites de 3M Filtek, Ivoclar, Kerr y más entre +70 proveedores. Encuentra el precio más bajo.`,
     h1: 'Resinas Dentales: Compara Precios en Chile',
   },
   'sillones-dentales': {
-    title: 'Sillones Dentales — Precios y Marcas en Chile 2026',
+    title: 'Sillones Dentales: Precios y Marcas en Chile 2026',
     description: (count) => `Compara precios de ${count} sillones dentales en Chile. Unidades completas, sillones portátiles de Gnatus, KaVo, A-dec y Fengdan entre +70 proveedores.`,
     h1: 'Sillones Dentales: Compara Precios en Chile',
   },
 }
 
-// Category-specific FAQ schemas — AI Overview triggers for the category's
+// Category-specific FAQ schemas, AI Overview triggers for the category's
 // primary informational queries. Add entries here as new AI-Overview terms
 // are confirmed in keyword research reports.
 const CATEGORY_FAQS: Record<string, Array<{ q: string; a: string }>> = {
@@ -221,7 +221,7 @@ const CATEGORY_FAQS: Record<string, Array<{ q: string; a: string }>> = {
     },
     {
       q: '¿Qué es un atacador de gutapercha y cuándo usarlo?',
-      a: 'El atacador de gutapercha es el instrumento usado para la condensación vertical de los conos de gutapercha durante la obturación endodóntica. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación con control táctil — el estándar para técnicas mixtas y volumen moderado. Los sistemas automatizados (Calamus, Elements IC, Beefill, Fast Pack Pro) estandarizan la temperatura del plugger downpack y aceleran el flujo en clínicas con alto volumen de casos.',
+      a: 'El atacador de gutapercha es el instrumento usado para la condensación vertical de los conos de gutapercha durante la obturación endodóntica. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación con control táctil, el estándar para técnicas mixtas y volumen moderado. Los sistemas automatizados (Calamus, Elements IC, Beefill, Fast Pack Pro) estandarizan la temperatura del plugger downpack y aceleran el flujo en clínicas con alto volumen de casos.',
     },
   ],
 }
@@ -232,11 +232,11 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
   'lupas-lamparas': [
     {
       heading: 'Qué lupa dental elegir según el procedimiento',
-      body: 'La decisión clínica depende del tipo de trabajo. Para operatoria general, endodoncia convencional y prótesis fija, una lupa de 2.5x a 3.5x ofrece el equilibrio correcto entre campo visual y detalle — suficiente para ver márgenes, ajuste interno y anatomía dentinaria sin perder contexto. Para microendodoncia, cirugía periapical e implantología guiada, los sistemas de 4.5x a 6x permiten identificar istmos, conductos MB2 y desajustes subgingivales que a 2.5x pasan inadvertidos. Las lupas tipo TTL (Through-The-Lens) son más ergonómicas y livianas pero no se ajustan entre usuarios; los sistemas flip-up son más versátiles y permiten compartir el equipo entre clínicos.',
+      body: 'La decisión clínica depende del tipo de trabajo. Para operatoria general, endodoncia convencional y prótesis fija, una lupa de 2.5x a 3.5x ofrece el equilibrio correcto entre campo visual y detalle, suficiente para ver márgenes, ajuste interno y anatomía dentinaria sin perder contexto. Para microendodoncia, cirugía periapical e implantología guiada, los sistemas de 4.5x a 6x permiten identificar istmos, conductos MB2 y desajustes subgingivales que a 2.5x pasan inadvertidos. Las lupas tipo TTL (Through-The-Lens) son más ergonómicas y livianas pero no se ajustan entre usuarios; los sistemas flip-up son más versátiles y permiten compartir el equipo entre clínicos.',
     },
     {
       heading: 'Magnificación, distancia de trabajo y profundidad de campo',
-      body: 'Los tres parámetros se comprometen mutuamente. A mayor magnificación, menor profundidad de campo y menor campo visual — un 6x exige postura y estabilidad mucho mayores que un 3x. La distancia de trabajo (típicamente 340–500 mm) se calibra a la estatura del clínico para mantener columna y cervical alineadas: una lupa mal medida es la principal causa de fatiga visual y dolor cervical a largo plazo. Las lámparas frontales LED complementan la lupa proyectando luz coaxial al eje visual, eliminando sombras que la lámpara del sillón no alcanza — especialmente críticas en cuadrantes posteriores y aislamiento con goma dique.',
+      body: 'Los tres parámetros se comprometen mutuamente. A mayor magnificación, menor profundidad de campo y menor campo visual, un 6x exige postura y estabilidad mucho mayores que un 3x. La distancia de trabajo (típicamente 340–500 mm) se calibra a la estatura del clínico para mantener columna y cervical alineadas: una lupa mal medida es la principal causa de fatiga visual y dolor cervical a largo plazo. Las lámparas frontales LED complementan la lupa proyectando luz coaxial al eje visual, eliminando sombras que la lámpara del sillón no alcanza, especialmente críticas en cuadrantes posteriores y aislamiento con goma dique.',
     },
     {
       heading: 'Marcas disponibles en Chile y rango de precios',
@@ -246,11 +246,11 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
   'cad-cam': [
     {
       heading: '¿Qué es el zirconio dental y cuándo se indica?',
-      body: 'El zirconio dental (dióxido de zirconio, ZrO₂) es un material cerámico de alta resistencia usado en odontología restauradora para fabricar coronas, puentes y estructuras protésicas por fresado CAD/CAM. Su resistencia mecánica (>900 MPa en zirconio monolítico de alta translucidez) lo convierte en la opción estándar para coronas posteriores, puentes de múltiples unidades y restauraciones sobre implantes. Frente al disilicato de litio (IPS e.max), el zirconio ofrece mayor resistencia pero menor translucidez — por eso el disilicato sigue siendo preferido para carillas, incrustaciones y coronas anteriores donde la estética prima sobre la carga funcional.',
+      body: 'El zirconio dental (dióxido de zirconio, ZrO₂) es un material cerámico de alta resistencia usado en odontología restauradora para fabricar coronas, puentes y estructuras protésicas por fresado CAD/CAM. Su resistencia mecánica (>900 MPa en zirconio monolítico de alta translucidez) lo convierte en la opción estándar para coronas posteriores, puentes de múltiples unidades y restauraciones sobre implantes. Frente al disilicato de litio (IPS e.max), el zirconio ofrece mayor resistencia pero menor translucidez, por eso el disilicato sigue siendo preferido para carillas, incrustaciones y coronas anteriores donde la estética prima sobre la carga funcional.',
     },
     {
       heading: 'Bloques de zirconio, PMMA y materiales CAD/CAM disponibles en Chile',
-      body: 'El catálogo CAD/CAM en Chile incluye bloques de zirconio en múltiples translucideces (HT, ST, UT), bloques de disilicato de litio IPS e.max, bloques de PMMA para provisionales y coronas de uso corto, y discos de cera para fresado y diseño. Las marcas de referencia son Ivoclar (IPS e.max, e.max ZirCAD, Telio CAD), VITA (YZ, Enamic, Mark II), Dentsply Sirona (CEREC Blocs) y Amann Girrbach (Ceramill). El precio varía significativamente por marca, translucidez y distribuidor — comparar antes de pedir es la diferencia entre pagar precio de catálogo o precio negociado.',
+      body: 'El catálogo CAD/CAM en Chile incluye bloques de zirconio en múltiples translucideces (HT, ST, UT), bloques de disilicato de litio IPS e.max, bloques de PMMA para provisionales y coronas de uso corto, y discos de cera para fresado y diseño. Las marcas de referencia son Ivoclar (IPS e.max, e.max ZirCAD, Telio CAD), VITA (YZ, Enamic, Mark II), Dentsply Sirona (CEREC Blocs) y Amann Girrbach (Ceramill). El precio varía significativamente por marca, translucidez y distribuidor, comparar antes de pedir es la diferencia entre pagar precio de catálogo o precio negociado.',
     },
   ],
   'endodoncia': [
@@ -260,11 +260,11 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
     },
     {
       heading: 'Atacador de gutapercha: manual vs automatizado',
-      body: 'El atacador de gutapercha es una pieza clave en el protocolo de obturación. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación vertical en onda continua o técnica de McSpadden, con control táctil completo — la elección estándar para técnicas mixtas y operadores con volumen moderado. Los sistemas automatizados (Calamus Dual, Elements IC, Beefill 2in1, Fast Pack Pro) aceleran la fase de obturación y estandarizan la temperatura del plugger downpack, críticos en clínicas con flujo alto. La decisión entre manual y automatizado depende del volumen: sobre 10–15 endodoncias semanales, el retorno del sistema automatizado empieza a justificar la inversión. En Chile los atacadores manuales se distribuyen desde $15.000 CLP la unidad, y los sistemas completos de obturación termoplastificada parten sobre $350.000 CLP.',
+      body: 'El atacador de gutapercha es una pieza clave en el protocolo de obturación. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación vertical en onda continua o técnica de McSpadden, con control táctil completo, la elección estándar para técnicas mixtas y operadores con volumen moderado. Los sistemas automatizados (Calamus Dual, Elements IC, Beefill 2in1, Fast Pack Pro) aceleran la fase de obturación y estandarizan la temperatura del plugger downpack, críticos en clínicas con flujo alto. La decisión entre manual y automatizado depende del volumen: sobre 10–15 endodoncias semanales, el retorno del sistema automatizado empieza a justificar la inversión. En Chile los atacadores manuales se distribuyen desde $15.000 CLP la unidad, y los sistemas completos de obturación termoplastificada parten sobre $350.000 CLP.',
     },
     {
       heading: 'Gutapercha, selladores y puntas de papel: consumibles de alto turnover',
-      body: 'Los conos de gutapercha (Dentsply Protaper, VDW Reciproc, Meta Biomed) y los selladores endodónticos (AH Plus, MTA Fillapex, BC Sealer, Sealapex) son consumibles que se pedidos mensualmente en clínicas activas. Los precios unitarios parecen bajos, pero el consumo acumulado los convierte en una línea presupuestaria relevante. Las puntas de papel estériles absorbentes se consumen al ritmo del volumen de casos y tienen variación significativa de precio entre distribuidores — el mismo producto puede costar 30–40% más en uno u otro. Comparar antes de pedir es la diferencia entre gastar con intención y gastar por inercia.',
+      body: 'Los conos de gutapercha (Dentsply Protaper, VDW Reciproc, Meta Biomed) y los selladores endodónticos (AH Plus, MTA Fillapex, BC Sealer, Sealapex) son consumibles que se pedidos mensualmente en clínicas activas. Los precios unitarios parecen bajos, pero el consumo acumulado los convierte en una línea presupuestaria relevante. Las puntas de papel estériles absorbentes se consumen al ritmo del volumen de casos y tienen variación significativa de precio entre distribuidores, el mismo producto puede costar 30–40% más en uno u otro. Comparar antes de pedir es la diferencia entre gastar con intención y gastar por inercia.',
     },
   ],
 }
@@ -297,7 +297,7 @@ const CATEGORY_INTROS: Record<string, string> = {
   'evacuacion':
     'Encuentra puntas de aspiración quirúrgica, cánulas de succión, eyectores desechables y adaptadores de evacuación de marcas como Medicom, Premium Plus y TPC. Compara precios de sistemas de evacuación dental entre más de 70 proveedores en Chile. DentalPrecios te ayuda a mantener un campo operatorio limpio con los mejores insumos de succión y aspiración.',
   'fresas-diamantes':
-    'Fresas dentales al mejor precio en Chile: compara fresas de diamante, fresas de carburo de tungsteno, piedras de Arkansas y fresas multilaminadas de marcas como Komet, Microdont, SS White y Jota. Todos los tipos de fresas dentales y sus usos — para turbina, contraángulo y pieza recta — comparados entre más de 70 proveedores dentales. Fresas de grano fino, medio y grueso para cada procedimiento clínico.',
+    'Fresas dentales al mejor precio en Chile: compara fresas de diamante, fresas de carburo de tungsteno, piedras de Arkansas y fresas multilaminadas de marcas como Komet, Microdont, SS White y Jota. Todos los tipos de fresas dentales y sus usos, para turbina, contraángulo y pieza recta, comparados entre más de 70 proveedores dentales. Fresas de grano fino, medio y grueso para cada procedimiento clínico.',
   'goma-dique':
     'Encuentra gomas de dique, arcos de Young, clamps, porta-clamps y perforadoras de marcas como Coltene Hygenic, Hu-Friedy y Sanctuary. Compara precios de kits de aislamiento absoluto entre más de 70 proveedores dentales en Chile. DentalPrecios te ayuda a equipar tu consulta con todo lo necesario para un aislamiento seguro y eficiente en operatoria y endodoncia.',
   'implantes':
@@ -331,7 +331,7 @@ const CATEGORY_INTROS: Record<string, string> = {
   'radiologia':
     'Compara precios de películas radiográficas, sensores digitales, líquidos reveladores, delantales plomados y posicionadores de marcas como Carestream, Agfa, Fuji y Maquira. DentalPrecios reúne más de 70 proveedores en Chile para que encuentres insumos de radiología dental al mejor precio. Desde radiografías periapicales hasta sistemas de imagenología digital.',
   'resinas-compuestas':
-    'Resina dental al mejor precio en Chile: compara precios de resinas compuestas, composites fluidos y resinas bulk fill de marcas como 3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM Vittra y Tokuyama Estelite. DentalPrecios reúne más de 70 proveedores dentales para que encuentres el composite dental más barato — nanohíbridos, microhíbridos y resinas de alta estética para restauraciones directas.',
+    'Resina dental al mejor precio en Chile: compara precios de resinas compuestas, composites fluidos y resinas bulk fill de marcas como 3M Filtek, Ivoclar Tetric, Kerr Herculite, FGM Vittra y Tokuyama Estelite. DentalPrecios reúne más de 70 proveedores dentales para que encuentres el composite dental más barato, nanohíbridos, microhíbridos y resinas de alta estética para restauraciones directas.',
   'sillones-dentales':
     'Compara precios de sillones dentales, unidades odontológicas completas y sillones portátiles de marcas como Gnatus, KaVo, A-dec, Fengdan y Woson. DentalPrecios reúne más de 70 proveedores en Chile para que equipes tu consulta al mejor precio. Encuentra sillones con luz LED integrada, tapizado de cuero sintético, pedal multifunción y entrega técnica incluida.',
 }
@@ -366,8 +366,8 @@ export async function generateMetadata({
 
   const productCount = count || 0
   const seo = CATEGORY_SEO[slug]
-  const baseTitle = seo?.title || `${category.name} — Comparar precios en Chile 2026`
-  const title = isPaginated ? `${baseTitle} — Página ${pageNum}` : baseTitle
+  const baseTitle = seo?.title || `${category.name}, Comparar precios en Chile 2026`
+  const title = isPaginated ? `${baseTitle}, Página ${pageNum}` : baseTitle
   const description = seo
     ? seo.description(productCount)
     : `Compara precios de ${category.name.toLowerCase()} entre +70 proveedores dentales en Chile. ${productCount > 0 ? `${productCount} productos disponibles.` : ''}`
@@ -516,7 +516,7 @@ export default async function CategoryPage({
     ],
   }
 
-  // Category-specific FAQ schemas — AI Overview triggers for the category's
+  // Category-specific FAQ schemas, AI Overview triggers for the category's
   // primary informational queries. Server-built from hardcoded content.
   const faqEntries = CATEGORY_FAQS[slug]
   const faqSchema = faqEntries
@@ -575,14 +575,14 @@ export default async function CategoryPage({
         <div className="flex-1 min-w-0">
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-foreground">
-              {CATEGORY_SEO[slug]?.h1 || `${category.name} — Comparar precios en Chile`}
+              {CATEGORY_SEO[slug]?.h1 || `${category.name}, Comparar precios en Chile`}
             </h1>
             <p className="text-sm text-muted-foreground mt-1">
               {total} producto{total !== 1 ? 's' : ''} de {category.name.toLowerCase()} disponibles para comparar entre proveedores
             </p>
           </div>
 
-          {/* Dedicated pricing page CTA — strong internal link signal so Google
+          {/* Dedicated pricing page CTA, strong internal link signal so Google
               serves /precios/resina-compuesta for "resina dental precio chile"
               instead of the category URL. */}
           {slug === 'resinas-compuestas' && (
@@ -593,7 +593,7 @@ export default async function CategoryPage({
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-foreground">
-                    Resina dental precio Chile — comparativa dedicada
+                    Resina dental precio Chile, comparativa dedicada
                   </p>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     Ver todos los precios de resinas compuestas entre +70 proveedores chilenos, ordenados por precio con filtros por marca.

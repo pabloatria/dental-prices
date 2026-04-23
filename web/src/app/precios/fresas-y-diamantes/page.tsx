@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     .eq('category_id', category?.id || '')
 
   const productCount = count || 0
-  const title = 'Fresas Dentales Precio Chile — Carburo y Diamante'
+  const title = 'Fresas Dentales Precio Chile, Carburo y Diamante'
   const description = `Precios de fresas dentales en Chile: carburo, diamante, acabado. Marcas Komet, Edenta comparadas entre los principales proveedores chilenos.`
 
   return {
@@ -113,7 +113,7 @@ export default async function FresasPreciosPage({
   const productSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Fresas Dentales — Carburo de tungsteno y diamante',
+    name: 'Fresas Dentales: Carburo de tungsteno y diamante',
     description: `Comparativa de precios de ${productsWithPrices.length} fresas dentales en Chile entre +70 proveedores. Komet, Microdont, Edenta, SS White y más.`,
     category: 'Fresas dentales',
     brand: { '@type': 'Brand', name: 'Komet, Microdont, Edenta, SS White, Jota' },
@@ -210,7 +210,7 @@ export default async function FresasPreciosPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* JSON-LD structured data — server-rendered trusted content only */}
+      {/* JSON-LD structured data, server-rendered trusted content only */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: itemListSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqSchema }} />
@@ -235,7 +235,7 @@ export default async function FresasPreciosPage({
             <p className="text-muted-foreground mt-2">
               {productsWithPrices.length} fresas comparadas entre {supplierIds.size} proveedores
               {lowestOverall > 0 && (
-                <span className="text-price font-medium"> — desde {formatCLP(lowestOverall)}</span>
+                <span className="text-price font-medium">, desde {formatCLP(lowestOverall)}</span>
               )}
             </p>
           </div>

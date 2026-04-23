@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Política de privacidad y protección de datos personales de DentalPrecios. Información sobre el uso de datos, cookies y derechos del usuario.',
   alternates: { canonical: `${BASE_URL}/privacidad` },
   openGraph: {
-    title: 'Política de Privacidad — DentalPrecios',
+    title: 'Política de Privacidad: DentalPrecios',
     description: 'Política de privacidad y protección de datos personales de DentalPrecios.',
     url: `${BASE_URL}/privacidad`,
   },

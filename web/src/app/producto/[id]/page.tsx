@@ -36,7 +36,7 @@ export async function generateMetadata({
   if (!product) return {}
 
   const brandText = product.brand ? ` ${product.brand}` : ''
-  const title = `${product.name}${brandText} — Comparar precios en Chile`
+  const title = `${product.name}${brandText}, Comparar precios en Chile`
   const description = `Compara precios de ${product.name}${brandText} entre múltiples proveedores dentales en Chile. Encuentra el precio más bajo y ahorra en tu compra.`
   const url = `${BASE_URL}/producto/${id}`
 
@@ -353,7 +353,7 @@ export default async function ProductPage({
                       <span className="text-2xl font-bold text-price">{formatCLP(lowestPrice)}</span>
                       {highestPrice > lowestPrice && (
                         <span className="text-sm text-muted-foreground">
-                          — {formatCLP(highestPrice)}
+                         , {formatCLP(highestPrice)}
                         </span>
                       )}
                     </div>
@@ -408,7 +408,7 @@ export default async function ProductPage({
         <EnhancedPriceTable prices={currentPrices} productId={product.id} />
       </div>
 
-      {/* Price history chart — only for products with real prices */}
+      {/* Price history chart, only for products with real prices */}
       {priceHistory.length > 0 && (
         <div className="bg-card rounded-xl border border-border p-6 mb-8">
           <h2 className="text-lg font-semibold text-foreground mb-4">
@@ -418,7 +418,7 @@ export default async function ProductPage({
         </div>
       )}
 
-      {/* Brand-specific editorial — implant brands
+      {/* Brand-specific editorial, implant brands
           Targets commercial long-tail: "precio implante dental straumann chile distribuidor"
           (GSC pos 4.5), "precio pilar protesico implante dental chile" and similar. */}
       {(() => {
@@ -440,14 +440,14 @@ export default async function ProductPage({
         return (
           <section className="bg-card rounded-xl border border-border p-6 mb-8">
             <h2 className="text-lg font-semibold text-foreground mb-3">
-              Distribuidores de {brandLabel} en Chile — comparar precios
+              Distribuidores de {brandLabel} en Chile, comparar precios
             </h2>
             <div className="text-sm text-muted-foreground leading-relaxed space-y-3 max-w-3xl">
               <p>
                 {brandLabel} es una de las marcas de implantología oral con mayor penetración en
                 Chile y ofrece su catálogo a través de múltiples distribuidores autorizados. El
-                precio final del mismo código de referencia —implante, pilar, aditamento protésico
-                o instrumental— puede variar de forma significativa según el proveedor, la
+                precio final del mismo código de referencia ,implante, pilar, aditamento protésico
+                o instrumental, puede variar de forma significativa según el proveedor, la
                 presentación (unitaria o caja) y los descuentos vigentes.
               </p>
               <p>
@@ -493,7 +493,7 @@ export default async function ProductPage({
         <SimilarProducts products={similarProducts} />
       </div>
 
-      {/* Mobile sticky price CTA — desktop already shows prices in the hero grid */}
+      {/* Mobile sticky price CTA, desktop already shows prices in the hero grid */}
       <StickyMobilePriceCTA lowestPrice={lowestPrice} storeCount={currentPrices.length} />
     </div>
   )

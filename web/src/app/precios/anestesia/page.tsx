@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     .eq('category_id', category?.id || '')
 
   const productCount = count || 0
-  const title = 'Anestesia Dental Precio Chile — Carpules y Tubos'
+  const title = 'Anestesia Dental Precio Chile, Carpules y Tubos'
   const description = `Compara precios de carpules de anestesia en Chile: lidocaína, articaína, mepivacaína entre los principales proveedores dentales. Datos reales.`
 
   return {
@@ -113,7 +113,7 @@ export default async function AnestesiaPreciosPage({
   const productSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: 'Anestesia Dental — Carpules y tubos anestésicos',
+    name: 'Anestesia Dental: Carpules y tubos anestésicos',
     description: `Comparativa de precios de ${productsWithPrices.length} anestésicos dentales en Chile entre +70 proveedores. Lidocaína, articaína, mepivacaína y más.`,
     category: 'Anestesia dental',
     brand: { '@type': 'Brand', name: 'Septodont, DFL, Zeyco, Novocol, Maver' },
@@ -210,7 +210,7 @@ export default async function AnestesiaPreciosPage({
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      {/* JSON-LD structured data — server-rendered trusted content only */}
+      {/* JSON-LD structured data, server-rendered trusted content only */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: productSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: itemListSchema }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: faqSchema }} />
@@ -235,7 +235,7 @@ export default async function AnestesiaPreciosPage({
             <p className="text-muted-foreground mt-2">
               {productsWithPrices.length} anestésicos comparados entre {supplierIds.size} proveedores
               {lowestOverall > 0 && (
-                <span className="text-price font-medium"> — desde {formatCLP(lowestOverall)}</span>
+                <span className="text-price font-medium">, desde {formatCLP(lowestOverall)}</span>
               )}
             </p>
           </div>
