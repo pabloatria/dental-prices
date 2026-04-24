@@ -31,18 +31,22 @@ const nextConfig: NextConfig = {
           { key: 'Cache-Control', value: 'no-store, no-cache, must-revalidate' },
         ],
       },
-      {
-        // User-private pages. These pages 307-redirect to /ingresar when the
-        // user is not logged in, which happens BEFORE React renders, so the
-        // component-level metadata.robots never fires. Googlebot sees a 307
-        // and follows it. Setting X-Robots-Tag at the HTTP level means Google
-        // honors noindex regardless of whether the page renders content or
-        // redirects. Belt and suspenders: robots.txt also disallows these paths.
-        source: '/:path(mi-cuenta|mi-cuenta/.*|mi-carrito|mi-carrito/.*|ingresar|ingresar/.*|suscripcion|suscripcion/.*)',
-        headers: [
-          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
-        ],
-      },
+      // User-private pages. These 307-redirect to /ingresar when the user is
+      // not logged in, which happens BEFORE React renders, so the
+      // component-level metadata.robots never fires. Googlebot sees a 307 and
+      // follows it. Setting X-Robots-Tag at the HTTP level means Google honors
+      // noindex regardless of whether the page renders content or redirects.
+      // Separate rules per path because Next.js headers() uses path-to-regexp,
+      // where `:param(alt1|alt2)` matches a single segment, not alternation
+      // across paths.
+      { source: '/mi-cuenta', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/mi-cuenta/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/mi-carrito', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/mi-carrito/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/ingresar', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/ingresar/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/suscripcion', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+      { source: '/suscripcion/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
       {
         // Security headers for all pages
         source: '/:path*',
