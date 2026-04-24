@@ -142,8 +142,33 @@ export async function middleware(request: NextRequest) {
   return supabaseResponse
 }
 
+// POSITIVE matcher — the middleware runs only on paths that actually benefit
+// from it. Previously this was a negative exclusion that caused middleware to
+// execute on every HTML page, sitemap, robots.txt, manifest, etc. — all of
+// which returned NextResponse.next() and did nothing. Those wasted invocations
+// were the #1 Vercel function-invocation cost driver on this project.
+//
+// The middleware's actual jobs:
+//   1. Bot-block + rate-limit /api/* (including honeypot routes)
+//   2. Supabase auth refresh on session-dependent paths
+//
+// Everything else (/, /categorias/*, /producto/*, /precios/*, /blog/*, /buscar,
+// robots.txt, sitemap.xml, images, CSS) now bypasses middleware entirely and
+// is served straight from ISR / static cache.
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    // API routes — rate limiting + bot blocking + honeypot
+    '/api/:path*',
+    // Session-dependent pages — Supabase auth refresh
+    '/mi-cuenta/:path*',
+    '/mi-carrito/:path*',
+    '/ingresar/:path*',
+    '/suscripcion/:path*',
+    '/auth/:path*',
+    // Root-level equivalents (no trailing /)
+    '/mi-cuenta',
+    '/mi-carrito',
+    '/ingresar',
+    '/suscripcion',
   ],
 }
