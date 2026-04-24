@@ -6,19 +6,23 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'],
+        // Note: explicit with-slash AND without-slash entries. Google's spec
+        // treats `/mi-cuenta/` as matching only URLs *starting with* that
+        // prefix — it does NOT match the bare `/mi-cuenta` (no trailing
+        // slash). Listing both covers the redirect target.
+        disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'],
       },
       // Explicitly allow search engines (including /_next/ for CSS/JS rendering)
       // Must repeat disallow rules — Google ignores the * group when a Googlebot group exists
-      { userAgent: 'Googlebot', allow: ['/', '/_next/'], disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
-      { userAgent: 'Bingbot', allow: ['/', '/_next/'], disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
+      { userAgent: 'Googlebot', allow: ['/', '/_next/'], disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'] },
+      { userAgent: 'Bingbot', allow: ['/', '/_next/'], disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'] },
       // Allow AI retrieval/citation bots (GEO — appear in AI-generated answers)
-      { userAgent: 'GPTBot', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
-      { userAgent: 'ChatGPT-User', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
-      { userAgent: 'ClaudeBot', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
-      { userAgent: 'PerplexityBot', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
-      { userAgent: 'Google-Extended', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
-      { userAgent: 'Applebot-Extended', allow: '/', disallow: ['/api/', '/mi-cuenta/', '/ingresar/', '/mi-carrito/'] },
+      { userAgent: 'GPTBot', allow: '/', disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'] },
+      { userAgent: 'ChatGPT-User', allow: '/', disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'] },
+      { userAgent: 'ClaudeBot', allow: '/', disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'] },
+      { userAgent: 'PerplexityBot', allow: '/', disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'] },
+      { userAgent: 'Google-Extended', allow: '/', disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'] },
+      { userAgent: 'Applebot-Extended', allow: '/', disallow: ['/api/', '/mi-cuenta', '/mi-cuenta/', '/ingresar', '/ingresar/', '/mi-carrito', '/mi-carrito/', '/suscripcion', '/suscripcion/'] },
       // Block pure training/scraping bots (low citation value)
       { userAgent: 'anthropic-ai', disallow: '/' },
       { userAgent: 'CCBot', disallow: '/' },

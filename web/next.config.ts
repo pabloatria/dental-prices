@@ -32,6 +32,18 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // User-private pages. These pages 307-redirect to /ingresar when the
+        // user is not logged in, which happens BEFORE React renders, so the
+        // component-level metadata.robots never fires. Googlebot sees a 307
+        // and follows it. Setting X-Robots-Tag at the HTTP level means Google
+        // honors noindex regardless of whether the page renders content or
+        // redirects. Belt and suspenders: robots.txt also disallows these paths.
+        source: '/:path(mi-cuenta|mi-cuenta/.*|mi-carrito|mi-carrito/.*|ingresar|ingresar/.*|suscripcion|suscripcion/.*)',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+        ],
+      },
+      {
         // Security headers for all pages
         source: '/:path*',
         headers: [
