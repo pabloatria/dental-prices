@@ -232,10 +232,12 @@ All env vars referenced by the web app. Source of truth = Vercel Project Setting
 ### Shipping a blog post
 
 1. `web/content/blog/<slug>.mdx` with proper frontmatter (title, description, date, draft:false, author, keywords array)
-2. `grep -n '—' <file>` returns empty (or only comments)
-3. `npx next build` passes without MDX errors
-4. `git commit` with a verb-first subject. Push to main. Vercel auto-deploys.
-5. Hit `/blog/<slug>` in a browser. Verify OG image, meta tags, internal links resolve.
+2. **`date:` field is the PUBLISH date, not the file-creation date.** If a draft was authored Apr 21 and you ship it Apr 25, set `date: "2026-04-25"`. The blog index sorts by this field — using a stale date hides new content below older posts.
+3. **Check for keyword cannibalization** before shipping. If another live post already targets the same primary keyword, retitle / refocus / add mutual cross-links so they target adjacent intents (informational vs. transactional vs. comparison) rather than the exact same query. Don't ship two posts competing for the same SERP.
+4. `grep -n '—' <file>` returns empty (or only comments)
+5. `npx next build` passes without MDX errors
+6. `git commit` with a verb-first subject. Push to main. Vercel auto-deploys.
+7. Hit `/blog/<slug>` in a browser. Verify OG image, meta tags, internal links resolve.
 
 ### Shipping a price page (e.g. `/precios/limas-endodoncia`)
 
