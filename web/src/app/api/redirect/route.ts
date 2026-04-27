@@ -17,24 +17,36 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  // Log the click event asynchronously (don't block the redirect)
-  // Skip bot clicks — only track real user visits
   const userAgent = request.headers.get('user-agent') || ''
-  const isBot = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|gptbot|claudebot/i.test(userAgent)
+  const isBot = /bot|crawl|spider|slurp|googlebot|bingbot|yandex|baidu|gptbot|claudebot|perplexity|amazonbot|ccbot/i.test(userAgent)
 
+  // AWAIT the insert before redirecting. The previous fire-and-forget
+  // pattern (`void supabase.from(...).insert(...).then(() => {})`) silently
+  // dropped clicks because Vercel's serverless function instance recycles
+  // as soon as the response is returned, terminating the pending Promise
+  // before the Supabase HTTP request actually completes. Cost: ~50-100ms
+  // added latency; benefit: reliable click telemetry.
   if (productId && supplierId) {
-    void supabase
-      .from('click_events')
-      .insert({
-        product_id: productId,
-        supplier_id: supplierId,
-        url,
-        referrer: request.headers.get('referer') || null,
-        user_agent: userAgent,
-        source,
-        is_bot: isBot,
-      })
-      .then(() => {})
+    try {
+      const { error } = await supabase
+        .from('click_events')
+        .insert({
+          product_id: productId,
+          supplier_id: supplierId,
+          url,
+          referrer: request.headers.get('referer') || null,
+          user_agent: userAgent,
+          source,
+          is_bot: isBot,
+        })
+      if (error) {
+        // Log but don't block the redirect — better to lose telemetry
+        // for one event than break the user's journey to the supplier.
+        console.error('[redirect] click_events insert failed:', error.message, { productId, supplierId })
+      }
+    } catch (e) {
+      console.error('[redirect] click_events insert threw:', e)
+    }
   }
 
   const response = NextResponse.redirect(url)
