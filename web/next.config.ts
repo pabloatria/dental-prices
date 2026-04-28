@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
       { source: '/precios', destination: '/categorias', permanent: true },
       { source: '/categorias/matrices-y-cunas', destination: '/categorias/matrices-cunas', permanent: true },
       { source: '/categorias/pernos-y-postes', destination: '/categorias/pernos-postes', permanent: true },
+      // Cannibalization fix (Apr 28 audit P0): the category page and
+      // /precios/resina-compuesta were both index,follow self-canonical and
+      // competing for `resina dental precio chile`. Old page held the
+      // historical signal (pos 34) while the new dedicated price page got
+      // 0 GSC impressions for the query. 301 transfers ~95% of equity to
+      // the better SERP asset (Product + AggregateOffer + FAQPage schema).
+      { source: '/categorias/resinas-compuestas', destination: '/precios/resina-compuesta', permanent: true },
     ]
   },
   async headers() {
