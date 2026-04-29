@@ -224,6 +224,24 @@ const CATEGORY_FAQS: Record<string, Array<{ q: string; a: string }>> = {
       a: 'El atacador de gutapercha es el instrumento usado para la condensación vertical de los conos de gutapercha durante la obturación endodóntica. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación con control táctil, el estándar para técnicas mixtas y volumen moderado. Los sistemas automatizados (Calamus, Elements IC, Beefill, Fast Pack Pro) estandarizan la temperatura del plugger downpack y aceleran el flujo en clínicas con alto volumen de casos.',
     },
   ],
+  'cementos-adhesivos': [
+    {
+      q: '¿Cuál es el mejor adhesivo dental para resinas compuestas en Chile?',
+      a: 'Los adhesivos universales (Scotchbond Universal, Tetric N-Bond Universal, Adhese Universal, G-Premio Bond) son la opción más usada en Chile porque permiten tanto técnica de grabado total como autograbado, simplificando el flujo clínico. La elección entre marcas se decide por concentración de 10-MDP, evidencia clínica longitudinal y precio por aplicación. DentalPrecios compara los precios de cada marca entre +70 distribuidores chilenos en tiempo real.',
+    },
+    {
+      q: '¿Cuánto cuesta un adhesivo dental en Chile?',
+      a: 'El precio de un adhesivo dental en Chile varía entre $9.900 y $120.000 CLP según marca, formato (frasco, jeringa, unidosis) y volumen. Los adhesivos universales como Scotchbond Universal van de $9.900 a $55.800; los self-etch como Clearfil SE Bond entre $33.700 y $101.000; y los etch-and-rinse de tres pasos como Optibond FL pueden superar los $100.000 en kit completo. Para el mismo SKU, la diferencia entre el distribuidor más caro y el más barato puede superar el 100%.',
+    },
+    {
+      q: '¿Qué diferencia hay entre cemento dental y adhesivo dental?',
+      a: 'El adhesivo dental es un sistema químico que une el material restaurador (resina, cerámica, metal) a la estructura dentaria, formando una capa híbrida con la dentina o esmalte. El cemento dental, en cambio, es un material de fijación usado para cementar restauraciones indirectas (coronas, puentes, postes, brackets). Los más usados en Chile son el cemento de resina autoadhesiva (RelyX Unicem, Panavia SA), el ionómero de vidrio modificado con resina y el cemento de fosfato de zinc.',
+    },
+    {
+      q: '¿Cuál es el mejor cemento dental para coronas de zirconio?',
+      a: 'Para coronas de zirconio en Chile, los cementos autoadhesivos de resina (RelyX Unicem 2, Panavia SA Cement Universal, BisCem) son la opción más documentada clínicamente. Para retención adicional o pilares de implantes, el cemento de resina dual con primer cerámico ofrece la mejor adhesión a la cara interna del zirconio. La elección final depende de la situación clínica, el flujo de trabajo del operador y la disponibilidad del cemento entre los distribuidores activos.',
+    },
+  ],
 }
 
 // Long-form editorial content for high-priority categories (300–400 words, H2-structured)
@@ -265,6 +283,34 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
     {
       heading: 'Gutapercha, selladores y puntas de papel: consumibles de alto turnover',
       body: 'Los conos de gutapercha (Dentsply Protaper, VDW Reciproc, Meta Biomed) y los selladores endodónticos (AH Plus, MTA Fillapex, BC Sealer, Sealapex) son consumibles que se pedidos mensualmente en clínicas activas. Los precios unitarios parecen bajos, pero el consumo acumulado los convierte en una línea presupuestaria relevante. Las puntas de papel estériles absorbentes se consumen al ritmo del volumen de casos y tienen variación significativa de precio entre distribuidores, el mismo producto puede costar 30–40% más en uno u otro. Comparar antes de pedir es la diferencia entre gastar con intención y gastar por inercia.',
+    },
+  ],
+  'cementos-adhesivos': [
+    {
+      heading: 'Sistemas adhesivos: generaciones y técnica',
+      body: 'Los adhesivos dentales modernos se agrupan en tres familias clínicas. Etch-and-rinse de tres pasos (Optibond FL es el referente) sigue siendo el estándar de oro para casos donde la longevidad importa: indirectos cementados con resina, postes intrarradiculares, reconstrucciones extensas. Self-etch de dos pasos (Clearfil SE Bond 2) cubre la mayoría de las restauraciones directas posteriores con menor sensibilidad postoperatoria y técnica más perdonadora. Universales (Scotchbond Universal, Tetric N-Bond Universal, Adhese Universal, G-Premio Bond, All-Bond Universal) ofrecen la versatilidad de servir tanto en grabado total como autograbado, ideal para clínicas con flujo mixto. La presencia de 10-MDP en concentración funcional es lo que justifica el diferencial de precio entre marcas, no el packaging. Compatibilidad clínica con [composite y resinas](/precios/resina-compuesta) es el factor de decisión final.',
+    },
+    {
+      heading: 'Cementos: tipos y aplicación clínica',
+      body: 'Los cementos de resina autoadhesivos (RelyX Unicem 2, Panavia SA Cement Universal, BisCem) son la primera elección para luting de coronas y puentes en restauraciones indirectas, especialmente sobre zirconio. El ionómero de vidrio modificado con resina mantiene su lugar en cementación provisional, ortodoncia y restauraciones pediátricas por su liberación de flúor y baja sensibilidad técnica. El fosfato de zinc, aunque histórico, sigue indicado en bandas ortodónticas y postes metálicos cuando no se requiere adhesión química. Los cementos provisionales (Tempbond NE, Freegenol) son consumibles puros donde el precio por aplicación domina sobre cualquier diferencial técnico. Filtra por marca, tipo de fragua o formato para encontrar el menor precio entre los más de 70 distribuidores chilenos en este catálogo.',
+    },
+  ],
+  'equipamiento': [
+    {
+      heading: 'Equipamiento dental clínico: criterios de inversión',
+      body: 'El equipamiento dental es la única línea de inversión donde el costo total supera $5–10 millones de CLP por consultorio nuevo, y donde elegir mal hipoteca diez años de operación. Sillones, autoclaves, lámparas de fotocurado, ultrasonido y unidades odontológicas de marcas como Gnatus, KaVo, A-dec, NSK y Woodpecker definen el estándar profesional en Chile. La diferencia entre la gama económica y la premium no siempre se justifica clínicamente, pero la diferencia entre dos distribuidores para el MISMO equipo casi siempre vale la pena revisar antes de firmar. Compara precios de equipamiento, accesorios dentales y repuestos originales entre los principales distribuidores activos en Chile, con datos actualizados diariamente y filtros por marca, modelo y rango de precio.',
+    },
+  ],
+  'goma-dique': [
+    {
+      heading: 'Aislamiento absoluto: goma dique, clamps y técnica',
+      body: 'La goma dique es la diferencia entre operar con campo seco controlado y operar con humedad e interferencia. Los kits de aislamiento incluyen láminas (Hygenic, Coltene Sanctuary, Nic Tone), arcos de Young, perforadores, pinzas portaclamps y clamps específicos por pieza. La elección del clamp por número (W8A para molares, W56 para premolares, B4 para anteriores) define la retención efectiva. Los grosores de goma (medium, heavy, extra heavy) ajustan elasticidad y resistencia al desgarro. En Chile el catálogo de aislamiento cubre marcas como Coltene, Sanctuary y Hu-Friedy, con precios que varían entre distribuidores incluso para el mismo número de clamp y la misma marca de goma. Comparar antes del próximo pedido es la diferencia entre stock racional y sobrecosto invisible.',
+    },
+  ],
+  'sillones-dentales': [
+    {
+      heading: 'Sillones dentales: marcas, especificaciones y precio en Chile',
+      body: 'El sillón dental es la pieza central de cualquier consultorio y la inversión más visible del setup clínico. En Chile las marcas con presencia consolidada son Gnatus (brasileña, gama media-alta), KaVo (alemana, premium con respaldo técnico amplio), A-dec (americana, segmento alto), Fengdan y Woson (chinas, segmento económico-medio con calidad creciente). Los criterios de elección que importan: tipo de motor (eléctrico vs. neumático), número de jeringas y manguitos, taburete incluido, sistema de iluminación LED integrado, ergonomía del paciente y servicio técnico disponible localmente. El precio de un sillón nuevo va desde aproximadamente $4–6 millones de CLP en gama económica hasta sobre $15 millones en sillones premium con configuración completa. Compara modelos, accesorios y precios entre los distribuidores activos en Chile antes de cerrar la decisión más cara del setup.',
     },
   ],
 }
