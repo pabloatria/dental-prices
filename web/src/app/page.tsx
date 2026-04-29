@@ -208,6 +208,35 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Featured comparator link — boosts inbound signal to /precios/resina-compuesta
+          per Apr 28 audit (cannibalization fix). Resinas is the largest commercial
+          category by search volume, deserves a dedicated home-page surface. */}
+      <section className="py-8 px-4">
+        <div className="max-w-5xl mx-auto">
+          <Link
+            href="/precios/resina-compuesta"
+            className="block rounded-2xl border border-border bg-card hover:bg-accent/30 hover:border-primary/30 transition-colors p-6 sm:p-8"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
+                  Comparativa destacada
+                </p>
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1">
+                  Resina compuesta: precios en Chile 2026
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Compara precios de Filtek, Tetric, Charisma y más entre +70 distribuidores activos.
+                </p>
+              </div>
+              <span className="shrink-0 text-primary font-semibold text-sm">
+                Ver precios →
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
       {/* Categories */}
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">

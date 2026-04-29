@@ -11,12 +11,12 @@ const BASE_URL = 'https://www.dentalprecios.cl'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Limas de Endodoncia: Precio en Chile 2026: Compara Sistemas',
+  title: 'Limas de Endodoncia: Precios Chile 2026',
   description:
     'Precios de limas de endodoncia en Chile: ProTaper, WaveOne, Reciproc, HyFlex, K-files, Hedstrom. Compara sistemas rotatorios, reciprocantes y manuales entre distribuidores.',
   alternates: { canonical: `${BASE_URL}/precios/limas-endodoncia` },
   openGraph: {
-    title: 'Limas de Endodoncia: Precio en Chile 2026: Compara Sistemas',
+    title: 'Limas de Endodoncia: Precios Chile 2026',
     description:
       'Precios de limas rotatorias, reciprocantes y manuales en Chile. ProTaper, WaveOne, Reciproc, HyFlex, K-files, Hedstrom comparados entre distribuidores.',
     url: `${BASE_URL}/precios/limas-endodoncia`,

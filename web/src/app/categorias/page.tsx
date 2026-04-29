@@ -73,9 +73,28 @@ export default async function CategoriesPage() {
       </nav>
 
       <h1 className="text-2xl font-bold text-foreground mb-2">Todas las categorías</h1>
-      <p className="text-muted-foreground mb-8">
+      <p className="text-muted-foreground mb-6">
         Explora nuestras {categories?.length || 0} categorías de productos dentales
       </p>
+
+      {/* Featured price-comparison page — boosts inbound link signal to
+          /precios/resina-compuesta (largest commercial category by volume) */}
+      <Link
+        href="/precios/resina-compuesta"
+        className="block mb-8 rounded-xl border border-primary/30 bg-primary/5 hover:bg-primary/10 hover:border-primary/50 transition-colors px-5 py-4"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-foreground">
+              Comparativa destacada: Resina compuesta
+            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Precios de Filtek, Tetric y todas las marcas comparados entre +70 distribuidores chilenos.
+            </p>
+          </div>
+          <span className="text-sm text-primary font-medium shrink-0">Ver precios →</span>
+        </div>
+      </Link>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {categories?.map((cat) => {

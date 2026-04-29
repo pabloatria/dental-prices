@@ -25,7 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
     .eq('category_id', category?.id || '')
 
   const productCount = count || 0
-  const title = 'Resina Compuesta: Precios en Chile 2026 | Dentalprecios'
+  // Title gets " | DentalPrecios" appended by the global template (16 chars).
+  // Keep the page-side title under ~44 chars to land under Google's pixel cap.
+  const title = 'Resina Compuesta: Precios Chile 2026'
   const description = 'Compara precios de resina compuesta en Chile entre +70 proveedores. Actualizado en tiempo real. ¿Cuánto cuesta una resina dental en 2026?'
 
   return {

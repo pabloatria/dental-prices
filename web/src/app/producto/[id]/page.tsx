@@ -36,7 +36,16 @@ export async function generateMetadata({
   if (!product) return {}
 
   const brandText = product.brand ? ` ${product.brand}` : ''
-  const title = `${product.name}${brandText}, Comparar precios en Chile`
+  // Title budget: 55 chars total, minus the global template " | DentalPrecios"
+  // appended in app/layout.tsx (16 chars) = 39 chars max for the page-side
+  // title. Truncate at 36 chars + ellipsis when needed. Drop the previous
+  // ", Comparar precios en Chile" suffix — it was eating ~28 chars on every
+  // product page and pushing combined titles to 80–100 chars (Apr 28 audit
+  // flagged 8,321 URLs with "title too long" warnings).
+  const TITLE_BUDGET = 39
+  const rawTitle = `${product.name}${brandText}`.trim()
+  const title =
+    rawTitle.length > TITLE_BUDGET ? `${rawTitle.slice(0, TITLE_BUDGET - 1).trimEnd()}…` : rawTitle
   const description = `Compara precios de ${product.name}${brandText} entre múltiples proveedores dentales en Chile. Encuentra el precio más bajo y ahorra en tu compra.`
   const url = `${BASE_URL}/producto/${id}`
 

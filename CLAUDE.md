@@ -8,6 +8,24 @@ Project-specific rules that override or extend `~/.claude/CLAUDE.md`.
 
 DentalPrecios is a price-comparison platform for dental supplies in Chile. The site lets dentists compare 22,000+ products across 40+ suppliers, with prices updated daily by a Python scraper fleet. Domain: `dentalprecios.cl`. Primary user: Chilean dentists in private practice. Secondary: dental distributors who want B2B visibility. LATAM expansion (Mexico, Colombia, Peru, Argentina) is planned but not built. **Chile-only until further notice.**
 
+### Active competitors (Chile)
+
+These are the sites future SEO/competitive-intelligence work should target. Last reviewed Apr 29, 2026.
+
+| Site | Why it's relevant |
+|---|---|
+| `nexodental.cl` | E-commerce dental retailer, ranks on long-tail product queries. Outstanding gap analysis since Apr 7. |
+| `comparedental.cl` | Closest direct competitor. Dual-domain (root + `web.comparedental.cl`). Query-string URLs, no programmatic /precios layer, no FAQ schema. Structurally non-competitive on programmatic SEO but holds ranking on legacy product permalinks. |
+| `curaprox.cl` | Brand-direct retail. Dominant on `curaprox` brand-navigational queries. |
+| `dentalpluschile.cl` | Mid-market e-commerce, supplies a long-tail set we don't yet cover. |
+| `mercadolibre.cl` | Marketplace overlap on hyper-specific product queries (Filtek, Ambar, etc.). Dominant on consumer-adjacent searches. |
+| `dentaprecio.cl` | **Reclassified Apr 29: monitor 1x/quarter only.** 1 indexed page (`/blog/mejores-marcas-implantes-chile`). Effectively dead in CL SERPs. |
+
+**Dropped from competitor list (Apr 29 audit):**
+
+- `2x3.cl` — general services marketplace, zero dental coverage. Not in vertical.
+- `dentalmarket.cl` — unreachable on direct fetch, doesn't appear in any sampled SERPs. Re-evaluate post-May 1 Ahrefs reset; drop entirely if DR < 5 and < 50 ranking keywords.
+
 ---
 
 ## Repo layout

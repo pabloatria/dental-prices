@@ -11,12 +11,12 @@ const BASE_URL = 'https://www.dentalprecios.cl'
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: 'Implantes Dentales: Precio en Chile 2026: Compara Marcas',
+  title: 'Implantes Dentales: Precios Chile 2026',
   description:
     '¿Cuánto cuesta un implante dental en Chile? Compara precios de implantes, pilares protésicos, kits quirúrgicos y biomateriales entre distribuidores chilenos. Actualizado abril 2026.',
   alternates: { canonical: `${BASE_URL}/precios/implantes-dentales` },
   openGraph: {
-    title: 'Implantes Dentales: Precio en Chile 2026: Compara Marcas',
+    title: 'Implantes Dentales: Precios Chile 2026',
     description:
       '¿Cuánto cuesta un implante dental en Chile? Compara precios de implantes, pilares, kits quirúrgicos y biomateriales entre distribuidores chilenos.',
     url: `${BASE_URL}/precios/implantes-dentales`,
