@@ -199,7 +199,7 @@
 
 ### Alta prioridad (alto search intent + diferenciador)
 - **Escáner intraoral: iTero vs Medit vs CEREC — precios y prestaciones en Chile** (big ticket, high intent)
-- **Sistemas de implantes: Nobel vs Straumann vs MegaGen/Osstem — precios en Chile** (huge market)
+- **Sistemas de implantes: Nobel vs Straumann vs MegaGen/Hiossen — precios en Chile** (huge market)
 - **Autoclave para consultorio dental: guía de compra Chile** (practical, high purchase intent)
 
 ### Media prioridad (buen contenido, menor urgencia)

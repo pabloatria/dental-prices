@@ -201,7 +201,7 @@ export default async function ImplantesPreciosPage({
     category: 'Implantes dentales',
     brand: {
       '@type': 'Brand',
-      name: 'Straumann, Nobel Biocare, Neodent, Osstem, MegaGen, MIS, BioHorizons y más',
+      name: 'Straumann, Nobel Biocare, Neodent, Hiossen, MegaGen, MIS, BioHorizons y más',
     },
     offers: {
       '@type': 'AggregateOffer',
@@ -278,7 +278,7 @@ export default async function ImplantesPreciosPage({
         name: '¿Qué marcas de implantes dentales hay en Chile?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Las principales marcas disponibles en Chile son: Straumann (Suiza, premium), Nobel Biocare (Suecia/EE.UU., premium), Neodent (Brasil, grupo Straumann, gama media), Osstem (Corea, alto volumen), MegaGen (Corea, superficie SLA premium), MIS (Israel), BioHorizons (EE.UU.), BTI (España), S.I.N. (Brasil) y Adin (Israel). Cada una con distribuidores autorizados locales. Los precios varían significativamente entre sistemas, un implante premium puede costar 3-4 veces más que un sistema coreano o brasileño con literatura clínica comparable.',
+          text: 'Las principales marcas disponibles en Chile son: Straumann (Suiza, premium), Nobel Biocare (Suecia/EE.UU., premium), Neodent (Brasil, grupo Straumann, gama media), Hiossen (EE.UU./Corea del Sur, alto volumen; marca con la que Osstem Implant Co. opera en Chile), MegaGen (Corea, superficie SLA premium), MIS (Israel), BioHorizons (EE.UU.), BTI (España), S.I.N. (Brasil) y Adin (Israel). Cada una con distribuidores autorizados locales. Los precios varían significativamente entre sistemas, un implante premium puede costar 3-4 veces más que un sistema coreano o brasileño con literatura clínica comparable.',
         },
       },
       {
@@ -444,7 +444,7 @@ export default async function ImplantesPreciosPage({
             El rango de precio varía significativamente entre sistemas. Marcas premium como
             Straumann y Nobel Biocare se posicionan en el extremo superior, con fixtures que parten
             sobre los $150.000 CLP y pilares protésicos sobre los $80.000 CLP. Marcas coreanas
-            (Osstem, MegaGen, Hiossen) y brasileñas (Neodent, S.I.N.) ofrecen alternativas entre 40
+            (Hiossen, MegaGen) y brasileñas (Neodent, S.I.N.) ofrecen alternativas entre 40
             y 60% más económicas con literatura clínica comparable a mediano plazo.
           </p>
           <p>
