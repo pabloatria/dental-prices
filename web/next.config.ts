@@ -26,6 +26,9 @@ const nextConfig: NextConfig = {
       // 0 GSC impressions for the query. 301 transfers ~95% of equity to
       // the better SERP asset (Product + AggregateOffer + FAQPage schema).
       { source: '/categorias/resinas-compuestas', destination: '/precios/resina-compuesta', permanent: true },
+      // Brand correction (Apr 30): post shipped briefly with "Osstem" before
+      // Pablo flagged that the Chilean market name is Hiossen. Slug renamed.
+      { source: '/blog/implantes-straumann-nobel-neodent-osstem-chile-2026', destination: '/blog/implantes-straumann-nobel-neodent-hiossen-chile-2026', permanent: true },
     ]
   },
   async headers() {
