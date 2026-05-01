@@ -13,47 +13,37 @@ export interface OfferItem {
   product_url: string
 }
 
+/**
+ * Fetch active ofertas via the `get_latest_offers_distinct` RPC.
+ *
+ * Why an RPC: the previous implementation used
+ * `.from('prices').limit(500)` then deduped (product_id, supplier_id) in JS.
+ * That capped the input at 500 raw rows BEFORE dedup, so the rendered count
+ * never exceeded ~250-380 regardless of how many ofertas the catalog held.
+ * The RPC does `DISTINCT ON (product_id, supplier_id) ORDER BY scraped_at
+ * DESC` server-side over the full prices table, applies the discount
+ * threshold against active suppliers + valid products, and returns ranked
+ * results so the only ceiling is `limit`.
+ */
 export async function fetchActiveOffers(
   supabase: SupabaseClient,
-  limit = 500
+  limit = 1000
 ): Promise<OfferItem[]> {
-  const { data } = await supabase
-    .from('prices')
-    .select(`
-      product_id,
-      supplier_id,
-      price,
-      original_price,
-      product_url,
-      scraped_at,
-      products!inner ( id, name, brand, image_url ),
-      suppliers!inner ( id, name )
-    `)
-    .not('original_price', 'is', null)
-    .gt('original_price', 0)
-    .order('scraped_at', { ascending: false })
-    .limit(limit)
-
-  const seen = new Set<string>()
-  return ((data || []) as any[])
-    .filter(row => {
-      const key = `${row.product_id}:${row.supplier_id}`
-      if (seen.has(key)) return false
-      seen.add(key)
-      return true
-    })
-    .filter(row => row.original_price > row.price * 1.10)
-    .map(row => ({
-      product_id: row.product_id,
-      supplier_id: row.supplier_id,
-      product_name: row.products.name,
-      brand: row.products.brand ?? null,
-      image_url: row.products.image_url ?? null,
-      price: row.price as number,
-      original_price: row.original_price as number,
-      discount_pct: Math.round(((row.original_price - row.price) / row.original_price) * 100),
-      supplier_name: row.suppliers.name,
-      product_url: (row.product_url as string) || '',
-    }))
-    .sort((a, b) => b.discount_pct - a.discount_pct)
+  const { data, error } = await supabase.rpc('get_latest_offers_distinct', {
+    min_discount_pct: 10,
+    max_count: limit,
+  })
+  if (error || !data) return []
+  return (data as any[]).map((row) => ({
+    product_id: row.product_id,
+    supplier_id: row.supplier_id,
+    product_name: row.product_name,
+    brand: row.brand ?? null,
+    image_url: row.image_url ?? null,
+    price: row.price,
+    original_price: row.original_price,
+    discount_pct: row.discount_pct,
+    supplier_name: row.supplier_name,
+    product_url: row.product_url ?? '',
+  }))
 }
