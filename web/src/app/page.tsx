@@ -59,7 +59,14 @@ const orgWebsiteSchema = {
   ],
 }
 
-const faqSchema = {
+// FAQ schema is built per-request so the product count stays in sync with
+// the live catalog. Hardcoding undermines AI/SERP positioning when DB grows.
+function buildFaqSchema(productCount: number, supplierCount: number) {
+  // Round down to nearest 100 so the number reads cleanly and doesn't go
+  // stale within a single ISR window.
+  const roundedProducts = Math.floor(productCount / 100) * 100
+  const formattedProducts = new Intl.NumberFormat('es-CL').format(roundedProducts)
+  return {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
@@ -84,7 +91,7 @@ const faqSchema = {
       name: '¿Cuántos productos y proveedores comparan?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Actualmente comparamos más de 7.800 productos de insumos dentales entre los principales proveedores de Chile, incluyendo Techdent, MayorDent, Dentobal, DentalStore, Depodental y más.',
+        text: `Actualmente comparamos más de ${formattedProducts} productos de insumos dentales entre ${supplierCount} proveedores activos en Chile, incluyendo Techdent, MayorDent, Dentobal, DentalStore, Depodental y más.`,
       },
     },
     {
@@ -120,6 +127,7 @@ const faqSchema = {
       },
     },
   ],
+  }
 }
 
 export default async function Home() {
@@ -170,7 +178,11 @@ export default async function Home() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            buildFaqSchema(productCount ?? 0, suppliers?.length ?? 0)
+          ),
+        }}
       />
       <HeroSection
         productCount={productCount || 0}

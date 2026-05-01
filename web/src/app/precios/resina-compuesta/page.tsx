@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createPublicClient } from '@/lib/supabase/public'
-import { formatCLP, aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
+import { formatCLP, fetchLatestPricesForProducts, buildProductsWithPrices } from '@/lib/queries/products'
 import { OFFER_SHIPPING_DETAILS_CL, MERCHANT_RETURN_POLICY_CL } from '@/lib/schema-offer-policies'
 import ProductCard from '@/components/ProductCard'
 import SortSelect from '@/components/filters/SortSelect'
@@ -70,16 +70,11 @@ export default async function ResinaPreciosPage({
     .eq('category_id', category.id)
     .order('name')
 
-  // Fetch latest prices with supplier info
+  // Fetch latest prices via RPC. Direct `.in('product_id', ids).order(...)`
+  // hits PostgREST's 1000-row cap and silently truncates over big categories
+  // (resinas: 653 products × multiple historical prices = >>1000 rows).
   const productIds = (products || []).map((p) => p.id)
-  const { data: allPrices } = await supabase
-    .from('prices')
-    .select('*, supplier:suppliers(*)')
-    .in('product_id', productIds)
-    .order('scraped_at', { ascending: false })
-
-  const filteredPrices = (allPrices || []).filter((p: any) => p.supplier?.active !== false)
-  const latestPrices = aggregateLatestPrices(filteredPrices)
+  const latestPrices = await fetchLatestPricesForProducts(supabase, productIds)
   let productsWithPrices = buildProductsWithPrices(products || [], latestPrices)
     .filter((p) => p.lowest_price > 0)
 

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createPublicClient } from '@/lib/supabase/public'
-import { formatCLP, aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
+import { formatCLP, fetchLatestPricesForProducts, buildProductsWithPrices } from '@/lib/queries/products'
 import { OFFER_SHIPPING_DETAILS_CL, MERCHANT_RETURN_POLICY_CL } from '@/lib/schema-offer-policies'
 import ProductCard from '@/components/ProductCard'
 import SortSelect from '@/components/filters/SortSelect'
@@ -119,14 +119,8 @@ export default async function LimasEndodonciaPage({
   const limaProducts = (products || []).filter((p) => classifyLima(p.name))
   const productIds = limaProducts.map((p) => p.id)
 
-  const { data: allPrices } = await supabase
-    .from('prices')
-    .select('*, supplier:suppliers(*)')
-    .in('product_id', productIds)
-    .order('scraped_at', { ascending: false })
-
-  const filteredPrices = (allPrices || []).filter((p: any) => p.supplier?.active !== false)
-  const latestPrices = aggregateLatestPrices(filteredPrices)
+  // RPC bypasses PostgREST 1000-row cap on `.in('product_id', ids)`.
+  const latestPrices = await fetchLatestPricesForProducts(supabase, productIds)
   const productsWithPrices = buildProductsWithPrices(limaProducts, latestPrices)
     .filter((p) => p.lowest_price > 0)
 
