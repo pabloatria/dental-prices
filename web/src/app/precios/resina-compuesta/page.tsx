@@ -218,7 +218,7 @@ export default async function ResinaPreciosPage({
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Precios', item: `${BASE_URL}/precios` },
+      { '@type': 'ListItem', position: 2, name: 'Categorías', item: `${BASE_URL}/categorias` },
       { '@type': 'ListItem', position: 3, name: 'Resinas Compuestas', item: `${BASE_URL}/precios/resina-compuesta` },
     ],
   })
@@ -236,9 +236,7 @@ export default async function ResinaPreciosPage({
         <span className="mx-2">/</span>
         <Link href="/categorias" className="hover:text-foreground">Categorías</Link>
         <span className="mx-2">/</span>
-        <Link href="/categorias/resinas-compuestas" className="hover:text-foreground">Resinas Compuestas</Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground">Precios</span>
+        <span className="text-foreground">Resinas Compuestas</span>
       </nav>
 
       {/* Header */}
@@ -315,10 +313,10 @@ export default async function ResinaPreciosPage({
             ¿Ionómero o resina? Guía clínica →
           </Link>
           <Link
-            href="/categorias/resinas-compuestas"
+            href="/categorias"
             className="text-sm text-primary hover:underline"
           >
-            Ver catálogo completo →
+            Ver todas las categorías →
           </Link>
         </div>
       </section>

@@ -100,10 +100,17 @@ export default async function CategoriesPage() {
         {categories?.map((cat) => {
           const Icon = getCategoryIcon(cat.slug)
           const productCount = counts.get(cat.id) || 0
+          // Resinas-compuestas resolves to /precios/resina-compuesta via 308.
+          // Linking direct on this most-trafficked nav surface removes the redirect
+          // hop and avoids leaking signal to the deprecated slug.
+          const href =
+            cat.slug === 'resinas-compuestas'
+              ? '/precios/resina-compuesta'
+              : `/categorias/${cat.slug}`
           return (
             <Link
               key={cat.id}
-              href={`/categorias/${cat.slug}`}
+              href={href}
               className="group flex flex-col items-center gap-3 p-6 bg-card rounded-xl border border-border hover:shadow-md hover:border-primary/20 transition-all text-center"
             >
               <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary/5 to-primary/15 flex items-center justify-center group-hover:from-primary/10 group-hover:to-primary/25 transition-colors">

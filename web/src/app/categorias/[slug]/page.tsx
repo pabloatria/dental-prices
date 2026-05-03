@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 import { createPublicClient } from '@/lib/supabase/public'
 import { notFound, redirect } from 'next/navigation'
 import { aggregateLatestPrices, buildProductsWithPrices } from '@/lib/queries/products'
@@ -7,6 +8,29 @@ import ProductCard from '@/components/ProductCard'
 import FilterPanel from '@/components/filters/FilterPanel'
 import MobileFilterSheet from '@/components/filters/MobileFilterSheet'
 import SortSelect from '@/components/filters/SortSelect'
+
+// Render inline `[anchor text](/internal/url)` markdown-style links inside a
+// prose block as <Link>. Plain text passes through untouched. Only internal
+// hrefs (starting with '/') are linkified — anything else is kept literal.
+function renderInlineLinks(text: string): ReactNode {
+  const pattern = /\[([^\]]+)\]\((\/[^)]+)\)/g
+  const matches = Array.from(text.matchAll(pattern))
+  if (matches.length === 0) return text
+  const out: ReactNode[] = []
+  let last = 0
+  for (const m of matches) {
+    const start = m.index ?? 0
+    if (start > last) out.push(text.slice(last, start))
+    out.push(
+      <Link key={`${start}-${m[2]}`} href={m[2]} className="text-primary hover:underline">
+        {m[1]}
+      </Link>
+    )
+    last = start + m[0].length
+  }
+  if (last < text.length) out.push(text.slice(last))
+  return out
+}
 
 const BASE_URL = 'https://www.dentalprecios.cl'
 
@@ -115,8 +139,8 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
     h1: 'Goma Dique y Aislamiento: Compara Precios en Chile',
   },
   'implantes': {
-    title: 'Implantes Dentales: Precios Chile',
-    description: (count) => `Compara precios de ${count} productos de implantología en Chile. Implantes, pilares y componentes de Straumann, Neodent, MIS y Bionnovation entre +70 proveedores.`,
+    title: 'Implantes Dentales: Precios Chile 2026',
+    description: (count) => `Compara precios de implantes dentales en Chile: Straumann, Nobel Biocare, Neodent, Osstem, MIS y BioHorizons. ${count} productos, +71 proveedores, en tiempo real.`,
     h1: 'Implantes Dentales: Compara Precios en Chile',
   },
   'instrumental': {
@@ -135,8 +159,8 @@ const CATEGORY_SEO: Record<string, { title: string; description: (count: number)
     h1: 'Laboratorio Dental: Compara Precios en Chile',
   },
   'lupas-lamparas': {
-    title: 'Lupas y Lámparas Dentales Chile',
-    description: (count) => `Compara precios de ${count} lupas y lámparas dentales en Chile. Lupas binoculares, LED frontales de Zumax, Univet y Orascoptic entre +70 proveedores.`,
+    title: 'Lupas y Lámparas Dentales: Chile 2026',
+    description: (count) => `Lupas dentales y odontológicas: compara precios en Chile entre +71 proveedores. Zumax, Univet, Orascoptic, Designs for Vision. ${count} productos en tiempo real.`,
     h1: 'Lupas y Lámparas Dentales: Compara Precios en Chile',
   },
   'materiales-impresion': {
@@ -246,6 +270,46 @@ const CATEGORY_FAQS: Record<string, Array<{ q: string; a: string }>> = {
       a: 'Para coronas de zirconio en Chile, los cementos autoadhesivos de resina (RelyX Unicem 2, Panavia SA Cement Universal, BisCem) son la opción más documentada clínicamente. Para retención adicional o pilares de implantes, el cemento de resina dual con primer cerámico ofrece la mejor adhesión a la cara interna del zirconio. La elección final depende de la situación clínica, el flujo de trabajo del operador y la disponibilidad del cemento entre los distribuidores activos.',
     },
   ],
+  'implantes': [
+    {
+      q: '¿Qué implante dental elegir en Chile?',
+      a: 'La elección entre Straumann, Nobel Biocare, Neodent, Osstem, MIS o BioHorizons depende de cuatro factores clínicos: plataforma protésica, superficie del implante, indicación (carga inmediata vs diferida) y compatibilidad con el sistema de aditamentos que ya usas en consulta. La diferencia de precio entre marcas premium y mid-tier en Chile es de 2 a 3 veces, pero la diferencia clínica para el operador entrenado es marginal en la mayoría de los casos. DentalPrecios compara precios entre los más de 70 proveedores chilenos en tiempo real.',
+    },
+    {
+      q: '¿Cuál es la diferencia entre Straumann y Neodent?',
+      a: 'Straumann y Neodent pertenecen al mismo grupo (Straumann Group). Straumann es la línea premium con superficie SLActive y conexión Bone Level Tapered (BLT); Neodent es la línea profesional value-tier con superficie Acqua y plataformas Drive y Helix. Comparten estándares de fabricación y trazabilidad, pero el precio de Straumann en Chile suele ser entre 1.8 y 2.4 veces el de Neodent para indicaciones equivalentes. La elección depende del flujo clínico, no de la calidad.',
+    },
+    {
+      q: '¿Cuánto cuesta un implante dental en Chile?',
+      a: 'El precio de un implante dental (fixture, sin aditamentos) en Chile depende de la marca, el diámetro, la longitud y el proveedor. Las marcas premium (Straumann, Nobel Biocare) ocupan el rango alto; las mid-tier (Neodent, Osstem, MIS, BioHorizons) el rango medio; las value (MegaGen, Bicon) el rango bajo. La diferencia entre el distribuidor más caro y el más barato para el mismo SKU puede superar el 60%. Compara precios actualizados en DentalPrecios.',
+    },
+    {
+      q: '¿Qué necesito comprar además del implante?',
+      a: 'Cada caso requiere al menos cuatro componentes adicionales al fixture: pilar protésico (abutment) compatible con la plataforma del implante, tornillo de cicatrización (healing abutment), tornillo protésico definitivo y, según el flujo, un cofre de impresión o scan body. El costo del componente protésico suele igualar o superar el del fixture en marcas premium. Los kits quirúrgicos son una compra inicial separada, pregunta al distribuidor si el sistema viene con préstamo o requiere compra dedicada.',
+    },
+    {
+      q: '¿Los implantes dentales en Chile tienen garantía?',
+      a: 'Las marcas premium internacionales (Straumann, Nobel Biocare, Zimmer Biomet, BioHorizons, Neodent) ofrecen garantía de fabricación de por vida del fixture (life-time guarantee) condicionada a registro del paciente y reporte del fabricante. Las marcas mid-tier y value típicamente ofrecen garantía de 5 a 10 años. La garantía cubre el reemplazo del fixture en caso de fractura o falla de fabricación, no el procedimiento clínico. Verifica los términos con el distribuidor chileno antes de la compra, varían por canal.',
+    },
+  ],
+  'lupas-lamparas': [
+    {
+      q: '¿Qué aumento (X) elegir en una lupa dental?',
+      a: 'Para procedimientos restauradores y operatoria general, 2.5x a 3.5x es el rango más usado en Chile (mejor profundidad de campo, menor fatiga). Para endodoncia, periodoncia microquirúrgica y cirugía, 4.5x a 6x ofrece la magnificación necesaria, pero requiere postura más estable y mejor iluminación. La elección depende del procedimiento, no del prestigio del aumento. DentalPrecios compara modelos de Zumax, Univet, Orascoptic y Designs for Vision entre los más de 70 proveedores chilenos.',
+    },
+    {
+      q: '¿Cuánto cuesta una lupa dental en Chile?',
+      a: 'El precio de una lupa dental en Chile depende del aumento, la distancia de trabajo, la marca y si incluye lámpara LED frontal. Las lupas 2.5x a 3.5x de marcas mid-tier ocupan el rango bajo; las 4.5x a 6x con headlight integrado de marcas premium (Orascoptic, Designs for Vision) el rango alto. La diferencia entre distribuidores para el mismo modelo y configuración puede superar el 30%. Compara precios actualizados en DentalPrecios entre los más de 70 proveedores activos.',
+    },
+    {
+      q: '¿Qué diferencia hay entre lupas TTL y lupas Flip-Up?',
+      a: 'Las lupas TTL (Through-The-Lens) tienen los telescopios montados directamente en la lente del armazón. Son más ligeras, más estables y ofrecen mejor campo de visión, pero requieren ajuste personalizado al operador y son menos versátiles si la prescripción cambia. Las Flip-Up llevan los telescopios en una bisagra sobre el armazón. Son más versátiles, mejor para compartir entre operadores y se pueden levantar para descanso visual, pero son más pesadas y el campo de visión es menor. Para uso clínico diario intensivo, TTL; para uso ocasional o multiusuario, Flip-Up.',
+    },
+    {
+      q: '¿Necesito una lámpara LED frontal junto a la lupa?',
+      a: 'Una lámpara LED frontal es prácticamente obligatoria para magnificaciones de 4.5x o superiores. La profundidad de campo se reduce y la iluminación cenital del sillón no alcanza para iluminar adecuadamente el campo magnificado. Para 2.5x a 3.5x es opcional pero altamente recomendable. Las lámparas LED frontales independientes en Chile cuestan entre $180.000 y $900.000 según intensidad (lux), autonomía de batería y temperatura de color. Algunos sistemas premium (Orascoptic, Designs for Vision) integran la lámpara directamente al headset.',
+    },
+  ],
 }
 
 // Long-form editorial content for high-priority categories (300–400 words, H2-structured)
@@ -254,7 +318,7 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
   'lupas-lamparas': [
     {
       heading: 'Qué lupa dental elegir según el procedimiento',
-      body: 'La decisión clínica depende del tipo de trabajo. Para operatoria general, endodoncia convencional y prótesis fija, una lupa de 2.5x a 3.5x ofrece el equilibrio correcto entre campo visual y detalle, suficiente para ver márgenes, ajuste interno y anatomía dentinaria sin perder contexto. Para microendodoncia, cirugía periapical e implantología guiada, los sistemas de 4.5x a 6x permiten identificar istmos, conductos MB2 y desajustes subgingivales que a 2.5x pasan inadvertidos. Las lupas tipo TTL (Through-The-Lens) son más ergonómicas y livianas pero no se ajustan entre usuarios; los sistemas flip-up son más versátiles y permiten compartir el equipo entre clínicos.',
+      body: 'La decisión clínica depende del tipo de trabajo. Para operatoria general, endodoncia convencional y prótesis fija, una lupa de 2.5x a 3.5x ofrece el equilibrio correcto entre campo visual y detalle, suficiente para ver márgenes, ajuste interno y anatomía dentinaria sin perder contexto. Para microendodoncia, cirugía periapical e implantología guiada, los sistemas de 4.5x a 6x permiten identificar istmos, conductos MB2 y desajustes subgingivales que a 2.5x pasan inadvertidos. Las lupas tipo TTL (Through-The-Lens) son más ergonómicas y livianas pero no se ajustan entre usuarios; los sistemas flip-up son más versátiles y permiten compartir el equipo entre clínicos. Para el marco completo de selección, revisa la [guía de lupas en odontología](/blog/lupas-odontologia-chile-2026).',
     },
     {
       heading: 'Magnificación, distancia de trabajo y profundidad de campo',
@@ -262,7 +326,7 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
     },
     {
       heading: 'Marcas disponibles en Chile y rango de precios',
-      body: 'En Chile se distribuyen lupas Zumax (gama media, alta relación calidad/precio), Univet (italianas, sistema óptico refinado), Orascoptic (premium, mayor inversión), ExamVision y Designs for Vision. Los precios de lupas binoculares parten cerca de los $450.000 CLP en configuraciones 2.5x básicas y superan los $2.500.000 CLP en sistemas 4.5x–6x con headlight integrado. Las lámparas LED frontales independientes oscilan entre $180.000 y $900.000 según intensidad (5.000–60.000 lux), autonomía de batería y temperatura de color. En DentalPrecios comparamos las configuraciones disponibles entre los principales proveedores dentales chilenos para que encuentres el equipo que se ajusta a tu flujo clínico y presupuesto.',
+      body: 'En Chile se distribuyen lupas Zumax (gama media, alta relación calidad/precio), Univet (italianas, sistema óptico refinado), Orascoptic (premium, mayor inversión), ExamVision y Designs for Vision. Los precios de lupas binoculares parten cerca de los $450.000 CLP en configuraciones 2.5x básicas y superan los $2.500.000 CLP en sistemas 4.5x–6x con headlight integrado. Las lámparas LED frontales independientes oscilan entre $180.000 y $900.000 según intensidad (5.000–60.000 lux), autonomía de batería y temperatura de color. Para el detalle de modelos por marca con precios actualizados, revisa la [comparativa de lupas y lámparas dentales con precios](/blog/lupas-lamparas-dentales-precio-chile-2026). En DentalPrecios comparamos las configuraciones disponibles entre los principales proveedores dentales chilenos para que encuentres el equipo que se ajusta a tu flujo clínico y presupuesto.',
     },
   ],
   'cad-cam': [
@@ -282,7 +346,7 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
     },
     {
       heading: 'Atacador de gutapercha: manual vs automatizado',
-      body: 'El atacador de gutapercha es una pieza clave en el protocolo de obturación. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación vertical en onda continua o técnica de McSpadden, con control táctil completo, la elección estándar para técnicas mixtas y operadores con volumen moderado. Los sistemas automatizados (Calamus Dual, Elements IC, Beefill 2in1, Fast Pack Pro) aceleran la fase de obturación y estandarizan la temperatura del plugger downpack, críticos en clínicas con flujo alto. La decisión entre manual y automatizado depende del volumen: sobre 10–15 endodoncias semanales, el retorno del sistema automatizado empieza a justificar la inversión. En Chile los atacadores manuales se distribuyen desde $15.000 CLP la unidad, y los sistemas completos de obturación termoplastificada parten sobre $350.000 CLP.',
+      body: 'El [atacador de gutapercha](/producto/f28fd425-22b8-4388-8eaf-7c7357415bfe) es una pieza clave en el protocolo de obturación. Los atacadores manuales (Buchanan, Schilder, Machtou) permiten condensación vertical en onda continua o técnica de McSpadden, con control táctil completo, la elección estándar para técnicas mixtas y operadores con volumen moderado. Los sistemas automatizados (Calamus Dual, Elements IC, Beefill 2in1, Fast Pack Pro) aceleran la fase de obturación y estandarizan la temperatura del plugger downpack, críticos en clínicas con flujo alto. La decisión entre manual y automatizado depende del volumen: sobre 10–15 endodoncias semanales, el retorno del sistema automatizado empieza a justificar la inversión. En Chile los atacadores manuales se distribuyen desde $15.000 CLP la unidad, y los sistemas completos de obturación termoplastificada parten sobre $350.000 CLP.',
     },
     {
       heading: 'Gutapercha, selladores y puntas de papel: consumibles de alto turnover',
@@ -296,7 +360,7 @@ const CATEGORY_EDITORIAL: Record<string, Array<{ heading: string; body: string }
     },
     {
       heading: 'Cementos: tipos y aplicación clínica',
-      body: 'Los cementos de resina autoadhesivos (RelyX Unicem 2, Panavia SA Cement Universal, BisCem) son la primera elección para luting de coronas y puentes en restauraciones indirectas, especialmente sobre zirconio. El ionómero de vidrio modificado con resina mantiene su lugar en cementación provisional, ortodoncia y restauraciones pediátricas por su liberación de flúor y baja sensibilidad técnica. El fosfato de zinc, aunque histórico, sigue indicado en bandas ortodónticas y postes metálicos cuando no se requiere adhesión química. Los cementos provisionales (Tempbond NE, Freegenol) son consumibles puros donde el precio por aplicación domina sobre cualquier diferencial técnico. Filtra por marca, tipo de fragua o formato para encontrar el menor precio entre los más de 70 distribuidores chilenos en este catálogo.',
+      body: 'Los cementos de resina autoadhesivos (RelyX Unicem 2, Panavia SA Cement Universal, BisCem) son la primera elección para luting de coronas y puentes en restauraciones indirectas, especialmente sobre zirconio. El ionómero de vidrio modificado con resina mantiene su lugar en cementación provisional, ortodoncia y restauraciones pediátricas por su liberación de flúor y baja sensibilidad técnica. El fosfato de zinc, aunque histórico, sigue indicado en bandas ortodónticas y postes metálicos cuando no se requiere adhesión química. Los cementos provisionales (Tempbond NE, Freegenol) son consumibles puros donde el precio por aplicación domina sobre cualquier diferencial técnico. Para el detalle clínico por familia adhesiva, revisa la [guía completa de adhesivos dentales en Chile](/blog/adhesivos-dentales-chile-2026); para el panorama de precios por marca, el [análisis de precios de adhesivos](/blog/adhesivos-dentales-precio-chile-2026). Filtra por marca, tipo de fragua o formato para encontrar el menor precio entre los más de 70 distribuidores chilenos en este catálogo.',
     },
   ],
   'equipamiento': [
@@ -341,7 +405,7 @@ const CATEGORY_INTROS: Record<string, string> = {
   'desechables':
     'Compara precios de vasos desechables, eyectores de saliva, baberos, puntas de jeringa triple, rollos de algodón y más. Encuentra insumos desechables de marcas como Cotisen, Premium Plus y TPC entre más de 70 proveedores dentales en Chile. DentalPrecios reúne todos los productos de uso diario que tu consulta necesita para que compares y ahorres en cada compra.',
   'endodoncia':
-    'Encuentra limas endodónticas, conos de gutapercha, selladores de conducto, localizadores de ápice y sistemas rotatorios de marcas como Dentsply Maillefer, VDW, Meta Biomed y FKG. DentalPrecios compara precios de insumos de endodoncia entre más de 70 proveedores en Chile. Accede a limas manuales, limas NiTi, puntas de papel y todo lo que necesitas para el tratamiento de conductos.',
+    'Encuentra [limas endodónticas](/precios/limas-endodoncia), conos de gutapercha, selladores de conducto, localizadores de ápice y sistemas rotatorios de marcas como Dentsply Maillefer, VDW, Meta Biomed y FKG. DentalPrecios compara precios de insumos de endodoncia entre más de 70 proveedores en Chile. Accede a limas manuales, limas NiTi, puntas de papel y todo lo que necesitas para el tratamiento de conductos. Para el panorama del costo material en endodoncia, revisa la [guía de precios de insumos endodónticos](/blog/endodoncia-precios-insumos-chile-2026).',
   'equipamiento':
     'Compara precios de sillones dentales, unidades de trabajo, compresores, autoclaves, lámparas de fotocurado y ultrasonido de marcas como NSK, Woodpecker, Gnatus y KaVo. DentalPrecios reúne más de 70 proveedores en Chile para que encuentres equipamiento odontológico al mejor precio. Desde unidades completas hasta accesorios y repuestos para equipar tu consulta.',
   'evacuacion':
@@ -660,7 +724,7 @@ export default async function CategoryPage({
                 Sobre {category.name.toLowerCase()}
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                {CATEGORY_INTROS[slug]}
+                {renderInlineLinks(CATEGORY_INTROS[slug])}
               </p>
             </section>
           )}
@@ -673,7 +737,7 @@ export default async function CategoryPage({
                     {block.heading}
                   </h2>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    {block.body}
+                    {renderInlineLinks(block.body)}
                   </p>
                 </div>
               ))}
