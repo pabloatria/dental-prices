@@ -27,10 +27,16 @@ export default function CategoryMegaMenu({ categories }: { categories: Category[
       </Link>
       {categories.map((category) => {
         const Icon = getCategoryIcon(category.slug)
+        // Resinas-compuestas resolves to /precios/resina-compuesta via 308.
+        // Linking direct on this site-wide nav surface removes the redirect hop.
+        const href =
+          category.slug === 'resinas-compuestas'
+            ? '/precios/resina-compuesta'
+            : `/categorias/${category.slug}`
         return (
           <Link
             key={category.id}
-            href={`/categorias/${category.slug}`}
+            href={href}
             className="flex items-center gap-1.5 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors whitespace-nowrap"
           >
             <Icon className="w-4 h-4" />
