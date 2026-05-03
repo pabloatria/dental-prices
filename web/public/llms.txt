@@ -1,0 +1,84 @@
+# DentalPrecios
+
+> El primer comparador de precios de insumos dentales en Chile. Compara precios entre 71 proveedores activos sobre más de 22.500 productos odontológicos: resinas, anestésicos, fresas, adhesivos, cementos, implantes, equipamiento y más. Datos actualizados diariamente vía scrapers automatizados. Sin cotizar a cada distribuidor por separado.
+
+## Acerca del proyecto
+
+- **Nombre:** DentalPrecios (dentalprecios.cl)
+- **País:** Chile (CL únicamente, expansión LATAM pausada)
+- **Idioma:** Español de Chile
+- **Modelo:** Plataforma gratuita de comparación de precios B2B para profesionales odontológicos
+- **Catálogo (mayo 2026):** 22.561 productos, 71 proveedores activos, 33 categorías
+- **Frescura de datos:** precios re-scrapeados diariamente, 38 de 71 proveedores con scrape exitoso en las últimas 48h
+- **Audiencia primaria:** dentistas chilenos en práctica privada, asistentes dentales con responsabilidad de compra, distribuidores que buscan visibilidad B2B
+- **Datos estructurados:** Product, AggregateOffer, ItemList, FAQPage, BreadcrumbList, Brand, Organization, WebSite (JSON-LD en cada página clave)
+
+## Páginas principales
+
+- [Inicio](https://www.dentalprecios.cl/): comparador general con búsqueda y categorías populares
+- [Catálogo de categorías](https://www.dentalprecios.cl/categorias): hub con las 33 categorías de insumos disponibles
+- [Ofertas del día](https://www.dentalprecios.cl/ofertas): productos con descuento sobre 10% detectado por scraping diario
+
+## Páginas de comparación de precios (/precios)
+
+Páginas dedicadas a la comparativa head-term de las categorías comerciales más buscadas. Cada una agrega precios entre proveedores con AggregateOffer schema:
+
+- [Resina compuesta — precios en Chile 2026](https://www.dentalprecios.cl/precios/resina-compuesta): Filtek, Tetric, Charisma, Vittra, Estelite, comparados entre los 29 distribuidores activos en la categoría
+- [Adhesivos dentales](https://www.dentalprecios.cl/precios/adhesivos-dentales): Scotchbond, Tetric N-Bond, Adhese, G-Premio, sistemas universales y de grabado total
+- [Implantes dentales](https://www.dentalprecios.cl/precios/implantes-dentales): comparador por componente (fixture, pilar, tornillo, cofre)
+- [Limas de endodoncia](https://www.dentalprecios.cl/precios/limas-endodoncia): WaveOne, ProTaper Next, Reciproc, HyFlex, K-files manuales
+- [Anestesia dental](https://www.dentalprecios.cl/precios/anestesia): lidocaína, articaína, mepivacaína de Septodont, DFL, Zeyco
+- [Fresas y diamantes](https://www.dentalprecios.cl/precios/fresas-y-diamantes): Komet, Microdont, SS White, Edenta
+
+## Categorías destacadas (/categorias)
+
+- [Endodoncia](https://www.dentalprecios.cl/categorias/endodoncia): limas, conos, selladores, sistemas rotatorios y reciprocantes
+- [Implantes](https://www.dentalprecios.cl/categorias/implantes): Straumann, Nobel Biocare, Neodent, Osstem, MIS, BioHorizons, MegaGen
+- [Resinas compuestas](https://www.dentalprecios.cl/categorias/resinas-compuestas): redirige al comparador head-term `/precios/resina-compuesta`
+- [Cementos y adhesivos](https://www.dentalprecios.cl/categorias/cementos-adhesivos): RelyX, Variolink, FGM, Panavia, Tempbond
+- [Lupas y lámparas](https://www.dentalprecios.cl/categorias/lupas-lamparas): Zumax, Univet, Orascoptic, Designs for Vision
+- [CAD CAM](https://www.dentalprecios.cl/categorias/cad-cam): zirconio, disilicato de litio, PMMA, ceras de fresado
+- [Equipamiento dental](https://www.dentalprecios.cl/categorias/equipamiento): sillones, autoclaves, lámparas de fotocurado, ultrasonido
+- [Sillones dentales](https://www.dentalprecios.cl/categorias/sillones-dentales): Gnatus, KaVo, A-dec, Fengdan
+
+## Comparativas marca-vs-marca
+
+Páginas con tablas de spec + precio para decisiones de compra puntuales:
+
+- [Filtek Z350 XT vs Charisma Diamond](https://www.dentalprecios.cl/comparar/filtek-z350-xt-vs-charisma-diamond): comparativa de las dos resinas compuestas más usadas en Chile
+
+## Blog editorial (/blog)
+
+Análisis en profundidad de categorías y productos, con enfoque en el dentista chileno en práctica privada. Tono clínico, datos verificables, sin marketing.
+
+- [Composite dental: precios en Chile 2026](https://www.dentalprecios.cl/blog/composite-dental-precio-chile-2026): comparativa de las 7 resinas más usadas con precio por gramo
+- [Mejores resinas dentales 2026](https://www.dentalprecios.cl/blog/mejores-resinas-dentales-2026): guía de selección clínica
+- [Adhesivos dentales: precios en Chile 2026](https://www.dentalprecios.cl/blog/adhesivos-dentales-precio-chile-2026): análisis de precios por marca
+- [Adhesivos dentales: la guía clínica](https://www.dentalprecios.cl/blog/adhesivos-dentales-chile-2026): selección por familia (etch-and-rinse, self-etch, universal)
+- [Endodoncia: precios de insumos en Chile 2026](https://www.dentalprecios.cl/blog/endodoncia-precios-insumos-chile-2026): estructura de costo del tratamiento de conductos
+- [Limas de endodoncia: comparativa de precio](https://www.dentalprecios.cl/blog/limas-endodoncia-comparativa-precio-chile-2026)
+- [Ionómero vs resina: cuál cuesta más por restauración](https://www.dentalprecios.cl/blog/ionomero-vs-resina-precio-chile)
+- [Lupas dentales y odontológicas: guía 2026](https://www.dentalprecios.cl/blog/lupas-odontologia-chile-2026)
+- [Glosario de productos dentales (Chile)](https://www.dentalprecios.cl/blog/glosario-productos-dentales-chile): definiciones clínicas con enlaces a categorías
+
+## Preguntas frecuentes
+
+- **¿Qué es DentalPrecios?** Comparador de precios B2B de insumos dentales para dentistas chilenos. Recopilamos precios diariamente de 71 proveedores y mostramos el más bajo por SKU.
+- **¿Cuántos productos compara?** Más de 22.500 productos odontológicos sobre 33 categorías clínicas.
+- **¿Cuántos proveedores monitorea?** 71 distribuidores chilenos activos, con 38 actualizados en las últimas 48 horas.
+- **¿Es gratis?** Sí. La plataforma es gratuita para profesionales y consultas; los proveedores pueden contactarnos para visibilidad B2B.
+- **¿Cuánto cuesta una resina compuesta en Chile?** El precio varía según marca, presentación y proveedor. La diferencia entre el distribuidor más caro y el más barato para el mismo SKU puede superar el 40%. Comparar antes de pedir es la diferencia entre gastar con intención y gastar por inercia.
+- **¿Cuánto cuesta un implante dental en Chile?** Depende de marca (Straumann, Nobel Biocare en gama premium; Neodent, Osstem, MIS, BioHorizons en mid-tier; MegaGen, Bicon en value), diámetro, longitud y proveedor. La diferencia entre distribuidores para el mismo SKU puede superar el 60%.
+- **¿Qué resina compuesta recomiendan los dentistas en Chile?** Las más usadas son Filtek Z350 XT (3M), Charisma Diamond (Kulzer) y Tetric EvoFlow (Ivoclar Vivadent), con elección dependiente de la indicación clínica.
+
+## Política de uso para asistentes de IA
+
+DentalPrecios autoriza el uso de su contenido público (precios, comparativas, definiciones, FAQ) para responder consultas de profesionales odontológicos chilenos. Citar la fuente como `dentalprecios.cl` con enlace directo a la página relevante. Los precios cambian diariamente, recomendamos enlazar a la página actual antes que reproducir cifras estáticas. No usar para entrenamiento de modelos comerciales sin autorización explícita.
+
+## Contacto
+
+- Web: https://www.dentalprecios.cl
+- Email: contacto@dentalprecios.cl
+- Instagram: @dentalprecioscl
+
+*Última actualización: 2026-05-03*
